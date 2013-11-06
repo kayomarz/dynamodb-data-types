@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-data-types",
-  "version": "0.1.0",
-  "description": "Wrapper utility for Amazon DynamoDb data types.",
+  "version": "0.1.2",
+  "description": "Wrapper utility for Amazon DynamoDb data types for use with AWS SDK for Node.js.",
   "main": "./lib/dynamodb-data-types.js",
   "author": {
     "name": "Kayomarz",
