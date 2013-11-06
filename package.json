@@ -1,0 +1,22 @@
+{
+  "name": "DynamoDb-Data-Types",
+  "version": "0.1.0",
+  "description": "Wrapper utility for Amazon DynamoDb data types.",
+  "main": "./lib/DynamoDb-Data-Types.js",
+  "author": {
+    "name": "Kayomarz",
+    "email": "kayomarz@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kayomarz/DynamoDb-Data-Types.git"
+  },
+  "keywords": [
+    "amazon",
+    "api",
+    "aws",
+    "dynamodb"
+  ],
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
