@@ -1,5 +1,5 @@
 {
-    "name": "Tests-for-DynamoDb-Data-Types",
+    "name": "Tests-for-dynamodb-data-types",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

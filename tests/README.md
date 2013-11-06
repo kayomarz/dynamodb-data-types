@@ -13,7 +13,7 @@ npm install jasmine-node -g
 ## Run local tests
 
 ```sh
-cd DynamoDb-Data-Types/tests/
+cd dynamodb-data-types/tests/
 jasmine-node spec/
 ```
 
