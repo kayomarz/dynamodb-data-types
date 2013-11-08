@@ -50,7 +50,7 @@ function dynamoDb(useLiveDb) {
     };
   }
 
-  /* If using a live db, you need to create the necessary with the key.
+  /* If using a live db, you need to create the necessary table and key.
    * Note: As per Amazon's recommended configuration, `accessKeyId' and
    * `secretAccessKey' are read from environment variables
    * `AWS_SECRET_ACCESS_KEY' and `AWS_ACCESS_KEY_ID'. 
@@ -84,8 +84,9 @@ var personUpdates = attrUpdate
       .add({favColors: ["orange"]})
       .delete({favNumbers: [3]});
 
-// Note: The action to delete favColor blue does not appear in the because it
-// gets overwritten by the next action to add favColor orange.
+// Note: The action to delete favColor blue does not appear in
+// `AttributeUpdates' structure because it gets overwritten by the next action
+// to add favColor orange. 
 
 
 // When using a live DynamoDb instance for this example, call either putPerson
