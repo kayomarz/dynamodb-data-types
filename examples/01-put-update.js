@@ -78,7 +78,8 @@ var personInfo = {
 var personUpdates = attrUpdate
       .put({name: "name-2"})
       .add({age: 1})
-      .delete("height, weight  , nickname, languages")
+      .add({weight: -3})
+      .delete("height, nickname, languages")
       .delete({favColors: ["blue"]})
       .add({favColors: ["orange"]})
       .delete({favNumbers: [3]});
