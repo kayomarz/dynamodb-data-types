@@ -1,0 +1,9 @@
+{
+    "name": "Examples-for-dynamodb-data-types",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "aws-sdk": "1.6.0",
+        "dynamodb-data-types": "latest"
+    }
+}
