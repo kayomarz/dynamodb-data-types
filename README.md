@@ -1,14 +1,14 @@
 # DynamoDb-Data-Types
 
-Utility for Amazon DynamoDB __data types__ for AWS SDK for Node.js.
+A utility for Amazon DynamoDB __Data Types__ for AWS SDK for Node.js.
 
 This utility is designed to be used in complement with the [Amazon SDK for
-Node.js]((http://aws.amazon.com/sdkfornodejs/). It only helps converting between
+Node.js]((http://aws.amazon.com/sdkfornodejs/). It helps in representing
 Amazon DybamoDb data types.
 
 ## How is it useful?
 
-Example: Following key value pairs need to be stored in DynamoDB.
+For example, following are some key-value pairs:
 
 ```js
 var data = { 
@@ -18,7 +18,8 @@ var data = {
 }
 ```
 
-To put the data into DynamoDB, the AWS SDK requires it to be represented as:
+In order to put the above data into DynamoDB, the AWS SDK requires it to be
+represented as:
 
 ```
 {
@@ -36,7 +37,15 @@ var attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap(data);
 ```
 
-DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+## Features
+
+The following data types are supported.
+
+ * AttributeValue
+ * AttributevalueUpdate
+
+List of DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
 
 ## Quick Examples
 
@@ -51,7 +60,6 @@ console.log(JSON.stringify(infoAttrValue));
 var experience = {count: 4, languages: ["Java Script", "Ruby", "GLSL", "C"]};
 console.log(JSON.stringify(wrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
-
 ```
 
 ## More examples
@@ -62,16 +70,17 @@ console.log(JSON.stringify(wrap(experience)));
 ## Download
 
 The source is available for download from
-[GitHub](https://github.com/kayomarz/dynamodb-data-types).
+[github.com/kayomarz/dynamodb-data-types](https://github.com/kayomarz/dynamodb-data-types).
 
 To install using Node Package Manager (npm):
 
     npm install dynamodb-data-types
 
+
 ## Platform
 
-This utility is designed for [node.js](http://nodejs.org) but can be adapted for
-use in the browser. 
+This utility is designed for [node.js](http://nodejs.org). If required, it may
+be adapted for use with the browser.
 
 [See the October 2013 Developer Preview - AWS SDK for JavaScript in the
 Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
@@ -80,19 +89,17 @@ To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)
 
  * Possible use of lodash or underscore to ensure browser compatibility of
-   functions 
-   which iterate over objects.  Currently lib/util.js has a function to iterate
-   over object properties which is sufficient for use with Node.js.
+   functions which iterate over objects.  Currently lib/util.js has a function
+   to iterate over object properties which is sufficient for use with Node.js. 
 
 
 ## Untested feature
 
 The current version of this library has not been tested with binary types `B`
-and `BS`.  This will be support someime soon.
+and `BS`.  __These will be done someime soon__.
 
-PS: If you can share any working code to put/get binary data, please feel free
-to share it with me as it will help me build test cases for binary types `B` and
-`BS`.
+PS: Please feel free to share any working code you might have to put/get binary
+data - it would help me complete these tests.
 
 
 ## Documentation
