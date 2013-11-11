@@ -50,8 +50,8 @@ To install using Node Package Manager (npm):
 This utility is designed for [node.js](http://nodejs.org) but can be adapted for
 use in the browser. 
 
-(See the October 2013 Developer Preview - AWS SDK for JavaScript in the
-Browser)[http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html]
+[See the October 2013 Developer Preview - AWS SDK for JavaScript in the
+Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
 
 To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)
@@ -117,8 +117,8 @@ Wrap a single value into DynamoDB's AttributeValue.
 
 __Arguments__
 
-@param {String|Number|Array} 
-@return {Object} DynamoDB AttributeValue.
+ * @param {String|Number|Array} 
+ * @return {Object} DynamoDB AttributeValue.
 
 __Example__
 
