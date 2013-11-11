@@ -5,7 +5,7 @@ var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 console.log(attr.wrap({ 
   name: "Java Script",
   age: 18, 
-  engines: ["Rhino", "v8", "Carakan", "JavaScriptCore"]
+  engines: ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore"]
 }));
 
 var info = { name: "Foo", age: 50 };

@@ -3,7 +3,7 @@
 A utility for Amazon DynamoDB __Data Types__ for AWS SDK for Node.js.
 
 This utility is designed to be used in complement with the [Amazon SDK for
-Node.js]((http://aws.amazon.com/sdkfornodejs/). It helps in representing
+Node.js]((http://aws.amazon.com/sdkfornodejs/). It helps to represent
 Amazon DybamoDb data types.
 
 ## How is it useful?
@@ -12,9 +12,9 @@ For example, following are some key-value pairs:
 
 ```js
 var data = { 
-    name: "Java Script",
+    name: 'Java Script',
     age: 18, 
-    engines: ["Rhino", "v8", "Carakan", "JavaScriptCore"]
+    engines: [ 'Rhino', 'v8', 'SpiderMonkey', 'Carakan', 'JavaScriptCore' ]
 }
 ```
 
@@ -22,10 +22,10 @@ In order to put the above data into DynamoDB, the AWS SDK requires it to be
 represented as:
 
 ```
-{
+{ 
     name: { S: 'Java Script' },
     age: { N: '18' },
-    engines: { SS: [ 'Rhino', 'v8', 'Carakan', 'JavaScriptCore' ] } 
+    engines: { SS: [ 'Rhino','v8','SpiderMonkey','Carakan','JavaScriptCore' ] }
 }
 ```
 
