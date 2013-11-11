@@ -4,7 +4,7 @@ Wrapper utility for Amazon DynamoDb data types for use with AWS SDK for Node.js.
 
 This utility helps converting between data types types required by DybamoDb.
 The utility does not check to ensure the application follows the SDK
-requirements. For example, DynamoDB attribute value `NS' represents a set of
+requirements. For example, DynamoDB attribute value `NS` represents a set of
 numbers. If the application mistakedly creates the structure 
 `{"NS":  [1, 3, "string"]`, the utility will not detect that the 3rd element
 is an invalid element because it is not a number.  Such checking is left to the application.
@@ -13,7 +13,7 @@ It is designed for use with [node.js](http://nodejs.org) but can be adapted for
 use in the browser as per the recent AWS SDK preview for Javascript in the
 browser.
 
-As of now, use of this library for binary types `B' and `BS' are not supported
+As of now, use of this library for binary types `B` and `BS` are not supported
 tested. If you can provide working code which puts / gets binrary data from
 DynamoDb, it would help me to add binary support into this library.
 
@@ -103,6 +103,9 @@ attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
 ### wrap1(value)
 
 Wrap a single value into DynamoDB's AttributeValue.
+
+__Arguments__
+
 @param {String|Number|Array} 
 @return {Object} DynamoDB AttributeValue.
 
@@ -121,6 +124,9 @@ attr.wrap1(50);
 
 Unwrap a single DynamoDB's AttributeValue to a value of the appropriate
 javascript type. 
+
+__Arguments__
+
 @param {Object} attributeValue The DynamoDB AttributeValue.
 @return {String|Number|Array}  The javascript value.
 
@@ -141,6 +147,9 @@ attr.unwrap1({"N":"50"});
 
 Append attributes to be updated with action "ADD".
 This function can be chained with further calls to `add', `put' or `delete'.
+
+__Arguments__
+
 @param {Object} attrs Object with attributes to be updated.
 @return {Updates} Object with all update attributes in the chain.
 
@@ -151,6 +160,9 @@ This function can be chained with further calls to `add', `put' or `delete'.
 
 Append attributes to be updated with action "PUT".
 This function can be chained with further calls to `add', `put' or `delete'.
+
+__Arguments__
+
 @param {Object} attrs Object with attributes to be updated.
 @return {Updates} Object with all update attributes in the chain.
 
@@ -161,6 +173,9 @@ This function can be chained with further calls to `add', `put' or `delete'.
 
 Append attributes to be updated with action "DELETE".
 This function can be chained with further calls to `add', `put' or `delete'.
+
+__Arguments__
+
 @param {Object|String|Array} attrs If this argument is an an Object,
 the Object's property values must be an array, containing elements to be
 removed, as required by DynamoDb SDK. 
