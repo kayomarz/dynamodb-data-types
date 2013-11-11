@@ -30,6 +30,13 @@ For example, on linux:
 $ export AWS_SECRET_ACCESS_KEY="key"; export AWS_ACCESS_KEY_ID="key-id"
 ```
 
+Run the test using a live DynamoDB:
+
+```sh
+cd dynamodb-data-types/tests/
+jasmine-node spec-dynamo/
+```
+
 Note that the environment variables exported in the above command won't persist
 after logging out of the shell.
 

@@ -51,7 +51,6 @@ DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API
 
 ```javascript
 var attr = require('dynamodb-data-types').AttributeValue;
-var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 
 var infoAttrValue = attr.wrap({ name: "Foo", age: 50 });
 console.log(JSON.stringify(infoAttrValue));
@@ -61,7 +60,7 @@ var experience = {
   count: {"N": "4" },
   languages: { "SS": ["Java Script", "Ruby", "GLSL", "C" ] }
 }
-console.log(JSON.stringify(wrap(experience)));
+console.log(JSON.stringify(attr.unwrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
 ```
 
