@@ -11,9 +11,9 @@ numbers. By mistake, if the application  creates the structure
 `{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
 is an invalid element (string). Such checks are left to the application.
 
-As of now, use of this library for binary types `B` and `BS` are not supported
-tested. If you can provide working code which puts / gets binrary data from
-DynamoDb, it would help me to add binary support into this library.
+As of now, use of this library for binary types `B` and `BS` are not tested. If
+you can send me working code which puts / gets binrary data from ynamoDb, it
+would help me to test support for `B` and `BS` types.
 
 ## Quick Examples
 
@@ -21,15 +21,12 @@ DynamoDb, it would help me to add binary support into this library.
 var attr = require('dynamodb-data-types').AttributeValue;
 var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 
-var info = { name: "Foo", age: 50 };
-var infoAttrValue = attr.wrap(info);
-
+var infoAttrValue = attr.wrap({ name: "Foo", age: 50 });
 console.log(JSON.stringify(infoAttrValue));
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
 
-var resume = {count: 4, languages: ["Java Script", "Ruby", "GLSL", "C"]};
-
-console.log(JSON.stringify(wrap(resume)));
+var experience = {count: 4, languages: ["Java Script", "Ruby", "GLSL", "C"]};
+console.log(JSON.stringify(wrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
 
 ```
@@ -53,8 +50,8 @@ To install using Node Package Manager (npm):
 This utility is designed for [node.js](http://nodejs.org) but can be adapted for
 use in the browser. 
 
-(Developer Preview - AWS SDK for JavaScript in the
-Browser <Oct 2013>)[http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html]
+(See the October 2013 Developer Preview - AWS SDK for JavaScript in the
+Browser)[http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html]
 
 To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)
