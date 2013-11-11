@@ -42,9 +42,9 @@ attr.wrap(data);
 The following data types are supported.
 
  * AttributeValue
- * AttributevalueUpdate
+ * AttributeValueUpdate
 
-List of DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
 
 
 ## Quick Examples
@@ -57,7 +57,10 @@ var infoAttrValue = attr.wrap({ name: "Foo", age: 50 });
 console.log(JSON.stringify(infoAttrValue));
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
 
-var experience = {count: 4, languages: ["Java Script", "Ruby", "GLSL", "C"]};
+var experience = {
+  count: {"N": "4" },
+  languages: { "SS": ["Java Script", "Ruby", "GLSL", "C" ] }
+}
 console.log(JSON.stringify(wrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
 ```
@@ -79,11 +82,10 @@ To install using Node Package Manager (npm):
 
 ## Platform
 
-This utility is designed for [node.js](http://nodejs.org). If required, it may
-be adapted for use with the browser.
-
-[See the October 2013 Developer Preview - AWS SDK for JavaScript in the
-Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
+This utility is designed for [node.js](http://nodejs.org).  For use in the
+browser, it will need to be adapted. This is in leu of [the October 2013
+Developer Preview - AWS SDK for JavaScript in the
+Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html) 
 
 To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)

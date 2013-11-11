@@ -14,15 +14,10 @@ var infoAttrValue = attr.wrap(info);
 console.log(JSON.stringify(infoAttrValue));
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
 
-var resume = {
-  languageCount: 4,
-  languages: ["Java Script", "Ruby", "GLSL", "C"]
-}
-
 var resumeAttrVal = {
-  "languageCount": {"N": "4" },
-  "languages": { "SS": ["Java Script", "Ruby", "GLSL", "C" ] }
-}
+  count: {"N": "4" },
+  languages: { "SS": ["Java Script", "Ruby", "GLSL", "C" ] }
+};
 
 console.log(JSON.stringify(attr.unwrap(resumeAttrVal)));
 // {"languageCount":4,"languages":["Java Script","Ruby","GLSL","C"]}
