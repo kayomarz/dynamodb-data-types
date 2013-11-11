@@ -2,16 +2,14 @@
 
 Wrapper utility for Amazon DynamoDb data types for use with AWS SDK for Node.js.
 
-This utility helps converting between data types types required by DybamoDb.
+This utility helps converting between Amazon DybamoDb data types.
+[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
 The utility does not check to ensure the application follows the SDK
 requirements. For example, DynamoDB attribute value `NS` represents a set of
-numbers. If the application mistakedly creates the structure 
-`{"NS":  [1, 3, "string"]`, the utility will not detect that the 3rd element
-is an invalid element because it is not a number.  Such checking is left to the application.
-
-It is designed for use with [node.js](http://nodejs.org) but can be adapted for
-use in the browser as per the recent AWS SDK preview for Javascript in the
-browser.
+numbers. By mistake, if the application  creates the structure 
+`{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
+is an invalid element (string). Such checks are left to the application.
 
 As of now, use of this library for binary types `B` and `BS` are not supported
 tested. If you can provide working code which puts / gets binrary data from
@@ -49,6 +47,22 @@ The source is available for download from
 To install using Node Package Manager (npm):
 
     npm install dynamodb-data-types
+
+## Platform
+
+This utility is designed for [node.js](http://nodejs.org) but can be adapted for
+use in the browser. 
+
+(Developer Preview - AWS SDK for JavaScript in the
+Browser <Oct 2013>)[http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html]
+
+To adapt this utility for the browser, following are few todos. (This list is
+not exhaustive)
+
+ * Possible use of lodash or underscore to ensure compatibility of functions
+   which iterate over objects.  Currently lib/util.js has a function to iterate
+   over object properties which is sufficient for use with Node.js.
+
 
 ## Documentation
 
