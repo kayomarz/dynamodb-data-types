@@ -80,21 +80,6 @@ To install using Node Package Manager (npm):
     npm install dynamodb-data-types
 
 
-## Platform
-
-This utility is designed for [node.js](http://nodejs.org).  For use in the
-browser, it will need to be adapted. This is in leu of [the October 2013
-Developer Preview - AWS SDK for JavaScript in the
-Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html) 
-
-To adapt this utility for the browser, following are few todos. (This list is
-not exhaustive)
-
- * Possible use of lodash or underscore to ensure browser compatibility of
-   functions which iterate over objects.  Currently lib/util.js has a function
-   to iterate over object properties which is sufficient for use with Node.js. 
-
-
 ## Untested feature
 
 The current version of this library has not been tested with binary types `B`
@@ -217,6 +202,7 @@ __Arguments__
  * @param {Object} attrs Object with attributes to be updated.
  * @return {Updates} Object with all update attributes in the chain.
 
+<a href="#example_put_add_delete">Example - put, add, delete.</a>
 
 <a name="put"  />
 
@@ -230,6 +216,7 @@ __Arguments__
  * @param {Object} attrs Object with attributes to be updated.
  * @return {Updates} Object with all update attributes in the chain.
 
+<a href="#example_put_add_delete">Example - put, add, delete.</a>
 
 <a name="delete"  />
 
@@ -249,6 +236,30 @@ __Arguments__
  * @return {Updates} Object with all update attributes in the chain.
 
 
+<a name="example_put_add_delete"  />
+__Example - put, add, delete__
+
+```js
+var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+
+var dataUpdate = attrUpdate
+    .put({name: "foo"})
+    .add({age: 1})
+    .delete("height, nickname")
+    .add({favColors: ["red"]})
+    .delete({favNumbers: [3]});
+
+console.log(JSON.stringify(dataUpdate));
+// {
+//   "name": { "Action": "PUT", "Value": { "S": "foo" } },
+//   "age": { "Action": "ADD", "Value": { "N": "1" } },
+//   "height": { "Action": "DELETE" },
+//   "nickname": { "Action": "DELETE" },
+//   "favColors": { "Action": "ADD", "Value": { "SS": ["red" ] } },
+//   "favNumbers": { "Action": "DELETE", "Value": { "NS": ["3"] } }
+// }
+```
+
 ## The library does not perform checks.
 
 It is upto the application to ensure that the application follows the SDK
@@ -260,6 +271,20 @@ numbers. If, by mistake, the application creates the structure
 `{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
 is an invalid element (string). Such checks are left to the application.
 
+
+## Platform
+
+This utility is designed for [node.js](http://nodejs.org).  For use in the
+browser, it will need to be adapted. This is in lieu of the recent (October
+2013) [Developer Preview - AWS SDK for JavaScript in the
+Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
+
+To adapt this utility for the browser, following are few todos. (This list is
+not exhaustive)
+
+ * Possible use of lodash or underscore to ensure browser compatibility of
+   functions which iterate over objects.  Currently lib/util.js has a function
+   to iterate over object properties which is sufficient for use with Node.js. 
 
 ## License
 
