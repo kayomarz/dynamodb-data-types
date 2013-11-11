@@ -82,8 +82,11 @@ not exhaustive)
 ### wrap(item)
 
 Wrap object properties into DynamoDB's AttributeValue data type.
-@param {Object} item The object to wrap.
-@return {Object} A DynamoDb AttributeValue.
+
+__Arguments__
+
+ * @param {Object} item The object to wrap.
+ * @return {Object} A DynamoDb AttributeValue.
 
 __Example__
 
@@ -98,8 +101,11 @@ attr.wrap({name: "Foo", age: 50});
 ### unwrap(attributeValue)
 
 Unwrap DynamoDB AttributeValues to values of the appropriate types.
-@param {Object} attributeValue The DynamoDb AttributeValue to unwrap.
-@return {Object} Unwrapped object with properties.
+
+__Arguments__
+
+ * @param {Object} attributeValue The DynamoDb AttributeValue to unwrap.
+ * @return {Object} Unwrapped object with properties.
 
 __Example__
 
@@ -161,8 +167,8 @@ This function can be chained with further calls to `add', `put' or `delete'.
 
 __Arguments__
 
-@param {Object} attrs Object with attributes to be updated.
-@return {Updates} Object with all update attributes in the chain.
+ * @param {Object} attrs Object with attributes to be updated.
+ * @return {Updates} Object with all update attributes in the chain.
 
 
 <a name="put"  />
@@ -174,8 +180,8 @@ This function can be chained with further calls to `add', `put' or `delete'.
 
 __Arguments__
 
-@param {Object} attrs Object with attributes to be updated.
-@return {Updates} Object with all update attributes in the chain.
+ * @param {Object} attrs Object with attributes to be updated.
+ * @return {Updates} Object with all update attributes in the chain.
 
 
 <a name="delete"  />
@@ -187,13 +193,13 @@ This function can be chained with further calls to `add', `put' or `delete'.
 
 __Arguments__
 
-@param {Object|String|Array} attrs If this argument is an an Object,
-the Object's property values must be an array, containing elements to be
-removed, as required by DynamoDb SDK. 
-If this argument is a String, it should contain comma seperated names of
-properties to be deleted.  If its an Array, each array element should be a
-property  name to be deleted.
-@return {Updates} Object with all update attributes in the chain.
+ * @param {Object|String|Array} attrs If this argument is an an Object,the
+   Object's property values must be an array, containing elements to be removed,
+   as required by DynamoDb SDK.  If this argument is a String, it should contain
+   comma seperated names of properties to be deleted.  If its an Array, each
+   array element should be a property  name to be deleted.
+
+ * @return {Updates} Object with all update attributes in the chain.
 
 
 [License](https://github.com/kayomarz/dynamodb-data-types/blob/master/LICENSE)
