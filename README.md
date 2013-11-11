@@ -107,8 +107,8 @@ data - it would help me complete these tests.
 ## Documentation
 
 ### AttributeValue
-AWS API reference -
-[AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
+For more on __AttributeValue__ see the [AWS API
+Reference](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
 
 * [wrap](#wrap)
 * [unwrap](#unwrap)
@@ -116,8 +116,8 @@ AWS API reference -
 * [unwrap1](#unwrap1)
 
 ### AttributeValueUpdate
-AWS API reference -
-[AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
+For more on __AttributeValueUpdate__ see the [AWS API
+Reference](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
 
 * [put](#put)
 * [add](#add)
