@@ -1,6 +1,13 @@
 var attr = require('dynamodb-data-types').AttributeValue;
 var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 
+
+console.log(attr.wrap({ 
+  name: "Java Script",
+  age: 18, 
+  engines: ["Rhino", "v8", "Carakan", "JavaScriptCore"]
+}));
+
 var info = { name: "Foo", age: 50 };
 var infoAttrValue = attr.wrap(info);
 
@@ -8,8 +15,8 @@ console.log(JSON.stringify(infoAttrValue));
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
 
 var resume = {
-    languageCount: 4,
-    languages: ["Java Script", "Ruby", "GLSL", "C"]
+  languageCount: 4,
+  languages: ["Java Script", "Ruby", "GLSL", "C"]
 }
 
 var resumeAttrVal = {

@@ -1,9 +1,45 @@
 # DynamoDb-Data-Types
 
-Wrapper utility for Amazon DynamoDb data types for use with AWS SDK for Node.js.
+Utility for Amazon DynamoDb _data types_ for __AWS SDK for Node.js.__
 
-This utility helps converting between Amazon DybamoDb data types.
+This utility is meant to be used in complement with the official [Amazon SDK for
+Node.js]((http://aws.amazon.com/sdkfornodejs/). It only helps converting between
+Amazon DybamoDb data types.
+
+## What is it useful for?
+
+Example: Following are some key value pairs.
+
+```js
+var data = { 
+    name: "Java Script",
+    age: 18, 
+    engines: ["Rhino", "v8", "Carakan", "JavaScriptCore"]
+}
+```
+
+To put the data into DynamoDB, the AWS SDK requires it to be represented as:
+
+```
+{
+    name: { S: 'Java Script' },
+    age: { N: '18' },
+    engines: { SS: [ 'Rhino', 'v8', 'Carakan', 'JavaScriptCore' ] } 
+}
+```
+
+This utility does just that. It helps to construct such representations as
+required by the __AWS SDK for Node.js__
+
+```js
+var attr = require('dynamodb-data-types').AttributeValue;
+attr.wrap(data);
+```
+
+__DynamoDB data types:__
+
 [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
 
 The utility does not check to ensure the application follows the SDK
 requirements. For example, DynamoDB attribute value `NS` represents a set of
