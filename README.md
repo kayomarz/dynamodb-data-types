@@ -1,14 +1,14 @@
 # DynamoDb-Data-Types
 
-Utility for Amazon DynamoDb _data types_ for __AWS SDK for Node.js.__
+Utility for Amazon DynamoDB __data types__ for AWS SDK for Node.js.
 
-This utility is meant to be used in complement with the official [Amazon SDK for
+This purpose of this utility is to complement the official [Amazon SDK for
 Node.js]((http://aws.amazon.com/sdkfornodejs/). It only helps converting between
 Amazon DybamoDb data types.
 
-## What is it useful for?
+## How is it useful?
 
-Example: Following are some key value pairs.
+Example: Following are key value pairs which need to be stored in DynamoDB.
 
 ```js
 var data = { 
@@ -28,28 +28,34 @@ To put the data into DynamoDB, the AWS SDK requires it to be represented as:
 }
 ```
 
-This utility does just that. It helps to construct such representations as
-required by the __AWS SDK for Node.js__
+This utility helps to construct such representations required by the __AWS SDK
+for Node.js__ 
 
 ```js
 var attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap(data);
 ```
 
-__DynamoDB data types:__
-
-[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
 
 
-The utility does not check to ensure the application follows the SDK
-requirements. For example, DynamoDB attribute value `NS` represents a set of
-numbers. By mistake, if the application  creates the structure 
+It is upto the application to ensure that the application follows the SDK
+requirements. This utility does not perform any checks.
+
+For example, DynamoDB attribute value `NS` is meant to represents
+a set of 
+numbers. If, by mistake, the application creates the structure 
 `{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
 is an invalid element (string). Such checks are left to the application.
 
-As of now, use of this library for binary types `B` and `BS` are not tested. If
-you can send me working code which puts / gets binrary data from ynamoDb, it
-would help me to test support for `B` and `BS` types.
+## Untested feature
+
+The current version of this library has not been tested with binary types `B`
+and `BS`.  This will be support someime soon.
+
+PS: If you can share any working code to put/get binary data, please feel free
+to share it with me as it will help me build test cases for binary types `B` and
+`BS`.
 
 ## Quick Examples
 
@@ -92,7 +98,8 @@ Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javasc
 To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)
 
- * Possible use of lodash or underscore to ensure compatibility of functions
+ * Possible use of lodash or underscore to ensure browser compatibility of
+   functions 
    which iterate over objects.  Currently lib/util.js has a function to iterate
    over object properties which is sufficient for use with Node.js.
 
