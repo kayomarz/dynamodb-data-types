@@ -2,13 +2,13 @@
 
 Utility for Amazon DynamoDB __data types__ for AWS SDK for Node.js.
 
-This purpose of this utility is to complement the official [Amazon SDK for
+This utility is designed to be used in complement with the [Amazon SDK for
 Node.js]((http://aws.amazon.com/sdkfornodejs/). It only helps converting between
 Amazon DybamoDb data types.
 
 ## How is it useful?
 
-Example: Following are key value pairs which need to be stored in DynamoDB.
+Example: Following key value pairs need to be stored in DynamoDB.
 
 ```js
 var data = { 
@@ -37,25 +37,6 @@ attr.wrap(data);
 ```
 
 DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
-
-
-It is upto the application to ensure that the application follows the SDK
-requirements. This utility does not perform any checks.
-
-For example, DynamoDB attribute value `NS` is meant to represents
-a set of 
-numbers. If, by mistake, the application creates the structure 
-`{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
-is an invalid element (string). Such checks are left to the application.
-
-## Untested feature
-
-The current version of this library has not been tested with binary types `B`
-and `BS`.  This will be support someime soon.
-
-PS: If you can share any working code to put/get binary data, please feel free
-to share it with me as it will help me build test cases for binary types `B` and
-`BS`.
 
 ## Quick Examples
 
@@ -102,6 +83,16 @@ not exhaustive)
    functions 
    which iterate over objects.  Currently lib/util.js has a function to iterate
    over object properties which is sufficient for use with Node.js.
+
+
+## Untested feature
+
+The current version of this library has not been tested with binary types `B`
+and `BS`.  This will be support someime soon.
+
+PS: If you can share any working code to put/get binary data, please feel free
+to share it with me as it will help me build test cases for binary types `B` and
+`BS`.
 
 
 ## Documentation
@@ -244,6 +235,20 @@ __Arguments__
 
  * @return {Updates} Object with all update attributes in the chain.
 
+
+## The library does not perform checks.
+
+It is upto the application to ensure that the application follows the SDK
+requirements. This utility does not perform any checks.
+
+For example, DynamoDB attribute value `NS` is meant to represents
+a set of 
+numbers. If, by mistake, the application creates the structure 
+`{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
+is an invalid element (string). Such checks are left to the application.
+
+
+## License
 
 [License](https://github.com/kayomarz/dynamodb-data-types/blob/master/LICENSE)
 
