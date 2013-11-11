@@ -71,10 +71,10 @@ function createItem(done) {
 
 }
 
-function mkUpdateOpts(opts, action) {
+function mkUpdateOpts(updates) {
   return mkOpts({
     Key: attr.wrap({id: 1}),
-    AttributeUpdates:  attrUpdate[action](opts)
+    AttributeUpdates:  updates
   });
 }
 
@@ -82,7 +82,7 @@ function updateItem(done) {
   async.waterfall([
     // update the age
     function(nextStep){
-      var opts = mkUpdateOpts({age: 1}, "add");
+      var opts = mkUpdateOpts(attrUpdate.add({age: 1}));
       dynamo.updateItem(opts, function(err, data) {
         if (err)
           nextStep("Could not update age");
@@ -93,7 +93,7 @@ function updateItem(done) {
 
     // Replace the name
     function(nextStep){
-      var opts = mkUpdateOpts({name: "name2"}, "put");
+      var opts = mkUpdateOpts(attrUpdate.put({name: "name2"}));
       dynamo.updateItem(opts, function(err, data) {
         if (err)
           nextStep("Could not put name.");
@@ -104,7 +104,7 @@ function updateItem(done) {
 
     // Delete some items by undefined value for key
     function(nextStep){
-      var opts = mkUpdateOpts({del1: undefined}, "delete");
+      var opts = mkUpdateOpts(attrUpdate.delete("del1"));
       dynamo.updateItem(opts, function(err, data) {
         if (err)
           nextStep("Could not delete del1");
@@ -115,7 +115,7 @@ function updateItem(done) {
 
     // Delete some items by csv
     function(nextStep){
-      var opts = mkUpdateOpts("del2, del3 ", "delete");
+      var opts = mkUpdateOpts(attrUpdate.delete("del2, del3 "));
       dynamo.updateItem(opts, function(err, data) {
         if (err)
           nextStep("Could not delete del2, del3");
@@ -126,7 +126,7 @@ function updateItem(done) {
 
     // Delete some items by array
     function(nextStep){
-      var opts = mkUpdateOpts(["del4", "del5  "], "delete");
+      var opts = mkUpdateOpts(attrUpdate.delete(["del4", "del5  "]));
       dynamo.updateItem(opts, function(err, data) {
         if (err)
           nextStep("Could not delete del4, del5");

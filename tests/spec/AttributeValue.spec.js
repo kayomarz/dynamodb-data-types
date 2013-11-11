@@ -12,11 +12,11 @@ describe("AttributeValue", function() {
   var singles = mock.singles;
   var singles_ = mock.singles_;
 
-  for (var i = 0; i < singles.length; i++)
-    console.log(util.wrap1(singles[i]));
+  // for (var i = 0; i < singles.length; i++)
+  //   console.log(util.wrap1(singles[i]));
 
-  for (var i = 0; i < singles_.length; i++)
-    console.log(util.unwrap1(singles_[i]));
+  // for (var i = 0; i < singles_.length; i++)
+  //   console.log(util.unwrap1(singles_[i]));
 
   it("Sanity check - ensure mock objects are ok", function() {
     expect(_.isEqual(obj1, {})).toBe(false);

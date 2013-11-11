@@ -23,7 +23,7 @@ function putPerson(person) {
   console.log("Put person:\n", JSON.stringify(opts, undefined, 2));
   dynamo.putItem(opts, function(err){ 
     if (err)
-      console.log("put error:", err); 
+      console.error("put error:", err); 
   });
 }
 
@@ -37,7 +37,7 @@ function updatePerson(id, updates) {
   console.log("Update Person:\n", JSON.stringify(opts, undefined, 2));
   dynamo.updateItem(opts, function(err){ 
     if (err)
-      console.log("update error:", err); 
+      console.error("update error:", err); 
   });
 }
 

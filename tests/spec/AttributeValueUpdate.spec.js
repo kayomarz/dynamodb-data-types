@@ -23,4 +23,19 @@ describe("AttributeValueUpdate", function() {
     expect(areEqual(attrUpdate.put(mock.obj2), mock.obj2_)).toBe(true);
   });
 
+  it("Delete", function() {
+
+    var updateObj5_ = attrUpdate
+          .put({name: "some name", age: 18})
+          .add({weight: -5})
+          .add({age: 1})
+          .add({credit: 100.5, bill: 5})
+          .delete("hobbies, profession, languages")
+          .delete(["work-experience",  "salaray", "history"]);
+
+    expect(areEqual(attrUpdate.delete(mock.obj3), mock.obj3_)).toBe(true);
+    expect(areEqual(attrUpdate.delete(mock.obj4), mock.obj4_)).toBe(true);
+    expect(areEqual(updateObj5_, mock.obj5_)).toBe(true);
+  });
+
 });
