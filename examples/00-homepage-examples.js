@@ -12,7 +12,6 @@ var info = { name: "Foo", age: 50 };
 var infoAttrValue = attr.wrap(info);
 
 console.log(JSON.stringify(infoAttrValue));
-// {"name":{"S":"Foo"},"age":{"N":"50"}}
 
 var resumeAttrVal = {
   count: {"N": "4" },
@@ -20,7 +19,6 @@ var resumeAttrVal = {
 };
 
 console.log(JSON.stringify(attr.unwrap(resumeAttrVal)));
-// {"languageCount":4,"languages":["Java Script","Ruby","GLSL","C"]}
 
 console.log(attr.unwrap1({"N":"50"}));
 console.log(attr.wrap1(50));

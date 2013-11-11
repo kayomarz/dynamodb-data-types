@@ -39,7 +39,7 @@ attr.wrap(data);
 
 ## Features
 
-The following data types are supported.
+The current version supports the following data types:
 
  * AttributeValue
  * AttributeValueUpdate
@@ -98,7 +98,7 @@ not exhaustive)
 ## Untested feature
 
 The current version of this library has not been tested with binary types `B`
-and `BS`.  __These will be done someime soon__.
+and `BS`.  __These will be done sometime soon__.
 
 PS: Please feel free to share any working code you might have to put/get binary
 data - it would help me complete these tests.
@@ -107,6 +107,8 @@ data - it would help me complete these tests.
 ## Documentation
 
 ### AttributeValue
+AWS API reference -
+[AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
 
 * [wrap](#wrap)
 * [unwrap](#unwrap)
@@ -114,6 +116,8 @@ data - it would help me complete these tests.
 * [unwrap1](#unwrap1)
 
 ### AttributeValueUpdate
+AWS API reference -
+[AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
 
 * [put](#put)
 * [add](#add)
