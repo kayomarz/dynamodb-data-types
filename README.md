@@ -8,7 +8,7 @@ Amazon DybamoDb data types.
 
 ## How is it useful?
 
-For example, following are some key-value pairs:
+Following are some key-value pairs:
 
 ```js
 var data = { 
@@ -208,6 +208,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
+
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="put"  />
@@ -223,6 +224,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
+
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="delete"  />
@@ -275,7 +277,7 @@ Each attribute name can appear only once in an `AttributeUpdates` object. This
 is a feature of the AWS API.  However its easy to overlook this when chaining
 `add`, `put` and `delete` updates.
 
-For example, assume an attribute named `colors' of type `SS' (Set of strings)
+For example, following is an attribute `colors` of type `SS` (String set)
 
 ```js
 var item = {
@@ -284,26 +286,26 @@ var item = {
 }
 ```
 
-Assume that we need to `delete` "red" and `add` "orange".
+Now, we want to `delete` "red" and `add` "orange".
 
 To add "orange", the `AttributeUpdates` object can be created as:
-`attrUpdate.add({colors: ["orange"])`
+`attrUpdate.add({colors: ["orange"]})`
 
-Similarly, to delete "red": `attrUpdate.delete({colors: ["red"])`
+Similarly, to delete "red": `attrUpdate.delete({colors: ["red"]})`
 
-However, the following to do both won't work:
+However, both cannot be represented in the same `AttributeUpdates` object. The
+following will not work as expected:
 
 `attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});`
 
-This is because the action to `add' "orange" gets overwritten by action to
-`delete "red"`
+This is because the action to `add` "orange" is overwritten by action to
+`delete` "red".
 
-This is because `AttrubuteUpdates` structure required by DynamoDB's `updateItem`
-call is a map of attribute names to an action.  i.e. an attribute name can
-appear only once.
+This is because the `AttrubuteUpdates` structure is a map of attribute names to
+an action.  Hence, an attribute name (object property) can appear only once.
 
-Hence it will take one `itemUpdate` calls - One to add "orange" and another
-`itemUpdate` call to delete "red" or vice versa.
+Hence multiple `itemUpdate` calls are required - One call to add "orange" and
+another call to delete "red" (or vice versa).
 
 ## The library does not perform checks.
 
