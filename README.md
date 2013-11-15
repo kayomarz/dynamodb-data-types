@@ -280,20 +280,22 @@ var item = {
 }
 ```
 
-Now, we want to `delete` "red" and `add` "orange".
+Suppose, we want to `delete` "red" and `add` "orange".
 
-To add "orange", the `AttributeUpdates` object can be created as:
-`attrUpdate.add({colors: ["orange"]})`
+To add "orange", the `AttributeUpdates` object is created as:
+`attrUpdate.add({colors: ["orange"]})`. Similarly, to delete "red" the
+`AttributeUpdates` object is created as `attrUpdate.delete({colors: ["red"]})`
 
-Similarly, to delete "red": `attrUpdate.delete({colors: ["red"]})`
-
-However, both cannot be represented in the same `AttributeUpdates` object. The
+However, both cannot be represented in the same `AttributeUpdates` object.
 following will not work as expected:
 
-`attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});`
+```js
+// Will not work as expected
+attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});
+```
 
 This is because the action to `add` "orange" is overwritten by action to
-`delete` "red". This is because `colors` is a property of the `AttrubuteUpdates` object.
+`delete` "red". This is simply because `colors` is a property of the `AttrubuteUpdates` object.
 
 The following code demonstrates the above note:
 
