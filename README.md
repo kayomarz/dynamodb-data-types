@@ -293,12 +293,7 @@ following will not work as expected:
 `attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});`
 
 This is because the action to `add` "orange" is overwritten by action to
-`delete` "red".
-
-This is because `colors` is a property of the `AttrubuteUpdates` object.
-
-In order to add orange and delete red, multiple `itemUpdate` calls are required
-- One call to add "orange" and another call to delete "red" (or vice versa).
+`delete` "red". This is because `colors` is a property of the `AttrubuteUpdates` object.
 
 The following code demonstrates the above note:
 
