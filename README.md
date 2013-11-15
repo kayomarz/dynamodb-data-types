@@ -117,7 +117,7 @@ AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/AP
 
 Wrap object properties into DynamoDB's AttributeValue data type.
 
-####Arguments
+#### Arguments
 
  * @param {Object} item The object to wrap.
  * @return {Object} A DynamoDb AttributeValue.
@@ -136,7 +136,7 @@ attr.wrap({name: "Foo", age: 50});
 
 Unwrap DynamoDB AttributeValues to values of the appropriate types.
 
-__Arguments__
+#### Arguments
 
  * @param {Object} attributeValue The DynamoDb AttributeValue to unwrap.
  * @return {Object} Unwrapped object with properties.
@@ -155,7 +155,7 @@ attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
 
 Wrap a single value into DynamoDB's AttributeValue.
 
-__Arguments__
+#### Arguments
 
  * @param {String|Number|Array} 
  * @return {Object} DynamoDB AttributeValue.
@@ -176,7 +176,7 @@ attr.wrap1(50);
 Unwrap a single DynamoDB's AttributeValue to a value of the appropriate
 javascript type. 
 
-__Arguments__
+#### Arguments
 
 @param {Object} attributeValue The DynamoDB AttributeValue.
 @return {String|Number|Array}  The javascript value.
@@ -202,12 +202,13 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 Append attributes to be updated with action "ADD".
 This function can be chained with further calls to `add`, `put` or `delete`.
 
-__Arguments__
+#### Arguments
 
  * @param {Object} attrs Object with attributes to be updated.
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
+See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="put"  />
 
@@ -216,12 +217,13 @@ __Arguments__
 Append attributes to be updated with action "PUT".
 This function can be chained with further calls to `add`, `put` or `delete`.
 
-__Arguments__
+#### Arguments
 
  * @param {Object} attrs Object with attributes to be updated.
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
+See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="delete"  />
 
@@ -230,7 +232,7 @@ __Arguments__
 Append attributes to be updated with action "DELETE".
 This function can be chained with further calls to `add`, `put` or `delete`.
 
-__Arguments__
+#### Arguments
 
  * @param {Object|String|Array} attrs If this argument is an an Object,the
    Object's property values must be an array, containing elements to be removed,
@@ -240,13 +242,38 @@ __Arguments__
 
  * @return {Updates} Object with all update attributes in the chain.
 
+See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
-Please read about <a href="#singular_attribute_name_per_call">
-using a attribute name only once per call.
-</a>
+<a name="example_put_add_delete"  />
+__Example - put, add, delete__
 
-<a name="singular_attribute_name_per_call"  />
-### Note - An attribute name can be used only once per `itemUpdate` call.
+```js
+var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+
+var dataUpdate = attrUpdate
+    .put({name: "foo"})
+    .add({age: 1})
+    .delete("height, nickname")
+    .add({favColors: ["red"]})
+    .delete({favNumbers: [3]});
+
+console.log(JSON.stringify(dataUpdate));
+// {
+//   "name": { "Action": "PUT", "Value": { "S": "foo" } },
+//   "age": { "Action": "ADD", "Value": { "N": "1" } },
+//   "height": { "Action": "DELETE" },
+//   "nickname": { "Action": "DELETE" },
+//   "favColors": { "Action": "ADD", "Value": { "SS": ["red" ] } },
+//   "favNumbers": { "Action": "DELETE", "Value": { "NS": ["3"] } }
+// }
+```
+
+<a name="duplicate_attr_name"  />
+### Note: Duplicate attribute names in `AttributeValueUpdate`
+
+Each attribute name can appear only once in an `AttributeUpdates` object. This
+is a feature of the AWS API.  However its easy to overlook this when chaining
+`add`, `put` and `delete` updates.
 
 For example, assume an attribute named `colors' of type `SS' (Set of strings)
 
@@ -277,30 +304,6 @@ appear only once.
 
 Hence it will take one `itemUpdate` calls - One to add "orange" and another
 `itemUpdate` call to delete "red" or vice versa.
-
-<a name="example_put_add_delete"  />
-__Example - put, add, delete__
-
-```js
-var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
-
-var dataUpdate = attrUpdate
-    .put({name: "foo"})
-    .add({age: 1})
-    .delete("height, nickname")
-    .add({favColors: ["red"]})
-    .delete({favNumbers: [3]});
-
-console.log(JSON.stringify(dataUpdate));
-// {
-//   "name": { "Action": "PUT", "Value": { "S": "foo" } },
-//   "age": { "Action": "ADD", "Value": { "N": "1" } },
-//   "height": { "Action": "DELETE" },
-//   "nickname": { "Action": "DELETE" },
-//   "favColors": { "Action": "ADD", "Value": { "SS": ["red" ] } },
-//   "favNumbers": { "Action": "DELETE", "Value": { "NS": ["3"] } }
-// }
-```
 
 ## The library does not perform checks.
 
