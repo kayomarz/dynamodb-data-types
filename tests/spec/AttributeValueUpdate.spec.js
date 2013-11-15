@@ -38,4 +38,13 @@ describe("AttributeValueUpdate", function() {
     expect(areEqual(updateObj5_, mock.obj5_)).toBe(true);
   });
 
+  it("More than one action on the same attribute", function() {
+    var overwrite = attrUpdate
+          .add({colors: ["orange"]})
+          .delete({colors: ["red"]});
+    // action to add "orange" gets overwritten by action to delete "red"
+    var overwrite_ = {colors:{Action:"DELETE",Value:{"SS":["red"]}}};
+    expect(areEqual(overwrite, overwrite_)).toBe(true);
+  });
+
 });

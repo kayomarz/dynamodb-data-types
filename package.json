@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A utility for Amazon DynamoDb Data Types for AWS SDK for Node.js.",
   "main": "./lib/dynamodb-data-types.js",
   "author": {

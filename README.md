@@ -92,7 +92,7 @@ data - it would help me complete these tests.
 
 ### AttributeValue
 For more on __AttributeValue__ see the [AWS API
-Reference](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
+Reference - AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
 
 * [wrap](#wrap)
 * [unwrap](#unwrap)
@@ -101,13 +101,16 @@ Reference](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Att
 
 ### AttributeValueUpdate
 For more on __AttributeValueUpdate__ see the [AWS API
-Reference](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
+Reference - AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
 
 * [put](#put)
 * [add](#add)
 * [delete](#delete)
 
 ## AttributeValue
+
+For more on __AttributeValue__ see the [AWS API
+Reference - AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
 
 <a name="wrap"  />
 ### wrap(item)
@@ -187,14 +190,17 @@ attr.unwrap1({"N":"50"});
 ```
 
 
-## AttributeValue
+## AttributeValueUpdate
+
+For more on __AttributeValueUpdate__ see the [AWS API
+Reference - AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
 
 <a name="add"  />
 
 ### add(attrs)
 
 Append attributes to be updated with action "ADD".
-This function can be chained with further calls to `add', `put' or `delete'.
+This function can be chained with further calls to `add`, `put` or `delete`.
 
 __Arguments__
 
@@ -208,7 +214,7 @@ __Arguments__
 ### put(attrs)
 
 Append attributes to be updated with action "PUT".
-This function can be chained with further calls to `add', `put' or `delete'.
+This function can be chained with further calls to `add`, `put` or `delete`.
 
 __Arguments__
 
@@ -222,7 +228,7 @@ __Arguments__
 ### delete(attrs)
 
 Append attributes to be updated with action "DELETE".
-This function can be chained with further calls to `add', `put' or `delete'.
+This function can be chained with further calls to `add`, `put` or `delete`.
 
 __Arguments__
 
@@ -234,6 +240,39 @@ __Arguments__
 
  * @return {Updates} Object with all update attributes in the chain.
 
+
+<a name="example_put_add_delete"  />
+### Note - An attribute name can be used only once per `itemUpdate` call.
+
+For example, assume an attribute named `colors' of type `SS' (Set of strings)
+
+```js
+var item = {
+    id: ...,
+    colors: ["red", "blue"]
+}
+```
+
+Assume that we need to `delete` "red" and `add` "orange".
+
+To add "orange", the `AttributeUpdates` object can be created as:
+`attrUpdate.add({colors: ["orange"])`
+
+Similarly, to delete "red": `attrUpdate.delete({colors: ["red"])`
+
+However, the following to do both won't work:
+
+`attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});`
+
+This is because the action to `add' "orange" gets overwritten by action to
+`delete "red"`
+
+This is because `AttrubuteUpdates` structure required by DynamoDB's `updateItem`
+call is a map of attribute names to an action.  i.e. an attribute name can
+appear only once.
+
+Hence it will take one `itemUpdate` calls - One to add "orange" and another
+`itemUpdate` call to delete "red" or vice versa.
 
 <a name="example_put_add_delete"  />
 __Example - put, add, delete__
