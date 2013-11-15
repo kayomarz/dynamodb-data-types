@@ -109,9 +109,6 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 
 ## AttributeValue
 
-[AWS API Reference -
-AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
-
 <a name="wrap"  />
 ### wrap(item)
 
@@ -192,9 +189,6 @@ attr.unwrap1({"N":"50"});
 
 ## AttributeValueUpdate
 
-[AWS API Reference -
-AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html) 
-
 <a name="add"  />
 
 ### add(attrs)
@@ -247,7 +241,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="example_put_add_delete"  />
-__Example - put, add, delete__
+### Example: `put`, `add`, `delete`
 
 ```js
 var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
