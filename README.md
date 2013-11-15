@@ -298,8 +298,23 @@ This is because the action to `add` "orange" is overwritten by action to
 This is because the `AttrubuteUpdates` structure is a map of attribute names to
 an action.  Hence, an attribute name (object property) can appear only once.
 
-Hence multiple `itemUpdate` calls are required - One call to add "orange" and
-another call to delete "red" (or vice versa).
+In order to add orange and delete red, multiple `itemUpdate` calls are required
+- One call to add "orange" and another call to delete "red" (or vice versa).
+
+The following code demonstrates the above:
+
+```js
+JSON.stringify(attrUpdate.add({colors: ["orange"]}));
+//{"colors":{"Action":"ADD","Value":{"SS":["orange"]}}}
+
+JSON.stringify(attrUpdate.delete({colors: ["red"]}));
+//{"colors":{"Action":"DELETE","Value":{"SS":["red"]}}}
+
+// The below does not work as expected
+JSON.stringify(attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]}));
+//{"colors":{"Action":"DELETE","Value":{"SS":["red"]}}}
+
+```
 
 ## The library does not perform checks.
 
