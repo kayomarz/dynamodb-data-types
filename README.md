@@ -295,13 +295,12 @@ following will not work as expected:
 This is because the action to `add` "orange" is overwritten by action to
 `delete` "red".
 
-This is because the `AttrubuteUpdates` structure is a map of attribute names to
-an action.  Hence, an attribute name (object property) can appear only once.
+This is because `colors` is a property of the `AttrubuteUpdates` object.
 
 In order to add orange and delete red, multiple `itemUpdate` calls are required
 - One call to add "orange" and another call to delete "red" (or vice versa).
 
-The following code demonstrates the above:
+The following code demonstrates the above note:
 
 ```js
 JSON.stringify(attrUpdate.add({colors: ["orange"]}));
