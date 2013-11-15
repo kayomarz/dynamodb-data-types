@@ -91,8 +91,8 @@ data - it would help me complete these tests.
 ## Documentation
 
 ### AttributeValue
-For more on __AttributeValue__ see the [AWS API
-Reference - AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
+[AWS API Reference -
+AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html) 
 
 * [wrap](#wrap)
 * [unwrap](#unwrap)
@@ -100,8 +100,8 @@ Reference - AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/API
 * [unwrap1](#unwrap1)
 
 ### AttributeValueUpdate
-For more on __AttributeValueUpdate__ see the [AWS API
-Reference - AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
+[AWS API Reference -
+AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html) 
 
 * [put](#put)
 * [add](#add)
@@ -109,15 +109,15 @@ Reference - AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/late
 
 ## AttributeValue
 
-For more on __AttributeValue__ see the [AWS API
-Reference - AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
+[AWS API Reference -
+AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
 
 <a name="wrap"  />
 ### wrap(item)
 
 Wrap object properties into DynamoDB's AttributeValue data type.
 
-__Arguments__
+####Arguments
 
  * @param {Object} item The object to wrap.
  * @return {Object} A DynamoDb AttributeValue.
@@ -192,8 +192,8 @@ attr.unwrap1({"N":"50"});
 
 ## AttributeValueUpdate
 
-For more on __AttributeValueUpdate__ see the [AWS API
-Reference - AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html)
+[AWS API Reference -
+AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html) 
 
 <a name="add"  />
 
@@ -241,7 +241,11 @@ __Arguments__
  * @return {Updates} Object with all update attributes in the chain.
 
 
-<a name="example_put_add_delete"  />
+Please read about <a href="#singular_attribute_name_per_call">
+using a attribute name only once per call.
+</a>
+
+<a name="singular_attribute_name_per_call"  />
 ### Note - An attribute name can be used only once per `itemUpdate` call.
 
 For example, assume an attribute named `colors' of type `SS' (Set of strings)
