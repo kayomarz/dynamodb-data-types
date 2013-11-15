@@ -286,16 +286,16 @@ To add "orange", the `AttributeUpdates` object is created as:
 `attrUpdate.add({colors: ["orange"]})`. Similarly, to delete "red" the
 `AttributeUpdates` object is created as `attrUpdate.delete({colors: ["red"]})`
 
-However, both cannot be represented in the same `AttributeUpdates` object.
-following will not work as expected:
+However, both actions cannot be represented in the same `AttributeUpdates`
+object.
 
 ```js
 // Will not work as expected
 attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});
 ```
 
-This is because the action to `add` "orange" is overwritten by action to
-`delete` "red". This is simply because `colors` is a property of the `AttrubuteUpdates` object.
+The action to `delete` "red" overwrites the action to `add` "orange". This is
+simply because `colors` is a property of the `AttrubuteUpdates` object.
 
 The following code demonstrates the above note:
 
