@@ -32,9 +32,16 @@ represented as:
 This utility helps to construct such representations required by the __AWS SDK
 for Node.js__ 
 
+To represent the above `var data` as a DynamoDB `AttributeValue` do:
+
 ```js
 var attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap(data);
+// { 
+//   name: { S: 'Java Script' },
+//   age: { N: '18' },
+//   engines: { SS: [ 'Rhino','v8','SpiderMonkey','Carakan','JavaScriptCore' ] }
+// }
 ```
 
 ## Features
@@ -131,7 +138,7 @@ attr.wrap({name: "Foo", age: 50});
 
 ### unwrap(attributeValue)
 
-Unwrap DynamoDB AttributeValues to values of the appropriate types.
+Unwrap DynamoDB AttributeValue to values of the appropriate types.
 
 #### Arguments
 
@@ -161,10 +168,9 @@ __Example__
 
 ```javascript
 var attr = require('dynamodb-data-types').AttributeValue;
-attr.wrap1(50);
-// {"N":"50"}
+attr.wrap1(50);    // {"N":"50"}
+attr.wrap1("50");  // {"S":"50"}
 ```
-
 
 <a name="unwrap1"  />
 
@@ -182,10 +188,10 @@ __Example__
 
 ```javascript
 var attr = require('dynamodb-data-types').AttributeValue;
-attr.unwrap1({"N":"50"});
-// 50
-```
+attr.unwrap1({"N":"50"});  // 50
+attr.unwrap1({"S":"50"});  // "50"
 
+```
 
 ## AttributeValueUpdate
 
@@ -267,9 +273,9 @@ console.log(JSON.stringify(dataUpdate));
 <a name="duplicate_attr_name"  />
 ### Note: Duplicate attribute names in `AttributeValueUpdate`
 
-Each attribute name can appear only once in an `AttributeUpdates` object. This
-is a feature of the AWS API.  However its easy to overlook this when chaining
-`add`, `put` and `delete` updates.
+Each attribute name can appear only once in the `AttributeUpdates` object of the
+`itemUpdate` call. This is a feature of the AWS API.  However its easy to
+overlook this when chaining `add`, `put` and `delete` updates.
 
 For example, following is an attribute `colors` of type `SS` (String set)
 
