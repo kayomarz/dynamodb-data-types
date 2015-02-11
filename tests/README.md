@@ -6,6 +6,7 @@ Tests are run using [Jasmine](https://github.com/pivotal/jasmine/wiki). See
 ## Install dependancies to run tests.
 
 ```sh
+cd dynamodb-data-types/
 npm install
 npm install jasmine-node -g
 ```
@@ -13,16 +14,25 @@ npm install jasmine-node -g
 ## Run local tests
 
 ```sh
-cd dynamodb-data-types/tests/
-jasmine-node spec/
+jasmine-node tests/spec/
 ```
 
 ## Run tests with a live DynamoDb table
 
 ### Requirements
 
-To test with a live DynamoDb, specify DynamoDb credentials using
-environment variables. For details see configuration of [Amazon SDK for Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html)
+To test with a live DynamoDb, create a DynamoDb table as follows:
+
+  + Table name: TestTableForDynamoDbDataTypes
+  + Primary key type: Hash
+  + Hash attribute name: id
+  + Hash attribute type: Number
+
+Use AWS access key credentials with read, write permissions to the above
+table. You can do this using envirnoment variables. For details how to specify
+credentials, see configuring
+[Amazon SDK for Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) 
+
 
 For example, on linux:
 
@@ -30,13 +40,9 @@ For example, on linux:
 $ export AWS_SECRET_ACCESS_KEY="key"; export AWS_ACCESS_KEY_ID="key-id"
 ```
 
-Run the test using a live DynamoDB:
+After the AWS table has been setup and AWS access key specified, run the test
+using a live DynamoDB as follows:
 
 ```sh
-cd dynamodb-data-types/tests/
-jasmine-node spec-dynamo/
+jasmine-node tests/spec-dynamo
 ```
-
-Note that the environment variables exported in the above command won't persist
-after logging out of the shell.
-

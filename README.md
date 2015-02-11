@@ -1,10 +1,14 @@
 # DynamoDb-Data-Types
 
-A utility for Amazon DynamoDB __Data Types__ for AWS SDK for Node.js.
+A utility for Amazon DynamoDB __data types__.
 
-This utility is designed to be used in complement with the [Amazon SDK for
-Node.js]((http://aws.amazon.com/sdkfornodejs/). It helps to represent
-Amazon DybamoDb data types.
+This utility is designed to be used along with the [Amazon SDK for
+Node.js](http://aws.amazon.com/sdkfornodejs/). It helps represent
+AWS DynamoDb data types.
+
+DynamoDB data types:
+[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
 
 ## How is it useful?
 
@@ -44,19 +48,9 @@ attr.wrap(data);
 // }
 ```
 
-## Features
-
-The current version supports the following data types:
-
- * AttributeValue
- * AttributeValueUpdate
-
-DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
-
-
 ## Quick Examples
 
-```javascript
+```js
 var attr = require('dynamodb-data-types').AttributeValue;
 
 var infoAttrValue = attr.wrap({ name: "Foo", age: 50 });
@@ -76,6 +70,30 @@ console.log(JSON.stringify(attr.unwrap(experience)));
  + [examples/01-put-update.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/01-put-update.js)
 
 
+## Features
+
+The current version supports the following data types:
+
+ * AttributeValue
+ * AttributeValueUpdate
+
+DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
+
+## Unsupported types
+
+Data types `B` / `BS` are unsupported in DynamoDb-Data-Types version **1.0.0**.
+Wrapping / unwrapping `B` and `BS` will not work when used with **AWS SDK 1.x.x**
+but should automagically work  with **AWS SDK 2.x.x.** This is related to
+automatic conversion of base64 done by AWS SDK version 2.x. See [AWS Upgrading
+Notes (1.x to
+2.0)](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/upgrading.html).
+
+Use of `B` and `BS` data types are not tested in **DynamoDb-Data-Types 1.0.0**
+
+`B` and `BS` will be tested in the upcoming **DynamoDb-Data-Types 2.0.0**
+
+
 ## Download
 
 The source is available for download from
@@ -84,15 +102,6 @@ The source is available for download from
 To install using Node Package Manager (npm):
 
     npm install dynamodb-data-types
-
-
-## Untested feature
-
-The current version of this library has not been tested with binary types `B`
-and `BS`.  __These will be done sometime soon__.
-
-PS: Please feel free to share any working code you might have to put/get binary
-data - it would help me complete these tests.
 
 
 ## Documentation
@@ -117,6 +126,7 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 ## AttributeValue
 
 <a name="wrap"  />
+
 ### wrap(item)
 
 Wrap object properties into DynamoDB's AttributeValue data type.
@@ -344,7 +354,23 @@ not exhaustive)
    functions which iterate over objects.  Currently lib/util.js has a function
    to iterate over object properties which is sufficient for use with Node.js. 
 
+# Change log
+
+
+##Version 1.0.0 
+
+2015-02-11
+
+**Note:** There are no source code changes in version 1.0.0.  Functionally,
+1.0.0 is identical to 0.2.7.
+
+  + Bumped from version 0.2.7 to version 1.0.0.
+  + Update documentation especially with regard to `B` and `BS` data types.
+  + Added development deps into pacakge.json instead of tests/package.json
+    (It should have been this way to begin with)
+
+Note: Change log dates are yyyy-mm-dd.
+
 ## License
 
 [License](https://github.com/kayomarz/dynamodb-data-types/blob/master/LICENSE)
-
