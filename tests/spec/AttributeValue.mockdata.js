@@ -11,9 +11,22 @@ module.exports = {
     key3a: [new String('String1'), 
             new String('String2'),
             new String('String3')],
-
+    key4: new Number(4.2),
+    key4a: [new Number(1), new Number(2.1), new Number(4.3)],
     nothing1: null,
-    nothing2: undefined
+    nothing2: undefined,
+    deep: {
+      val: 1.0,
+      msg: 'This is level 1',
+      nxt: {
+        val: 2.0,
+        msg: 'This is level 2',
+        nxt: {
+          val: 3,
+          msg: 'This is level 3'
+        }
+      }
+    }
   },
 
   obj1_: { 
@@ -22,7 +35,28 @@ module.exports = {
     key2: { N: '1' },
     key2a: { NS: [ '1.1', '1.2', '1.3' ] },
     key3: { S: 'String' },
-    key3a: { SS: [ 'String1', 'String2', 'String3' ] } 
+    key3a: { SS: [ 'String1', 'String2', 'String3' ] },
+    key4: { N: '4.2' },
+    key4a: { NS: [ '1', '2.1', '4.3' ] },
+    nothing1: { NULL: true },
+    deep: {
+      M: {
+        val: { N: '1' },
+        msg: { S: 'This is level 1' },
+        nxt: {
+          M: {
+            val: { N: '2' },
+            msg: { S: 'This is level 2' },
+            nxt: {
+              M: {
+                val: { N: '3' },
+                msg: { S: 'This is level 3' }
+              }
+            }
+          }
+        }
+      }
+    }
   },
 
   obj2: { 
@@ -45,14 +79,14 @@ module.exports = {
   },
 
   objInvalid_: { 
-    key1: { SSSS: 'str' }
+    key1: { ABCD: 'str' }
   },
 
   singles: [
     1.4,
-    "str single",
+    'str single',
     [1, 2, 3.1],
-    ["str1", "str2", "str3"]
+    ['str1', 'str2', 'str3']
   ],
 
   singles_: [

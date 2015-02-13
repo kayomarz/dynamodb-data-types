@@ -34,13 +34,41 @@ var obj1 = {
   del2: 1234,
   del3: "trash this",
   del4: 0.001,
-  del5: "delete this too"
+  del5: "delete this too",
+  nothing: null,
+  deep: {
+    val: 1.0,
+    msg: 'This is level 1',
+    nxt: {
+      val: 2.0,
+      msg: 'This is level 2',
+      nxt: {
+        val: 3,
+        msg: 'This is level 3'
+      }
+    }
+  }
+
 };
 
 var obj1_ = {
   id: 1,
   name: "name2",
-  age: 21
+  age: 21,
+  nothing: null,
+  deep: {
+    val: 1.0,
+    msg: 'This is level 1',
+    nxt: {
+      val: 2.0,
+      msg: 'This is level 2',
+      nxt: {
+        val: 3,
+        msg: 'This is level 3'
+      }
+    }
+  }
+
 };
 
 
@@ -158,7 +186,6 @@ function readItem(callback) {
         callback("No Item data after reading test item from DB.");
     }
   });
-  
 }
 
 module.exports = {

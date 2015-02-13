@@ -16,9 +16,13 @@ Following are some key-value pairs:
 
 ```js
 var data = { 
-    name: 'Java Script',
-    age: 18, 
-    engines: [ 'Rhino', 'v8', 'SpiderMonkey', 'Carakan', 'JavaScriptCore' ]
+  name: 'Java Script',
+  age: 18,
+  fav: {
+    food: ['Rice', 'Noodles'],
+    colors: ['Orange', 'Blue']
+  },
+  engines: [ 'Rhino', 'v8', 'SpiderMonkey', 'Carakan', 'JavaScriptCore' ]
 }
 ```
 
@@ -26,10 +30,16 @@ In order to put the above data into DynamoDB, the AWS SDK requires it to be
 represented as:
 
 ```
-{ 
-    name: { S: 'Java Script' },
-    age: { N: '18' },
-    engines: { SS: [ 'Rhino','v8','SpiderMonkey','Carakan','JavaScriptCore' ] }
+{
+  "name": { "S": "Java Script" },
+  "age": { "N": "18" },
+  "fav": { 
+    "M": {
+      "food": { "SS": [ "Rice", "Noodles" ] },
+      "colors": { "SS": ["Orange", "Blue" ] }
+    }
+  },
+  "engines": { "SS": ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore" ] }
 }
 ```
 
@@ -41,10 +51,16 @@ To represent the above `var data` as a DynamoDB `AttributeValue` do:
 ```js
 var attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap(data);
-// { 
-//   name: { S: 'Java Script' },
-//   age: { N: '18' },
-//   engines: { SS: [ 'Rhino','v8','SpiderMonkey','Carakan','JavaScriptCore' ] }
+// {
+//   "name": { "S": "Java Script" },
+//   "age": { "N": "18" },
+//   "fav": { 
+//     "M": {
+//       "food": { "SS": [ "Rice", "Noodles" ] },
+//       "colors": { "SS": ["Orange", "Blue" ] }
+//     }
+//   },
+//   "engines": { "SS": ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore" ] }
 // }
 ```
 
@@ -79,6 +95,20 @@ The current version supports the following data types:
 
 DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
 
+## Supported types
+
+With reference to
+[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
+DynamoDb-Data-Types supports the following:
+
+ + BOOL
+ + NULL
+ + N
+ + NS
+ + S
+ + SS
+ + M
+
 
 ## Unsupported types
 
@@ -102,6 +132,44 @@ The source is available for download from
 To install using Node Package Manager (npm):
 
     npm install dynamodb-data-types
+
+
+## Whats new in DynamoDb-Data-Types 2.0.0
+
+DynamoDb-Data-Types 2.0.0 adds support for data types `M`.
+
+### Support for `M`
+
+We can use `M` to nest objects. Consider the following data:
+
+```js
+var data = {
+  polygon: {
+    quadrilateral: {
+        sides: 4
+    }
+  }
+}
+```
+
+can be represented as:
+
+```js
+{
+  "polygon": {
+    "M": {
+      "quadrilateral": {
+        "M": {
+          "sides": {
+            "N": "4"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 
 
 ## Documentation
@@ -356,8 +424,9 @@ not exhaustive)
 
 # Change log
 
+ + Implemnted `M`
 
-##Version 1.0.0 
+## Version 1.0.0 
 
 2015-02-11
 
