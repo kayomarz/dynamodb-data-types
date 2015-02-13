@@ -32,6 +32,19 @@ describe("AttributeValue", function() {
       expect(_.isEqual(util.wrap1(singles[i]), singles_[i])).toBe(true);
   });
 
+  it("Wrap String object", function() {
+    // Wrapping a String object should result in a native string and not object
+    var strs = { s1: new String('abc'), s2: 'def' };
+    var actual = util.wrap(strs);
+    var expected = { s1: { S: 'abc' },
+                     s2: { S: 'def' } };
+    // var unexpected = { s1: { S: { '0': 'a', '1': 'b', '2': 'c' } },
+    //                    s2: { S: 'def' } }
+
+    expect(actual.s1.S === expected.s1.S).toBe(true);
+    expect(actual.s2.S === expected.s2.S).toBe(true);
+  });
+
   it("Unwrap", function() {
     expect(_.isEqual(util.unwrap(obj2_), obj2)).toBe(true);
   });
