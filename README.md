@@ -6,6 +6,10 @@ This utility is designed to be used along with the [Amazon SDK for
 Node.js](http://aws.amazon.com/sdkfornodejs/). It helps represent
 AWS DynamoDb data types.
 
+Version **2.0.0** of DynamoDb-Data-Types was recently released (Feb 15 2015) with
+a rewrite of file AttributeValue.js.  Incase you encounter any issues, please
+[report them on github](https://github.com/kayomarz/dynamodb-data-types).
+
 ## How is it useful?
 
 Following are some key-value pairs:
@@ -120,7 +124,7 @@ For any a given value `val`, `wrap()` detects the AWS Data types as follows:
 
 ### BOOL, NULL, N, S
 
-The following psuedo-code explains it:
+How `wrap()` detects them (psuedo-code):
 
     IF val is typeof boolean
         THEN detect as type BOOL
@@ -133,17 +137,17 @@ The following psuedo-code explains it:
 
 ### B
 
-As of now:
+How `wrap()` detects type `B` (psuedo-code):
 
     IF val is instanceof Buffer
         THEN detect as type B
 
-There might be other binary which should get detected as `B`. Suggestions are
-welcome.
+There maybe other type which should get detected as `B`. Please let me know if
+you have suggestions.
 
 ### M
 
-The following psuedo-code explains it:
+How `wrap()` detects type `M` (psuedo-code):
 
     IF (val is none of: BOOL, NULL, N, S, B)
         AND (typeof val === 'object')
@@ -155,14 +159,15 @@ The following psuedo-code explains it:
 
 When `wrap()` sees an Array, here's what it does (psuedo-code):
 
-    IF (every element in Array is type N)
-        THEN detect as type NS
-    ELSE IF (every element in Array is type S)
-        THEN detect as type SS
-    ELSE IF (every element in Array is type B)
-        THEN detect as type BS
-    ELSE 
-        detect as type L
+    IF val is an Array
+        IF (every element in Array is type N)
+            THEN detect as type NS
+        ELSE IF (every element in Array is type S)
+            THEN detect as type SS
+        ELSE IF (every element in Array is type B)
+            THEN detect as type BS
+        ELSE 
+            detect as type L
 
 
 ## Download
@@ -512,8 +517,20 @@ not exhaustive)
 
 # Change log
 
+## Version 2.0.1
+
+2015-02-15
+
+ + Fixed README
+ + Committed modified package.json (just realised it wasn't committed)
+
+## Version 2.0.0 
+
+2015-02-15
+
  + Implemnted `M`
  + Implemented `L`
+ + Added example to put and get binary data (examples/02-binary-image.js)
 
 ## Version 1.0.0 
 
