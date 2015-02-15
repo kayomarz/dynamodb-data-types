@@ -1,6 +1,7 @@
 /* This example demonstrates use of AttributeValue and AttributeValueUpdate.
  * Run this example on the command line as follows:
- * $ node 01-put-updates.js
+ * $ node 01-put-updates.js put
+ * $ node 01-put-updates.js update
  * Observe the output dump shows the data structures as required by DynamoDb.
  * When running this example, you may choose to use a live DynamoDb instance
  * (optinal) by setting `USE_LIVE_DB'. If you choose to use a live DynamoDb
@@ -89,7 +90,17 @@ var personUpdates = attrUpdate
 // to add favColor orange. 
 
 
-// When using a live DynamoDb instance for this example, call either putPerson
-//  or updatePerson and observe the effect using the AWS web console.
-putPerson(personInfo);
-updatePerson(1, personUpdates);
+var action = process.argv[2];
+if (!(action === 'update' || action === 'put')) {
+  console.log(
+    'no action specified\n' +
+      'usage: node 01-put-update.js <action>\n' +
+      '<action> should be either \'update\' or \'get\'.'
+  );
+  process.exit(1);
+}
+
+switch(action) {
+  case 'put': putPerson(personInfo); break;
+  case 'update': updatePerson(1, personUpdates); break;
+}

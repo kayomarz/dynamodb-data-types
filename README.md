@@ -6,10 +6,6 @@ This utility is designed to be used along with the [Amazon SDK for
 Node.js](http://aws.amazon.com/sdkfornodejs/). It helps represent
 AWS DynamoDb data types.
 
-DynamoDB data types:
-[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
-
-
 ## How is it useful?
 
 Following are some key-value pairs:
@@ -84,44 +80,89 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 ## More examples
 
  + [examples/01-put-update.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/01-put-update.js)
-
+ + [examples/02-binary-image.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/02-binary-image.js)
 
 ## Features
 
-The current version supports the following data types:
+Refer to
+[docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
+
+DynamoDb-Data-Types supports:
 
  * AttributeValue
  * AttributeValueUpdate
 
-DynamoDB data types: [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Types.html)
 
-## Supported types
+## Supported AttributeValue types
 
-With reference to
+Refer to
 [docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html)
-DynamoDb-Data-Types supports the following:
 
+DynamoDb-Data-Types supports:
+
+ + B
  + BOOL
- + NULL
+ + BS
+ + L
+ + M
  + N
  + NS
+ + NULL
  + S
  + SS
- + M
 
+## wrapping data
 
-## Unsupported types
+Its trivial to detect `N`, `NS`, `S`, `SS`, `NULL` and `BOOL`.  The other types
+`M`, `L`, `B`, `BS` are not difficult but need some explaining.
 
-Data types `B` / `BS` are unsupported in DynamoDb-Data-Types version **1.0.0**.
-Wrapping / unwrapping `B` and `BS` will not work when used with **AWS SDK 1.x.x**
-but should automagically work  with **AWS SDK 2.x.x.** This is related to
-automatic conversion of base64 done by AWS SDK version 2.x. See [AWS Upgrading
-Notes (1.x to
-2.0)](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/upgrading.html).
+For any a given value `val`, `wrap()` detects the AWS Data types as follows:
 
-Use of `B` and `BS` data types are not tested in **DynamoDb-Data-Types 1.0.0**
+### BOOL, NULL, N, S
 
-`B` and `BS` will be tested in the upcoming **DynamoDb-Data-Types 2.0.0**
+The following psuedo-code explains it:
+
+    IF val is typeof boolean
+        THEN detect as type BOOL
+    ELSE IF val is null
+        THEN detect as type NULL
+    ELSE IF val is typeof number or if val instanceof Number
+        THEN detect as type N
+    ELSE IF val is typeof string or if val is instanceof String
+        THEN detect as type S
+
+### B
+
+As of now:
+
+    IF val is instanceof Buffer
+        THEN detect as type B
+
+There might be other binary which should get detected as `B`. Suggestions are
+welcome.
+
+### M
+
+The following psuedo-code explains it:
+
+    IF (val is none of: BOOL, NULL, N, S, B)
+        AND (typeof val === 'object')
+            THEN detect as type M
+    ELSE
+        wrap() ignores val
+
+### NS, SS, BS, L
+
+When `wrap()` sees an Array, here's what it does (psuedo-code):
+
+    IF (every element in Array is type N)
+        THEN detect as type NS
+    ELSE IF (every element in Array is type S)
+        THEN detect as type SS
+    ELSE IF (every element in Array is type B)
+        THEN detect as type BS
+    ELSE 
+        detect as type L
 
 
 ## Download
@@ -134,13 +175,15 @@ To install using Node Package Manager (npm):
     npm install dynamodb-data-types
 
 
-## Whats new in DynamoDb-Data-Types 2.0.0
+## What's new in version 2.0.0
 
-DynamoDb-Data-Types 2.0.0 adds support for data types `M`.
+DynamoDb-Data-Types version 2.0.0 introduces support for **AttributeValue**
+types `BOOL`, `NULL`, `M`, `L`.
 
-### Support for `M`
 
-We can use `M` to nest objects. Consider the following data:
+### Use of `M` for nested data
+
+DynamoDb-Data-Types uses `M` to nest objects. Consider the following data:
 
 ```js
 var data = {
@@ -152,7 +195,7 @@ var data = {
 }
 ```
 
-can be represented as:
+`wrap()` represents the above data as follows:
 
 ```js
 {
@@ -170,6 +213,53 @@ can be represented as:
 }
 ```
 
+### Use of `L` for arrays
+
+DynamoDb-Data-Types uses `L` to represent mixed arrays. Consider the following data:
+
+```js
+{
+  strs: ['abc', 'def'],
+  nums: [123, 456],
+  mix: [1, 'abc', true, false, null, [1,2,3]]
+}
+```
+
+`wrap()` represents the above data as follows:
+
+```js
+{
+  strs: { 
+    SS: ["abc","def"] 
+  },
+  nums: { 
+    NS: ["123","456"] 
+  },
+  mix: {
+    "L": [
+      { N: "1" },
+      { S: "abc" },
+      { BOOL: true },
+      { BOOL: false },
+      { NULL: true },
+      { NS: ["1","2","3"] }
+    ]
+  }
+}
+```
+
+### Older versions of DynamoDb-Data-Types
+
+Read this only if you need DynamoDb-Data-Types version **1.0.0** or below.
+
+If you are already using version **1.0.0** or **0.2.7** you may continue to do
+so.
+
+If you are using DynamoDb-Data-Types version **1.0.0** or **0.2.7**, wrapping / unwrapping `B` and `BS` will not work when used with **AWS SDK 1.x.x**
+but should automagically work with **AWS SDK 2.x.x.** although it has not been
+tested. This is related to automatic conversion of base64 done by AWS SDK
+version 2.x. See
+[AWS Upgrading Notes (1.x to 2.0)](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/upgrading.html). 
 
 
 ## Documentation
@@ -401,30 +491,29 @@ JSON.stringify(attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]}));
 It is upto the application to ensure that the application follows the SDK
 requirements. This utility does not perform any checks.
 
-For example, DynamoDB attribute value `NS` is meant to represents
-a set of 
-numbers. If, by mistake, the application creates the structure 
-`{"NS":  [1, 3, "string"]}`, this utility will not detect that the third element
-is an invalid element (string). Such checks are left to the application.
-
 
 ## Platform
 
-This utility is designed for [node.js](http://nodejs.org).  For use in the
-browser, it will need to be adapted. This is in lieu of the recent (October
-2013) [Developer Preview - AWS SDK for JavaScript in the
+This utility is designed for Node.js.  For use in the
+browser, it will need to be adapted. This is in lieu of the October
+2013 [Developer Preview - AWS SDK for JavaScript in the
 Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
 
 To adapt this utility for the browser, following are few todos. (This list is
 not exhaustive)
 
- * Possible use of lodash or underscore to ensure browser compatibility of
-   functions which iterate over objects.  Currently lib/util.js has a function
-   to iterate over object properties which is sufficient for use with Node.js. 
+ * Ensure browser compatibility of functions which iterate over objects.
+   Currently lib/util.js has a function to iterate over object properties which
+   is sufficient for use with Node.js.
+ * Browser compatible ways to detect array Array.
+ * Ways to detect binary data commonly used by browser applications. For
+   instance, currently for Node.js, `wrap()` detects `Buffer` as binary type
+   `B`.
 
 # Change log
 
  + Implemnted `M`
+ + Implemented `L`
 
 ## Version 1.0.0 
 
