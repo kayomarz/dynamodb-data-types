@@ -26,7 +26,8 @@ module.exports = {
           msg: 'This is level 3'
         }
       }
-    }
+    },
+    mix : [0.1, 1, 'foo', null, true, false]
   },
 
   obj1_: { 
@@ -56,26 +57,34 @@ module.exports = {
           }
         }
       }
+    },
+    mix: {
+      L: [ 
+        { N: "0.1" },
+        { N: "1" },
+        { S: "foo" },
+        { NULL: true },
+        { BOOL: true },
+        { BOOL: false}
+      ]
     }
   },
 
   obj2: { 
     key1: 'str',
     key1a: [ 'str1', 'str2', 'str3' ],
-
     key2: 1,
-    key2a: [ 1.1, 1.2, 1.3 ]
+    key2a: [ 1.1, 1.2, 1.3 ],
+    nothing1: null
   },
 
   obj2_: { 
     key1: { S: 'str' },
     key1a: { SS: [ 'str1', 'str2', 'str3' ] },
-
     key2: { N: '1' },
     key2a: { NS: [ '1.1', '1.2', '1.3' ] },
 
-    nothing1: null,
-    nothing2: undefined
+    nothing1: { NULL: true }
   },
 
   objInvalid_: { 
