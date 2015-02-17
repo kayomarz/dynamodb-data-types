@@ -47,8 +47,8 @@ var obj1 = {
         msg: 'This is level 3'
       }
     }
-  }
-
+  },
+  mix : [0.1, 1, 'foo', null, true, false]
 };
 
 var obj1_ = {
@@ -67,7 +67,8 @@ var obj1_ = {
         msg: 'This is level 3'
       }
     }
-  }
+  },
+  mix : [0.1, 1, 'foo', null, true, false]
 
 };
 
