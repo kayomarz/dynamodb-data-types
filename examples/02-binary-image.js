@@ -83,7 +83,7 @@ if (!(action === 'get' || action === 'put')) {
 
 var inPath = 'images/img.jpg';
 var outPath = 'images/out-img.jpg';
-var dbId = 100; // arbitrary ID
+var dbId = 2; // arbitrary ID
 
 switch(action) {
   case 'put': putItemBinary(inPath, dbId); break;

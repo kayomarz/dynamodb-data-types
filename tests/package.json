@@ -1,0 +1,11 @@
+{
+  "name": "Tests-for-dynamodb-data-types",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "async": "0.2.9",
+    "aws-sdk": "^2.1.45",
+    "jasmine-node": "^1.14.5",
+    "lodash": "2.2.1"
+  }
+}

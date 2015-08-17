@@ -95,7 +95,7 @@ if (!(action === 'update' || action === 'put')) {
   console.log(
     'no action specified\n' +
       'usage: node 01-put-update.js <action>\n' +
-      '<action> should be either \'update\' or \'get\'.'
+      '<action> should be either \'update\' or \'put\'.'
   );
   process.exit(1);
 }

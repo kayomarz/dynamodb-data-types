@@ -2,13 +2,9 @@
 
 A utility for Amazon DynamoDB __data types__.
 
-This utility is designed to be used along with the [Amazon SDK for
+This utility is designed for the [Amazon SDK for
 Node.js](http://aws.amazon.com/sdkfornodejs/). It helps represent
 AWS DynamoDb data types.
-
-Version **2.0.0** of DynamoDb-Data-Types was recently released (Feb 15 2015) with
-a rewrite of file AttributeValue.js.  Incase you encounter any issues, please
-[report them on github](https://github.com/kayomarz/dynamodb-data-types).
 
 ## How is it useful?
 
@@ -85,6 +81,8 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 
  + [examples/01-put-update.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/01-put-update.js)
  + [examples/02-binary-image.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/02-binary-image.js)
+ + [examples/03-explicit-data-type.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/03-explicit-data-type.js)
+ + [examples/04-explicit-preserve-arrays.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/04-explicit-preserve-arrays.js)
 
 ## Features
 
@@ -180,6 +178,31 @@ To install using Node Package Manager (npm):
     npm install dynamodb-data-types
 
 
+## What's new in version 2.1.0
+
+Consider the following:
+
+```javascript
+
+var data = {
+  alphabets: ['c', 'a', 'b', 'c']
+};
+
+```
+
+`wrap(data)` detects `alphabets` as `SS`. Being a set `SS` has two properties unlike those of arrays :
+
+ + The order of the elements is not preserved.
+ + Duplicate elements are not allowed.
+
+Starting with version **2.1.0**, you can do:
+
+ + `wrap(data, {types: {alphabets: 'L'} }` to explicitly tell wrap to treat it `L` instead of the auto-detected `SS`. Similarly for `put()` and `add()`
+ + Alternatively, call `preserveArrays()` to consider all arrays as type `L`. This has a global effect.
+
+Read the documentation and examples for more.
+
+
 ## What's new in version 2.0.0
 
 DynamoDb-Data-Types version 2.0.0 introduces support for **AttributeValue**
@@ -269,6 +292,24 @@ version 2.x. See
 
 ## Documentation
 
+### Global settings
+
+#### preserveArrays()
+
+If `preserveArrays()` is called, all arrays found in the object being wrapped are given type `L`. In other words, arrays will no longer get detected as `NS`, `SS` or `BS` but specified as `L`.
+
+This is useful to preserve duplicates in arrays as well as the order array elements.
+
+    var ddt = require('dynamodb-data-types');
+    ddt.preserveArrays();
+
+This function is designed to be called once at the start and has a global effect.
+
+If this is not needed on a global level, a similar effect can be achieved using `options` parameter passed to `wrap()`, `wrap1()` and `put()` and `add()`.
+
+Similarly, the global behaviour of `preserveArrays()` may be overridden using the `options` object passed to  `wrap()`, `wrap1()` and `put()` and `add()`.
+
+
 ### AttributeValue
 [AWS API Reference -
 AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html) 
@@ -290,14 +331,36 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 
 <a name="wrap"  />
 
-### wrap(item)
+### wrap(item[, options])
 
 Wrap object properties into DynamoDB's AttributeValue data type.
 
 #### Arguments
 
  * @param {Object} item The object to wrap.
+ * @param {Object} options
  * @return {Object} A DynamoDb AttributeValue.
+
+##### Options
+
+* `types`: An object containing attribute names and explicit type for that attribute. Currently explicit type can only be specified if the detected type is an array. Possible values are `'NS'`, `'SS'`, `'BS'`, `'L'`
+
+Example of an options object:
+
+```javascript
+// Any property named 'randomList' found in the object (at any depth) is specified as 'NS'. This explicit type can be assigned only if `randomList` is detected as an array.
+
+// Similarly if 'orderedList' is an array, it gets specified as type 'L'
+
+{
+  types: {
+     randomList: 'NS', 
+     orderedList: 'L'
+  }
+}
+```
+
+
 
 __Example__
 
@@ -305,6 +368,12 @@ __Example__
 var attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap({name: "Foo", age: 50});
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
+
+attr.wrap({alphabets: ["a", "b", "c"]});
+// {"alphabets":{"SS": ["a","b","c"]}}
+
+attr.wrap({alphabets: ["a", "b", "c"]}, {types: {alphabets:"L"}});
+// {"alphabets":{"L": [{"S":"a"},{"S":"b"},{"S": "c"}]}}
 ```
 
 <a name="unwrap"  />
@@ -328,13 +397,14 @@ attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
 
 <a name="wrap1"  />
 
-### wrap1(value)
+### wrap1(value [, options])
 
 Wrap a single value into DynamoDB's AttributeValue.
 
 #### Arguments
 
  * @param {String|Number|Array} 
+ * @param {Object} options Same as options for wrap().
  * @return {Object} DynamoDB AttributeValue.
 
 __Example__
@@ -370,7 +440,7 @@ attr.unwrap1({"S":"50"});  // "50"
 
 <a name="add"  />
 
-### add(attrs)
+### add(attrs [, options])
 
 Append attributes to be updated with action "ADD".
 This function can be chained with further calls to `add`, `put` or `delete`.
@@ -378,6 +448,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 #### Arguments
 
  * @param {Object} attrs Object with attributes to be updated.
+ * @param {Object} options Same as options for wrap().
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
@@ -386,7 +457,7 @@ See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 <a name="put"  />
 
-### put(attrs)
+### put(attrs [, options])
 
 Append attributes to be updated with action "PUT".
 This function can be chained with further calls to `add`, `put` or `delete`.
@@ -394,6 +465,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 #### Arguments
 
  * @param {Object} attrs Object with attributes to be updated.
+ * @param {Object} options Same as options for wrap().
  * @return {Updates} Object with all update attributes in the chain.
 
 <a href="#example_put_add_delete">Example - put, add, delete.</a>
@@ -491,6 +563,11 @@ JSON.stringify(attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]}));
 
 ```
 
+## Earlier versions
+
+If you are using AWS SDK for JavaScript version **1.x.x**, you should use
+DynamoDb-Data-Types version **1.0.0**.
+
 ## The library does not perform checks.
 
 It is upto the application to ensure that the application follows the SDK
@@ -516,6 +593,15 @@ not exhaustive)
    `B`.
 
 # Change log
+
+## Version 2.1.0
+
+2015-08-17
+
+ + Call `preserveArrays()` to use type `L` for array types; this preserves order of array elements and allows duplicate array elements both of which are not possible using sets `SS`, `NS` or `BS`
+ + If not required on a global scale (calling preserveArrays), explicity set array types by passing opts to `wrap()`, `add()`, `put()`
+
+
 
 ## Version 2.0.1
 
@@ -543,6 +629,20 @@ not exhaustive)
   + Update documentation especially with regard to `B` and `BS` data types.
   + Added development deps into pacakge.json instead of tests/package.json
     (It should have been this way to begin with)
+
+## version 0.2.7
+
+2014-01-29
+
+## version 0.2.6
+
+2013-11-15
+
+## version 0.2.5
+
+2013-11-11
+
+
 
 Note: Change log dates are yyyy-mm-dd.
 
