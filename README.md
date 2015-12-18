@@ -1,10 +1,7 @@
 # DynamoDb-Data-Types
 
-A utility for Amazon DynamoDB __data types__.
-
-This utility is designed for the [Amazon SDK for
-Node.js](http://aws.amazon.com/sdkfornodejs/). It helps represent
-AWS DynamoDb data types.
+This utility helps represent AWS DynamoDb data types for
+[Amazon SDK for Node.js](http://aws.amazon.com/sdkfornodejs/).
 
 ## How is it useful?
 
@@ -39,8 +36,7 @@ represented as:
 }
 ```
 
-This utility helps to construct such representations required by the __AWS SDK
-for Node.js__ 
+This utility helps to construct such representations required by the __AWS SDK__ 
 
 To represent the above `var data` as a DynamoDB `AttributeValue` do:
 
@@ -594,14 +590,18 @@ not exhaustive)
 
 # Change log
 
+## Version 2.1.1
+
+2015-12-18
+
+ + Replace functions deprecated by Node.
+
 ## Version 2.1.0
 
 2015-08-17
 
  + Call `preserveArrays()` to use type `L` for array types; this preserves order of array elements and allows duplicate array elements both of which are not possible using sets `SS`, `NS` or `BS`
  + If not required on a global scale (calling preserveArrays), explicity set array types by passing opts to `wrap()`, `add()`, `put()`
-
-
 
 ## Version 2.0.1
 
@@ -641,7 +641,6 @@ not exhaustive)
 ## version 0.2.5
 
 2013-11-11
-
 
 
 Note: Change log dates are yyyy-mm-dd.
