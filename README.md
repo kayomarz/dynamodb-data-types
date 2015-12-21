@@ -5,13 +5,13 @@
 
 This utility helps represent AWS DynamoDb data types.
 
-### Use in Node.js with [AWS SDK for JavaScript in Node.js](https://aws.amazon.com/sdk-for-node-js/)
+### Use in Node.js with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
 
     npm install dynamodb-data-types
 
-### Use in the browser with [AWS SDK for JavaScript in the Browser](https://aws.amazon.com/sdk-for-browser/)
+### Use in the browser with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
 
-Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)
+Copy [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)
 
 See [examples/browser](examples/browser) and [this note](#use-in-the-browser).
 
@@ -88,21 +88,34 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 
 ## Use in the browser
 
-Warning - The browser version has not been thoroughly tested.
+Browser support was added in version `2.1.2`.
 
-Version `2.1.2` onwards includes browser support.  However, not tests are yet created for the browser. All tests for this library are written only for Node.  Pull requests for this (maybe using phantom.js) are welcome.
+The library is written in basic javascript and it should work in very old browsers.
+However keep in mind that the browser version of this library
+([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)) has not been tested.
+All tests for this library are written only for the Node. Pull requests related to
+tests for the browser version of this library are welcome (maybe using phantom.js?).
 
-Since this library uses simple javascript, there should not be any browser compatability issues. The code should work in very old browsers too. However keep in mind that it has not been tested for the browser.
 
-The size of the browser version can be reduced by removing code related to `Buffer`. Since the code tries to detect binary types, it makes use of Node's `Buffer`. Browserify `Buffer` related code in [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js). This should not be a problem but it increases the file size with `Buffer` code that will not be used browser side.  Any pull requests to imporve this are welcome.
+### File size of the browser version
+
+The file size of the browser version ([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
+is much larger than what is should be. Here's the reason why:
+
+The browser version of this library is generated using [Browserify](http://browserify.org/)
+using the Node version of this library.  Due to this, browserify imports Node's `Buffer`
+code which should not be needed on the browser side. If `Buffer` code can be
+exlcluded from browser version, the file size would be almost 5 times smaller!
+
+Any pull requests related to this are welcome.
 
 
-## More examples
+## Examples
 
- + [examples/01-put-update.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/01-put-update.js)
- + [examples/02-binary-image.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/02-binary-image.js)
- + [examples/03-explicit-data-type.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/03-explicit-data-type.js)
- + [examples/04-explicit-preserve-arrays.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/04-explicit-preserve-arrays.js)
+ + [examples/01-put-update.js](examples/01-put-update.js)
+ + [examples/02-binary-image.js](examples/02-binary-image.js)
+ + [examples/03-explicit-data-type.js](examples/03-explicit-data-type.js)
+ + [examples/04-explicit-preserve-arrays.js](examples/04-explicit-preserve-arrays.js)
  + [examples/browser/dynamodb-data-types.html](examples/browser/dynamodb-data-types.html) 
 
 ## Features
@@ -585,7 +598,6 @@ It is upto the application to ensure that the application follows the SDK
 requirements. This utility does not perform any checks.
 
 
-
 # Change log
 
 ## Version 2.1.2
@@ -594,7 +606,7 @@ This version is identical to 2.1.1 with no changes to code.
 It only includes a JS build for the browser plus a few more tests.
 
  + Use browserify to create a dist for use in the browser.
- + Update tests, use travis-ci, coverage, istanbul.
+ + Updated tests, use travis-ci, coverage, istanbul, .jshintrc.
 
 ## Version 2.1.1
 
