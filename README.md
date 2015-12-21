@@ -94,7 +94,7 @@ Version `2.1.2` onwards includes browser support.  Tests for this library are wr
 
 Pull requests to do this (maybe using phantom.js) are welcome.
 
-Since this library uses simple javascript, there should not be any browser compatability issues. The code should work in very old browsers too. However you have been warned.
+Since this library uses simple javascript, there should not be any browser compatability issues. The code should work in very old browsers too. However keep in mind that it has not been tested for the browser.
 
 
 ## More examples
