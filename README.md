@@ -18,7 +18,7 @@ To be used along with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk
 Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js) or
 [dist/dynamodb-data-types.min.js ](dist/dynamodb-data-types.min.js)
 
-See [examples/browser](examples/browser) and [this note](#use-in-the-browser).
+See [examples/browser](examples/browser) and [this note](#use-in-the-browser-1)
 
 
 ## How is it useful?
