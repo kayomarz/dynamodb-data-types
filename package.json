@@ -11,7 +11,8 @@
     "istanbul": "^0.4.1",
     "jasmine-node": "^1.14.5",
     "lodash": "2.2.1",
-    "phantomjs": "^1.9.19"
+    "phantomjs": "^1.9.19",
+    "uglify-js": "^2.6.1"
   },
   "author": {
     "name": "Kayomarz",
@@ -25,7 +26,7 @@
     "test": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
     "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build-browser": "browserify browser.js > dist/dynamodb-data-types.js"
+    "build-browser": "browserify browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js"
   },
   "keywords": [
     "amazon",

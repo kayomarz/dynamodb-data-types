@@ -5,13 +5,18 @@
 
 This utility helps represent AWS DynamoDb data types.
 
-### Use in Node.js with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
+### Use with Node.js
+
+To be use along with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
 
     npm install dynamodb-data-types
 
-### Use in the browser with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
+### Use in the browser
 
-Copy [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)
+To be used along with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
+
+Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js) or
+[dist/dynamodb-data-types.min.js ](dist/dynamodb-data-types.min.js)
 
 See [examples/browser](examples/browser) and [this note](#use-in-the-browser).
 
