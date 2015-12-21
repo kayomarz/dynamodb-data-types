@@ -3,8 +3,17 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDb data types for
-[Amazon SDK for Node.js](http://aws.amazon.com/sdkfornodejs/).
+This utility helps represent AWS DynamoDb data types.
+
+### Use in Node.js with [AWS SDK for JavaScript in Node.js](https://aws.amazon.com/sdk-for-node-js/)
+
+    npm install dynamodb-data-types
+
+### Use in the browser with [AWS SDK for JavaScript in the Browser](https://aws.amazon.com/sdk-for-browser/)
+
+    Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js )
+	See [examples/browser](examples/browser)
+
 
 ## How is it useful?
 
@@ -76,12 +85,24 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
 ```
 
+## Use in the browser
+
+Warning - The browser version has not been thoroughly tested.
+
+Version `2.1.2` onwards includes browser support.  Tests for this library are written only for Node, no separate tests are yet created for the browser.
+
+Pull requests to do this (maybe using phantom.js) are welcome.
+
+Since this library uses simple javascript, there should not be any browser compatability issues. The code should work in very old browsers too. However you have been warned.
+
+
 ## More examples
 
  + [examples/01-put-update.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/01-put-update.js)
  + [examples/02-binary-image.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/02-binary-image.js)
  + [examples/03-explicit-data-type.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/03-explicit-data-type.js)
  + [examples/04-explicit-preserve-arrays.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/04-explicit-preserve-arrays.js)
+ + [examples/browser/dynamodb-data-types-example.html](examples/browser/dynamodb-data-types-example.html) 
 
 ## Features
 
@@ -165,16 +186,6 @@ When `wrap()` sees an Array, here's what it does (psuedo-code):
             THEN detect as type BS
         ELSE 
             detect as type L
-
-
-## Download
-
-The source is available for download from
-[github.com/kayomarz/dynamodb-data-types](https://github.com/kayomarz/dynamodb-data-types).
-
-To install using Node Package Manager (npm):
-
-    npm install dynamodb-data-types
 
 
 ## What's new in version 2.1.0
@@ -573,25 +584,16 @@ It is upto the application to ensure that the application follows the SDK
 requirements. This utility does not perform any checks.
 
 
-## Platform
-
-This utility is designed for Node.js.  For use in the
-browser, it will need to be adapted. This is in lieu of the October
-2013 [Developer Preview - AWS SDK for JavaScript in the
-Browser](http://aws.typepad.com/aws/2013/10/developer-preview-aws-sdk-for-javascript.html)
-
-To adapt this utility for the browser, following are few todos. (This list is
-not exhaustive)
-
- * Ensure browser compatibility of functions which iterate over objects.
-   Currently lib/util.js has a function to iterate over object properties which
-   is sufficient for use with Node.js.
- * Browser compatible ways to detect array Array.
- * Ways to detect binary data commonly used by browser applications. For
-   instance, currently for Node.js, `wrap()` detects `Buffer` as binary type
-   `B`.
 
 # Change log
+
+## Version 2.1.2
+
+This version is identical to 2.1.1 with no changes to code.
+It only includes a JS build for the browser plus a few more tests.
+
+ + Use browserify to create a dist for use in the browser.
+ + Update tests, use travis-ci, coverage, istanbul.
 
 ## Version 2.1.1
 

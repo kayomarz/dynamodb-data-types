@@ -1,0 +1,94 @@
+<!--
+    Since this HTML file loads dynamodb-data-types.js, you need to run a web server
+    One way to do this using python:
+
+      $ cd examples/browser/
+      $ python -m SimpleHTTPServer
+
+    Once the server is runnig, visit this url in your web browser:
+    http://localhost:8000/dynamodb-data-types.html
+
+-->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DynamoDB-data-types.js example</title>
+    <script src="dist/dynamodb-data-types.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Using dynamodb-data-types.js in the browser.</h1>
+    </header>
+    <main>
+
+      <p>
+        <strong>DynamoDBDataTypes</strong> is available as a global variable.
+      </p>
+      
+      <p>
+	Open your browser console and try it!
+
+	  <pre>
+var data = { 
+  name: 'Java Script',
+  age: 18,
+  fav: {
+    food: ['Rice', 'Noodles'],
+    colors: ['Orange', 'Blue']
+  },
+  engines: [ 'Rhino', 'v8', 'SpiderMonkey', 'Carakan', 'JavaScriptCore' ]
+};
+
+var wrapped = DynamoDbDataTypes.AttributeValue.wrap(data);
+JSON.stringify(wrapped, undefined, 2);
+
+
+// {
+//   "name": {
+//     "S": "Java Script"
+//   },
+//   "age": {
+//     "N": "18"
+//   },
+//   "fav": {
+//     "M": {
+//       "food": {
+//         "SS": [
+//           "Rice",
+//           "Noodles"
+//         ]
+//       },
+//       "colors": {
+//         "SS": [
+//           "Orange",
+//           "Blue"
+//         ]
+//       }
+//     }
+//   },
+//   "engines": {
+//     "SS": [
+//       "Rhino",
+//       "v8",
+//       "SpiderMonkey",
+//       "Carakan",
+//       "JavaScriptCore"
+//     ]
+//   }
+// }
+	  </pre>
+
+      </p>
+
+      <p>
+       This example shows how to use dynamodb-datatypes.js in the browser.
+       To communicate with a live DynamoDB database, dont forget to include
+       <a href="https://aws.amazon.com/sdk-for-browser/">
+	 https://aws.amazon.com/sdk-for-browser/
+       </a>
+      </p>
+
+    </main>
+    </body>
+</html>

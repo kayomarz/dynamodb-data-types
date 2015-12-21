@@ -1,15 +1,17 @@
 {
   "name": "dynamodb-data-types",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A utility for Amazon DynamoDb Data Types for AWS SDK for Node.js.",
   "main": "./lib/dynamodb-data-types.js",
   "devDependencies": {
     "async": "0.2.9",
     "aws-sdk": "^2.1.10",
+    "browserify": "^12.0.1",
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.1",
     "jasmine-node": "^1.14.5",
-    "lodash": "2.2.1"
+    "lodash": "2.2.1",
+    "phantomjs": "^1.9.19"
   },
   "author": {
     "name": "Kayomarz",
@@ -22,7 +24,8 @@
   "scripts": {
     "test": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
-    "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "build-browser": "browserify browser.js > dist/dynamodb-data-types.js"
   },
   "keywords": [
     "amazon",
