@@ -11,7 +11,7 @@ This utility helps represent AWS DynamoDb data types.
 
 ### Use in the browser with [AWS SDK for JavaScript in the Browser](https://aws.amazon.com/sdk-for-browser/)
 
-Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js )
+Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)
 
 See [examples/browser](examples/browser) and [this note](#use-in-the-browser).
 
@@ -90,11 +90,11 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 
 Warning - The browser version has not been thoroughly tested.
 
-Version `2.1.2` onwards includes browser support.  Tests for this library are written only for Node, no separate tests are yet created for the browser.
-
-Pull requests to do this (maybe using phantom.js) are welcome.
+Version `2.1.2` onwards includes browser support.  However, not tests are yet created for the browser. All tests for this library are written only for Node.  Pull requests for this (maybe using phantom.js) are welcome.
 
 Since this library uses simple javascript, there should not be any browser compatability issues. The code should work in very old browsers too. However keep in mind that it has not been tested for the browser.
+
+The size of the browser version can be reduced by removing code related to `Buffer`. Since the code tries to detect binary types, it makes use of Node's `Buffer`. Browserify `Buffer` related code in [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js). This should not be a problem but it increases the file size with `Buffer` code that will not be used browser side.  Any pull requests to imporve this are welcome.
 
 
 ## More examples
