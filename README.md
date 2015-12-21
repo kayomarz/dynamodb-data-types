@@ -103,7 +103,7 @@ Since this library uses simple javascript, there should not be any browser compa
  + [examples/02-binary-image.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/02-binary-image.js)
  + [examples/03-explicit-data-type.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/03-explicit-data-type.js)
  + [examples/04-explicit-preserve-arrays.js](https://github.com/kayomarz/dynamodb-data-types/blob/master/examples/04-explicit-preserve-arrays.js)
- + [examples/browser/dynamodb-data-types-example.html](examples/browser/dynamodb-data-types-example.html) 
+ + [examples/browser/dynamodb-data-types.html](examples/browser/dynamodb-data-types.html) 
 
 ## Features
 
