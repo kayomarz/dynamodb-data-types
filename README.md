@@ -1,5 +1,8 @@
 # DynamoDb-Data-Types
 
+[![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
+[![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
+
 This utility helps represent AWS DynamoDb data types for
 [Amazon SDK for Node.js](http://aws.amazon.com/sdkfornodejs/).
 

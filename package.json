@@ -6,6 +6,9 @@
   "devDependencies": {
     "async": "0.2.9",
     "aws-sdk": "^2.1.10",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.1",
+    "jasmine-node": "^1.14.5",
     "lodash": "2.2.1"
   },
   "author": {
@@ -15,6 +18,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kayomarz/dynamodb-data-types.git"
+  },
+  "scripts": {
+    "test": "istanbul cover --include-all-sources --root lib jasmine-node tests/spec",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "keywords": [
     "amazon",
