@@ -11,8 +11,9 @@ This utility helps represent AWS DynamoDb data types.
 
 ### Use in the browser with [AWS SDK for JavaScript in the Browser](https://aws.amazon.com/sdk-for-browser/)
 
-    Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js )
-	See [examples/browser](examples/browser)
+Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js )
+
+See [examples/browser](examples/browser)
 
 
 ## How is it useful?
