@@ -13,7 +13,7 @@ This utility helps represent AWS DynamoDb data types.
 
 Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js )
 
-See [examples/browser](examples/browser)
+See [examples/browser](examples/browser) and [this note](#use-in-the-browser).
 
 
 ## How is it useful?
