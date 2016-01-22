@@ -8,6 +8,8 @@ describe("AttributeValue", function() {
   var obj1_ = mock.obj1_;
   var obj2 = mock.obj2;
   var obj2_ = mock.obj2_;
+  var obj3 = mock.obj3;
+  var obj3_ = mock.obj3_;
   var objInvalid_ = mock.objInvalid_;
   var singles = mock.singles;
   var singles_ = mock.singles_;
@@ -25,8 +27,10 @@ describe("AttributeValue", function() {
 
   it("Wrap", function() {
     expect(_.isEqual(util.wrap(obj1), obj1_)).toBe(true);
+    var binWrap = util.wrap(obj3).bin.B;
+    var binCheck = obj3_.bin.B;
+    expect(_.isEqual(Buffer.compare(binWrap, binCheck), 0)).toBe(true);
   });
-
   it("Wrap singles", function() {
     for (var i = 0; i < singles.length; i++)
       expect(_.isEqual(util.wrap1(singles[i]), singles_[i])).toBe(true);
@@ -47,6 +51,10 @@ describe("AttributeValue", function() {
 
   it("Unwrap", function() {
     expect(_.isEqual(util.unwrap(obj2_), obj2)).toBe(true);
+
+    var binUnwrap = util.unwrap(obj3_).bin;
+    var binCheck = obj3.bin;
+    expect(_.isEqual(Buffer.compare(binUnwrap, binCheck), 0)).toBe(true);
   });
 
   it("Unwrap singles", function() {

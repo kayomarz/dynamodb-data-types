@@ -3,27 +3,10 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDb data types.
+This utility helps represent AWS DynamoDb data types. It maps (marshalls)
+JavaScript data into the format required by DynamoDb.
 
-### Use with Node.js
-
-To be use along with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
-
-    npm install dynamodb-data-types
-
-### Use in the browser
-
-To be used along with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
-
-Use [dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js) or
-[dist/dynamodb-data-types.min.js ](dist/dynamodb-data-types.min.js)
-
-See [examples/browser](examples/browser) and [this note](#use-in-the-browser-1)
-
-
-## How is it useful?
-
-Following are some key-value pairs:
+For example, following is some JavaScript data:
 
 ```js
 var data = { 
@@ -37,8 +20,8 @@ var data = {
 }
 ```
 
-In order to put the above data into DynamoDB, the AWS SDK requires it to be
-represented as:
+To put the above JavaScript data into DynamoDB, the AWS SDK requires it
+to be mapped to the following format:
 
 ```
 {
@@ -54,9 +37,9 @@ represented as:
 }
 ```
 
-This utility helps to construct such representations required by the __AWS SDK__ 
+This library maps it for you.
 
-To represent the above `var data` as a DynamoDB `AttributeValue` do:
+Use `wrap` to map (marshall) data into the format required by DynamoDB's `AttributeValue`:
 
 ```js
 var attr = require('dynamodb-data-types').AttributeValue;
@@ -73,6 +56,21 @@ attr.wrap(data);
 //   "engines": { "SS": ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore" ] }
 // }
 ```
+
+Use `unwrap` to unmarshall data received from DynamoDB.
+
+### Use with Node.js
+
+Use with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
+
+    npm install dynamodb-data-types
+
+### Use in the browser
+
+Use with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
+
+Download the browser version from [dist ](dist). See [examples/browser](examples/browser) and [this note](#browserNotes)
+
 
 ## Quick Examples
 
@@ -91,28 +89,30 @@ console.log(JSON.stringify(attr.unwrap(experience)));
 // {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
 ```
 
-## Use in the browser
+<a name="browserNotes"></a>
 
-Browser support was added in version `2.1.2`.
+## Notes for use in the browser
 
-The library is written in basic javascript and it should work in very old browsers.
-However keep in mind that the browser version of this library
-([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js)) has not been tested.
-All tests for this library are written only for the Node. Pull requests related to
-tests for the browser version of this library are welcome (maybe using phantom.js?).
+
+The browser version of this library (created using
+[browserify](http://browserify.org/)) has not been tested.
+It is written using basic JavaScript and should work in most browsers. Pull
+requests to add tests for the browser are welcome (maybe using phantom.js?).
+
+The browser version is available from version `2.1.2` onwards.
 
 
 ### File size of the browser version
 
-The file size of the browser version ([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
-is much larger than what is should be. Here's the reason why:
+The file size of the browser version
+([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
+is much larger than what is should be. It is generated using
+[Browserify](http://browserify.org/).  Since the node version of the library
+uses `Buffer` for dealing with binary types, browserify inlcudes `Buffer`
+related, which should not be needed on the browser side. If `Buffer` code were
+to be excluded for the browser version, file size would reduce by a factor of 5.
 
-The browser version of this library is generated using [Browserify](http://browserify.org/)
-using the Node version of this library.  Due to this, browserify imports Node's `Buffer`
-code which should not be needed on the browser side. If `Buffer` code can be
-exlcluded from browser version, the file size would be almost 5 times smaller!
-
-Any pull requests related to this are welcome.
+Pull requests related to this are welcome.
 
 
 ## Examples
@@ -179,7 +179,7 @@ How `wrap()` detects type `B` (psuedo-code):
     IF val is instanceof Buffer
         THEN detect as type B
 
-There maybe other type which should get detected as `B`. Please let me know if
+There maybe other types which should get detected as `B`. Please let me know if
 you have suggestions.
 
 ### M
@@ -221,7 +221,7 @@ var data = {
 
 `wrap(data)` detects `alphabets` as `SS`. Being a set `SS` has two properties unlike those of arrays :
 
- + The order of the elements is not preserved.
+ + The order of elements is not preserved.
  + Duplicate elements are not allowed.
 
 Starting with version **2.1.0**, you can do:
@@ -252,7 +252,7 @@ var data = {
 }
 ```
 
-`wrap()` represents the above data as follows:
+`wrap()` maps the above data as:
 
 ```js
 {
@@ -282,7 +282,7 @@ DynamoDb-Data-Types uses `L` to represent mixed arrays. Consider the following d
 }
 ```
 
-`wrap()` represents the above data as follows:
+`wrap()` maps the above data as:
 
 ```js
 {
@@ -305,38 +305,28 @@ DynamoDb-Data-Types uses `L` to represent mixed arrays. Consider the following d
 }
 ```
 
-### Older versions of DynamoDb-Data-Types
-
-Read this only if you need DynamoDb-Data-Types version **1.0.0** or below.
-
-If you are already using version **1.0.0** or **0.2.7** you may continue to do
-so.
-
-If you are using DynamoDb-Data-Types version **1.0.0** or **0.2.7**, wrapping / unwrapping `B` and `BS` will not work when used with **AWS SDK 1.x.x**
-but should automagically work with **AWS SDK 2.x.x.** although it has not been
-tested. This is related to automatic conversion of base64 done by AWS SDK
-version 2.x. See
-[AWS Upgrading Notes (1.x to 2.0)](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/upgrading.html). 
-
-
 ## Documentation
 
 ### Global settings
 
 #### preserveArrays()
 
-If `preserveArrays()` is called, all arrays found in the object being wrapped are given type `L`. In other words, arrays will no longer get detected as `NS`, `SS` or `BS` but specified as `L`.
+If `preserveArrays()` is called, all arrays found in the object being wrapped
+are given type `L`. In other words, arrays will no longer get detected as `NS`,
+`SS` or `BS` but specified as `L`.
 
-This is useful to preserve duplicates in arrays as well as the order array elements.
+This is useful to preserve duplicates and the order of elements in arrays.
 
     var ddt = require('dynamodb-data-types');
     ddt.preserveArrays();
 
-This function is designed to be called once at the start and has a global effect.
+This function is designed to be called once - It has a global effect.
 
-If this is not needed on a global level, a similar effect can be achieved using `options` parameter passed to `wrap()`, `wrap1()` and `put()` and `add()`.
+If this is not needed on a global level, a similar effect can be achieved using
+`options` parameter passed to `wrap()`, `wrap1()` and `put()` and `add()`.
 
-Similarly, the global behaviour of `preserveArrays()` may be overridden using the `options` object passed to  `wrap()`, `wrap1()` and `put()` and `add()`.
+Similarly, the global behaviour of `preserveArrays()` may be overridden using
+the `options` object passed to  `wrap()`, `wrap1()` and `put()` and `add()`.
 
 
 ### AttributeValue
@@ -358,11 +348,11 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 
 ## AttributeValue
 
-<a name="wrap"  />
+<a name="wrap"></a>
 
 ### wrap(item[, options])
 
-Wrap object properties into DynamoDB's AttributeValue data type.
+Wrap (marshall) JavaScript data into DynamoDB's AttributeValue data type.
 
 #### Arguments
 
@@ -372,12 +362,16 @@ Wrap object properties into DynamoDB's AttributeValue data type.
 
 ##### Options
 
-* `types`: An object containing attribute names and explicit type for that attribute. Currently explicit type can only be specified if the detected type is an array. Possible values are `'NS'`, `'SS'`, `'BS'`, `'L'`
+* `types`: An object containing attribute names and explicit type for that
+attribute. Currently explicit type can only be specified if the detected type is
+an array. Possible values are `'NS'`, `'SS'`, `'BS'`, `'L'`
 
 Example of an options object:
 
 ```javascript
-// Any property named 'randomList' found in the object (at any depth) is specified as 'NS'. This explicit type can be assigned only if `randomList` is detected as an array.
+// Any property named 'randomList' found in the object (at any depth) is
+// specified as 'NS'. This explicit type can be assigned only if `randomList` is
+// detected as an array.
 
 // Similarly if 'orderedList' is an array, it gets specified as type 'L'
 
@@ -405,11 +399,12 @@ attr.wrap({alphabets: ["a", "b", "c"]}, {types: {alphabets:"L"}});
 // {"alphabets":{"L": [{"S":"a"},{"S":"b"},{"S": "c"}]}}
 ```
 
-<a name="unwrap"  />
+<a name="unwrap"></a>
 
 ### unwrap(attributeValue)
 
-Unwrap DynamoDB AttributeValue to values of the appropriate types.
+Unwrap (unmarshall) DynamoDB AttributeValue to appropriate
+JavaScript types.
 
 #### Arguments
 
@@ -424,7 +419,7 @@ attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
 // {name: "Foo", age: 50}
 ```
 
-<a name="wrap1"  />
+<a name="wrap1"></a>
 
 ### wrap1(value [, options])
 
@@ -444,17 +439,17 @@ attr.wrap1(50);    // {"N":"50"}
 attr.wrap1("50");  // {"S":"50"}
 ```
 
-<a name="unwrap1"  />
+<a name="unwrap1"/></a>
 
 ### unwrap1(attributeValue)
 
 Unwrap a single DynamoDB's AttributeValue to a value of the appropriate
-javascript type. 
+JavaScript type. 
 
 #### Arguments
 
 @param {Object} attributeValue The DynamoDB AttributeValue.
-@return {String|Number|Array}  The javascript value.
+@return {String|Number|Array}  The JavaScript value.
 
 __Example__
 
@@ -467,7 +462,7 @@ attr.unwrap1({"S":"50"});  // "50"
 
 ## AttributeValueUpdate
 
-<a name="add"  />
+<a name="add"></a>
 
 ### add(attrs [, options])
 
@@ -484,7 +479,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
-<a name="put"  />
+<a name="put"></a>
 
 ### put(attrs [, options])
 
@@ -501,7 +496,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
-<a name="delete"  />
+<a name="delete"></a>
 
 ### delete(attrs)
 
@@ -520,7 +515,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 
 See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
-<a name="example_put_add_delete"  />
+<a name="example_put_add_delete"></a>
 ### Example: `put`, `add`, `delete`
 
 ```js
@@ -544,7 +539,7 @@ console.log(JSON.stringify(dataUpdate));
 // }
 ```
 
-<a name="duplicate_attr_name"  />
+<a name="duplicate_attr_name"></a>
 ### Note: Duplicate attribute names in `AttributeValueUpdate`
 
 Each attribute name can appear only once in the `AttributeUpdates` object of the
@@ -592,18 +587,27 @@ JSON.stringify(attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]}));
 
 ```
 
-## Earlier versions
+## Older versions of DynamoDb-Data-Types
 
-If you are using AWS SDK for JavaScript version **1.x.x**, you should use
-DynamoDb-Data-Types version **1.0.0**.
+Read this only if you need DynamoDb-Data-Types version **1.0.0** or below.
 
-## The library does not perform checks.
+If you are already using version **1.0.0** or **0.2.7** you may continue to do
+so.
 
-It is upto the application to ensure that the application follows the SDK
-requirements. This utility does not perform any checks.
+If you are using DynamoDb-Data-Types version **1.0.0** or **0.2.7**, wrapping / unwrapping `B` and `BS` will not work when used with **AWS SDK 1.x.x**
+but should automagically work with **AWS SDK 2.x.x.** although it has not been
+tested. This is related to automatic conversion of base64 done by AWS SDK
+version 2.x. See
+[AWS Upgrading Notes (1.x to 2.0)](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/upgrading.html). 
 
 
 # Change log
+
+## Version 2.1.3
+
++ Add tests to imporve coverage.
+
+Apart from added tests,2.1.3 is idential to 2.1.2
 
 ## Version 2.1.2
 

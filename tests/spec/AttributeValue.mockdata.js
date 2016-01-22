@@ -87,6 +87,14 @@ module.exports = {
     nothing1: { NULL: true }
   },
 
+  obj3: {
+    bin: new Buffer('Hi')
+  },
+
+  obj3_: {
+    bin: {B: new Buffer('Hi')}
+  },
+
   objInvalid_: { 
     key1: { ABCD: 'str' }
   },
