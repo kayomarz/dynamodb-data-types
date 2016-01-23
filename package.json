@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "A convenience utility for Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
   "devDependencies": {
@@ -10,8 +10,7 @@
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.1",
     "jasmine-node": "^1.14.5",
-    "lodash": "2.2.1",
-    "phantomjs": "^1.9.19",
+    "lodash": "4.0.0",
     "uglify-js": "^2.6.1"
   },
   "author": {
@@ -29,7 +28,6 @@
     "build-browser": "browserify browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js"
   },
   "keywords": [
-    "dynamodb",
     "dynamodb mapper",
     "dynamodb marshaller",
     "dynamodb json format",
