@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "A convenience utility for Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
   "devDependencies": {

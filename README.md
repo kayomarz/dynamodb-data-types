@@ -136,10 +136,10 @@ The file size of the browser version
 ([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
 is larger than necessary. It is generated using
 [Browserify](http://browserify.org/).  Since the node version of this library
-uses `Buffer` for recognizing with binary types, browserify pulls in Node's
-`Buffer` buffer related code, which is not required for browser side code.
-If `Buffer` code were to be excluded for the browser version its file size would
-reduce by a factor of 5.
+uses `Buffer` for recognizing binary types, browserify pulls in Node's `Buffer`
+related code, which is not required on the browser side. If `Buffer` code were
+to be excluded for the browser version its file size would reduce by a factor
+of 5.
 
 Pull requests related to this are welcome.
 
@@ -637,12 +637,12 @@ version 2.x. See
 
 # Change log
 
-## Version 2.1.2 - 2.1.5
+## Version 2.1.2 - 2.1.6
 
 + Added/fixed tests to imporve coverage.
 + Reviewed docs.
 
-Source code of versions 2.1.2 to 2.1.5 are identical to 2.1.1.
+Source code of versions 2.1.2 to 2.1.6 are identical to 2.1.1.
 
 ## Version 2.1.2
 
