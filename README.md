@@ -10,54 +10,100 @@ For example, following is some JavaScript data:
 
 ```js
 var data = { 
-  name: 'Java Script',
-  age: 18,
-  fav: {
-    food: ['Rice', 'Noodles'],
-    colors: ['Orange', 'Blue']
-  },
-  engines: [ 'Rhino', 'v8', 'SpiderMonkey', 'Carakan', 'JavaScriptCore' ]
+  fruit: 'Banana',
+  count: 12
 }
 ```
 
-To put the above JavaScript data into DynamoDB, the AWS SDK requires it
-to be mapped to the following format:
+The DynamoDB SDK requires it to be represented as:
 
-```
-{
-  "name": { "S": "Java Script" },
-  "age": { "N": "18" },
-  "fav": { 
-    "M": {
-      "food": { "SS": [ "Rice", "Noodles" ] },
-      "colors": { "SS": ["Orange", "Blue" ] }
+```json
+ {
+    "fruit": {
+      "S": "Banana"
+    },
+    "count": {
+      "N": "12"
     }
-  },
-  "engines": { "SS": ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore" ] }
-}
+  }
 ```
 
-This library maps it for you.
+This library helps doing that.
 
-Use `wrap` to map (marshall) data into the format required by DynamoDB's `AttributeValue`:
+Use `wrap` to map (marshall) data into the format required by DynamoDB's
+`AttributeValue`.
+
+Use `unwrap` to unmarshall data received from DynamoDB.
+
+## Quick Example
 
 ```js
 var attr = require('dynamodb-data-types').AttributeValue;
-attr.wrap(data);
+
+var data = {
+  id: 10,
+  food: ['Rice', 'Noodles'],
+  age: 1,
+  isThatYou: true,
+  stuff: ['Tomato', 33],
+  day: 'Tuesday'
+};
+
+// wrap: marshall data into the format required by DynamoDb.
+var dynamodbData = attr.wrap(data);
 // {
-//   "name": { "S": "Java Script" },
-//   "age": { "N": "18" },
-//   "fav": { 
-//     "M": {
-//       "food": { "SS": [ "Rice", "Noodles" ] },
-//       "colors": { "SS": ["Orange", "Blue" ] }
-//     }
+//   "id": {"N": "10"},
+//   "food": {"SS": ["Rice", "Noodles"] },
+//   "age": {"N": "1"},
+//   "isThatYou": {"BOOL": true},
+//   "stuff": {"L": [{"S": "Tomato"}, {"N": "33"}]},
+//   "day": {"S": "Tuesday"}
+// }
+
+// unwrap: unmarshall data back to the orignal.
+var unwrapped = attr.unwrap(dynamodbData);
+// {
+//   "id": 10,
+//   "food": ["Rice", "Noodles"],
+//   "age": 1,
+//   "isThatYou": true,
+//   "stuff": ["Tomato", 33],
+//   "day": "Tuesday"
+// }
+
+// Helper for working with DynamoDb update ('updateItem'):
+var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+var dataUpdates = attrUpdate
+      .put({game: "Football"})
+      .add({age: 1})
+      .delete("day");
+// {
+//   "game": {
+//     "Action": "PUT",
+//     "Value": {"S": "Football"}
 //   },
-//   "engines": { "SS": ["Rhino", "v8", "SpiderMonkey", "Carakan", "JavaScriptCore" ] }
+//   "age": {
+//     "Action": "ADD",
+//     "Value": {"N": "1"}
+//   },
+//   "day": {
+//     "Action": "DELETE"
+//   }
 // }
 ```
 
-Use `unwrap` to unmarshall data received from DynamoDB.
+The above example does not commnicate with a DynamoDb instance. It only
+demonstrates how to wrap / unwrap data.  There are more examples below.
+
+Incase you need to wrap/unwrap individual values, use `wrap1` and `unwrap1`:
+
+```js
+console.log(attr.wrap1(50));
+//{ N: '50' }
+
+console.log(attr.unwrap1({"N":"50"}));
+//50
+```
 
 ### Use with Node.js
 
@@ -72,27 +118,9 @@ Use with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/
 Download the browser version from [dist ](dist). See [examples/browser](examples/browser) and [this note](#browserNotes)
 
 
-## Quick Examples
-
-```js
-var attr = require('dynamodb-data-types').AttributeValue;
-
-var infoAttrValue = attr.wrap({ name: "Foo", age: 50 });
-console.log(JSON.stringify(infoAttrValue));
-// {"name":{"S":"Foo"},"age":{"N":"50"}}
-
-var experience = {
-  count: {"N": "4" },
-  languages: { "SS": ["Java Script", "Ruby", "GLSL", "C" ] }
-}
-console.log(JSON.stringify(attr.unwrap(experience)));
-// {"count":4,"languages":["Java Script","Ruby","GLSL","C"]}
-```
-
 <a name="browserNotes"></a>
 
 ## Notes for use in the browser
-
 
 The browser version of this library (created using
 [browserify](http://browserify.org/)) has not been tested.
@@ -106,11 +134,12 @@ The browser version is available from version `2.1.2` onwards.
 
 The file size of the browser version
 ([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
-is much larger than what is should be. It is generated using
-[Browserify](http://browserify.org/).  Since the node version of the library
-uses `Buffer` for dealing with binary types, browserify inlcudes `Buffer`
-related, which should not be needed on the browser side. If `Buffer` code were
-to be excluded for the browser version, file size would reduce by a factor of 5.
+is larger than necessary. It is generated using
+[Browserify](http://browserify.org/).  Since the node version of this library
+uses `Buffer` for recognizing with binary types, browserify pulls in Node's
+`Buffer` buffer related code, which is not required for browser side code.
+If `Buffer` code were to be excluded for the browser version its file size would
+reduce by a factor of 5.
 
 Pull requests related to this are welcome.
 
@@ -152,62 +181,9 @@ DynamoDb-Data-Types supports:
  + S
  + SS
 
-## wrapping data
+## preserveArrays
 
-Its trivial to detect `N`, `NS`, `S`, `SS`, `NULL` and `BOOL`.  The other types
-`M`, `L`, `B`, `BS` are not difficult but need some explaining.
-
-For any a given value `val`, `wrap()` detects the AWS Data types as follows:
-
-### BOOL, NULL, N, S
-
-How `wrap()` detects them (psuedo-code):
-
-    IF val is typeof boolean
-        THEN detect as type BOOL
-    ELSE IF val is null
-        THEN detect as type NULL
-    ELSE IF val is typeof number or if val instanceof Number
-        THEN detect as type N
-    ELSE IF val is typeof string or if val is instanceof String
-        THEN detect as type S
-
-### B
-
-How `wrap()` detects type `B` (psuedo-code):
-
-    IF val is instanceof Buffer
-        THEN detect as type B
-
-There maybe other types which should get detected as `B`. Please let me know if
-you have suggestions.
-
-### M
-
-How `wrap()` detects type `M` (psuedo-code):
-
-    IF (val is none of: BOOL, NULL, N, S, B)
-        AND (typeof val === 'object')
-            THEN detect as type M
-    ELSE
-        wrap() ignores val
-
-### NS, SS, BS, L
-
-When `wrap()` sees an Array, here's what it does (psuedo-code):
-
-    IF val is an Array
-        IF (every element in Array is type N)
-            THEN detect as type NS
-        ELSE IF (every element in Array is type S)
-            THEN detect as type SS
-        ELSE IF (every element in Array is type B)
-            THEN detect as type BS
-        ELSE 
-            detect as type L
-
-
-## What's new in version 2.1.0
+(New in version 2.1.0)
 
 Consider the following:
 
@@ -232,7 +208,9 @@ Starting with version **2.1.0**, you can do:
 Read the documentation and examples for more.
 
 
-## What's new in version 2.0.0
+## Support for `BOOL`, `NULL`, `M`, `L`
+
+(new in version 2.0.0)
 
 DynamoDb-Data-Types version 2.0.0 introduces support for **AttributeValue**
 types `BOOL`, `NULL`, `M`, `L`.
@@ -305,7 +283,63 @@ DynamoDb-Data-Types uses `L` to represent mixed arrays. Consider the following d
 }
 ```
 
-## Documentation
+## Detecting data types
+
+It is straightforward to detect types `N`, `NS`, `S`, `SS`, `NULL` and `BOOL`.
+To detect other types - `M`, `L`, `B`, `BS` - simple rules are applied as
+explained below.
+
+For any a given value `val`, `wrap()` detects the AWS Data types as follows:
+
+### BOOL, NULL, N, S
+
+How `wrap()` detects them (psuedo-code):
+
+    IF val is typeof boolean
+        THEN detect as type BOOL
+    ELSE IF val is null
+        THEN detect as type NULL
+    ELSE IF val is typeof number or if val instanceof Number
+        THEN detect as type N
+    ELSE IF val is typeof string or if val is instanceof String
+        THEN detect as type S
+
+### B
+
+How `wrap()` detects type `B` (psuedo-code):
+
+    IF val is instanceof Buffer
+        THEN detect as type B
+
+There maybe other types which should get detected as `B`. Please let me know if
+you have suggestions.
+
+### M
+
+How `wrap()` detects type `M` (psuedo-code):
+
+    IF (val is none of: BOOL, NULL, N, S, B)
+        AND (typeof val === 'object')
+            THEN detect as type M
+    ELSE
+        wrap() ignores val
+
+### NS, SS, BS, L
+
+When `wrap()` sees an Array, here's what it does (psuedo-code):
+
+    IF val is an Array
+        IF (every element in Array is type N)
+            THEN detect as type NS
+        ELSE IF (every element in Array is type S)
+            THEN detect as type SS
+        ELSE IF (every element in Array is type B)
+            THEN detect as type BS
+        ELSE 
+            detect as type L
+
+
+## API - Reference documentation
 
 ### Global settings
 
@@ -603,11 +637,12 @@ version 2.x. See
 
 # Change log
 
-## Version 2.1.3
+## Version 2.1.2 - 2.1.5
 
-+ Add tests to imporve coverage.
++ Added/fixed tests to imporve coverage.
++ Reviewed docs.
 
-Apart from added tests,2.1.3 is idential to 2.1.2
+Source code of versions 2.1.2 to 2.1.5 are identical to 2.1.1.
 
 ## Version 2.1.2
 
