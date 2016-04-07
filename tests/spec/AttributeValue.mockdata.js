@@ -103,14 +103,16 @@ module.exports = {
     1.4,
     'str single',
     [1, 2, 3.1],
-    ['str1', 'str2', 'str3']
+    ['str1', 'str2', 'str3'],
+    '' // dynamo won't accept empty strings so we wrap as null
   ],
 
   singles_: [
     { N: '1.4' },
     { S: 'str single' },
     { NS: [ '1', '2', '3.1' ] },
-    { SS: [ 'str1', 'str2', 'str3' ] }
+    { SS: [ 'str1', 'str2', 'str3' ] },
+    { NULL: true }
   ]
 
 };

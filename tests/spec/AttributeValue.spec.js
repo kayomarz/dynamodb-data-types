@@ -34,6 +34,7 @@ describe("AttributeValue", function() {
     var binWrap = util.wrap(obj3).bin.B;
     expect(bufferEqual(binWrap, obj3_.bin.B)).toBe(true);
   });
+
   it("Wrap singles", function() {
     for (var i = 0; i < singles.length; i++)
       expect(_.isEqual(util.wrap1(singles[i]), singles_[i])).toBe(true);
