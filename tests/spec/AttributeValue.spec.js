@@ -13,6 +13,8 @@ describe("AttributeValue", function() {
   var objInvalid_ = mock.objInvalid_;
   var singles = mock.singles;
   var singles_ = mock.singles_;
+  var illegalValues = mock.illegalValues;
+  var illegalValues_ = mock.illegalValues_;
 
   // for (var i = 0; i < singles.length; i++)
   //   console.log(util.wrap1(singles[i]));
@@ -38,6 +40,11 @@ describe("AttributeValue", function() {
   it("Wrap singles", function() {
     for (var i = 0; i < singles.length; i++)
       expect(_.isEqual(util.wrap1(singles[i]), singles_[i])).toBe(true);
+  });
+
+  it("Wrap values outside AWS spec", function() {
+    for (var i = 0; i < illegalValues.length; i++)
+      expect(_.isEqual(util.wrap1(illegalValues[i]), illegalValues_[i])).toBe(true);
   });
 
   it("Wrap String object", function() {
