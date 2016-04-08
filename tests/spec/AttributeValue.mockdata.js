@@ -111,6 +111,14 @@ module.exports = {
     { S: 'str single' },
     { NS: [ '1', '2', '3.1' ] },
     { SS: [ 'str1', 'str2', 'str3' ] }
+  ],
+
+  illegalValues: [
+    '' // dynamo won't accept empty strings so we wrap as null
+  ],
+
+  illegalValues_: [
+    { NULL: true }
   ]
 
 };
