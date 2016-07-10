@@ -115,7 +115,9 @@ Use with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
 
 Use with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)
 
-Download the browser version from [dist ](dist). See [examples/browser](examples/browser) and [this note](#browserNotes)
+Download the browser version from [dist](dist).
+
+See [examples/browser](examples/browser) and [this note](#browserNotes)
 
 
 <a name="browserNotes"></a>
@@ -123,8 +125,7 @@ Download the browser version from [dist ](dist). See [examples/browser](examples
 ## Notes for use in the browser
 
 The browser version of this library (created using
-[browserify](http://browserify.org/)) has not been tested.
-It is written using basic JavaScript and should work in most browsers. Pull
+[browserify](http://browserify.org/)) has not been tested. Pull
 requests to add tests for the browser are welcome (maybe using phantom.js?).
 
 The browser version is available from version `2.1.2` onwards.
@@ -132,16 +133,23 @@ The browser version is available from version `2.1.2` onwards.
 
 ### File size of the browser version
 
-The file size of the browser version
-([dist/dynamodb-data-types.js ](dist/dynamodb-data-types.js))
-is larger than necessary. It is generated using
-[Browserify](http://browserify.org/).  Since the node version of this library
-uses `Buffer` for recognizing binary types, browserify pulls in Node's `Buffer`
-related code, which is not required on the browser side. If `Buffer` code were
-to be excluded for the browser version its file size would reduce by a factor
-of 5.
+The browser version of this library is generated using
+[Browserify](http://browserify.org/).
 
-Pull requests related to this are welcome.
+For versions `3.0.0` onwards of this library, `browserify` is made to exclude
+`Buffer` related code. It is less likely for a browser side application to make
+use of `Buffer` as a binary type.
+
+If you don't need detailed info about this, skip the next paragraph.
+
+This library uses node's [Buffer](https://nodejs.org/api/buffer.html) for
+recognizing binary types. By default, browserify, includes external `Buffer`
+related code, causing the filesize of the browser dist to become 5.4
+times larger (6x if you compare `min.js` files). Version `3.0.0` onwards,
+browserify is made to exclude `Buffer` related code because it seems less
+likely for browser side code to detect `Buffer` as a binary type. Incase your
+browser application does require `Buffer` you might try using
+[dist-with-buffer](dist-with-buffer)
 
 
 ## Examples
@@ -636,6 +644,11 @@ version 2.x. See
 
 
 # Change log
+
+## Version 3.0.0
+
++ Only for browser versions of this library ([dist](dist) `Buffer` related code
+  is excluded. 
 
 ## Version 2.1.2 - 2.1.6
 
