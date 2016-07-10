@@ -1,6 +1,5 @@
 var util = require('../..').AttributeValue;
 var errs = require('../..').errs;
-var reconcile = require('../..').reconcile;
 var mock = require('./AttributeValue.mockdata');
 var _ = require('lodash');
 
@@ -26,7 +25,7 @@ describe("AttributeValue", function() {
   function bufferEqual(a, b){
     return a.toString() === b.toString();
   }
-
+  
   it("Sanity check - ensure mock objects are ok", function() {
     expect(_.isEqual(obj1, {})).toBe(false);
     expect(obj1).not.toBe(undefined);
@@ -43,11 +42,9 @@ describe("AttributeValue", function() {
       expect(_.isEqual(util.wrap1(singles[i]), singles_[i])).toBe(true);
   });
 
-  it("Wrap illegal values outside AWS spec", function() {
-    var opts = { reconcileFn: reconcile };
-    for (var i = 0; i < illegalValues.length; i++) {
-      expect(_.isEqual(util.wrap1(illegalValues[i], opts), illegalValues_[i])).toBe(true);
-    }
+  it("Wrap values outside AWS spec", function() {
+    for (var i = 0; i < illegalValues.length; i++)
+      expect(_.isEqual(util.wrap1(illegalValues[i]), illegalValues_[i])).toBe(true);
   });
 
   it("Wrap String object", function() {
