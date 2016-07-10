@@ -3,14 +3,14 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDb data types. It maps (marshalls)
-JavaScript data into the format required by DynamoDb.
+This utility helps represent AWS DynamoDb data types. It converts
+JavaScript objects into objects as required by DynamoDb.
 
 For example, following is some JavaScript data:
 
 ```js
-var data = { 
-  fruit: 'Banana',
+var data = {
+  fruit: 'Apple',
   count: 12
 }
 ```
@@ -20,7 +20,7 @@ The DynamoDB SDK requires it to be represented as:
 ```json
  {
     "fruit": {
-      "S": "Banana"
+      "S": "Apple"
     },
     "count": {
       "N": "12"
@@ -28,12 +28,7 @@ The DynamoDB SDK requires it to be represented as:
   }
 ```
 
-This library helps doing that.
-
-Use `wrap` to map (marshall) data into the format required by DynamoDB's
-`AttributeValue`.
-
-Use `unwrap` to unmarshall data received from DynamoDB.
+Use `wrap` and `unwrap` to convert objects form one form into the other.
 
 ## Quick Example
 
@@ -647,8 +642,10 @@ version 2.x. See
 
 ## Version 3.0.0
 
-+ Only for browser versions of this library ([dist](dist) `Buffer` related code
-  is excluded. 
++ For Node users, version `3.0.0` is identical to `2.1.6`
++ For browser side version of this library
+  - In version `3.0.0` onwards `Buffer` related code has been excluded.
+  - Filesize of the `min.js` version is now `6.5KB`. Earlier it was `40KB`.
 
 ## Version 2.1.2 - 2.1.6
 
