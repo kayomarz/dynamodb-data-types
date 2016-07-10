@@ -6,7 +6,7 @@
   "devDependencies": {
     "async": "0.2.9",
     "aws-sdk": "^2.1.10",
-    "browserify": "^12.0.1",
+    "browserify": "^12.0.2",
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.1",
     "jasmine-node": "^1.14.5",
@@ -22,10 +22,14 @@
     "url": "https://github.com/kayomarz/dynamodb-data-types.git"
   },
   "scripts": {
-    "test": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
+    "test": "npm run test_ && npm run test-preserve-arrays",
+    "test_": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
     "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build-browser": "browserify browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js"
+
+    "build": "npm run build-browser && npm run build-browser-ignore-buffer",
+    "build-browser": "browserify browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js",
+    "build-browser-ignore-buffer": "browserify --ignore buffer browser.js > dist-ignore-buffer/dynamodb-data-types.js && uglifyjs dist-ignore-buffer/dynamodb-data-types.js --source-map dist-ignore-buffer/dynamodb-data-types.min.map -o dist-ignore-buffer/dynamodb-data-types.min.js"
   },
   "keywords": [
     "dynamodb mapper",
