@@ -87,6 +87,15 @@ module.exports = {
     nothing1: { NULL: true }
   },
 
+  obj2_lowercase_: {
+    key1: { s: 'str' },
+    key1a: { ss: [ 'str1', 'str2', 'str3' ] },
+    key2: { n: '1' },
+    key2a: { ns: [ '1.1', '1.2', '1.3' ] },
+
+    nothing1: { null: true }
+  },
+
   obj3: {
     bin: new Buffer('Hi')
   },
@@ -95,7 +104,11 @@ module.exports = {
     bin: {B: new Buffer('Hi')}
   },
 
-  objInvalid_: { 
+  obj3_lowercase_: {
+    bin: {b: new Buffer('Hi')}
+  },
+
+  objInvalid_: {
     key1: { ABCD: 'str' }
   },
 

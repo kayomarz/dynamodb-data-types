@@ -8,8 +8,10 @@ describe("AttributeValue", function() {
   var obj1_ = mock.obj1_;
   var obj2 = mock.obj2;
   var obj2_ = mock.obj2_;
+  var obj2_lowercase_ = mock.obj2_lowercase_;
   var obj3 = mock.obj3;
   var obj3_ = mock.obj3_;
+  var obj3_lowercase_ = mock.obj3_lowercase_;
   var objInvalid_ = mock.objInvalid_;
   var singles = mock.singles;
   var singles_ = mock.singles_;
@@ -56,6 +58,13 @@ describe("AttributeValue", function() {
     expect(_.isEqual(util.unwrap(obj2_), obj2)).toBe(true);
 
     var binUnwrap = util.unwrap(obj3_).bin;
+    expect(bufferEqual(binUnwrap, obj3.bin)).toBe(true);
+  });
+
+  it("Unwrap lowercase type strings", function() {
+    expect(_.isEqual(util.unwrap(obj2_lowercase_), obj2)).toBe(true);
+
+    var binUnwrap = util.unwrap(obj3_lowercase_).bin;
     expect(bufferEqual(binUnwrap, obj3.bin)).toBe(true);
   });
 
