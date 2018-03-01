@@ -106,6 +106,16 @@ Use with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
 
     npm install dynamodb-data-types
 
+
+### Use in cli
+
+Use with the cli for quick utility
+
+    npm install -g dynamodb-data-types
+    dynamo-dt-attr-wrap '{"hello":"world"}'
+    dynamo-dt-attr-unwrap '{"hello": {"S": "world"}}'
+
+
 ### Use in the browser
 
 Use with [AWS SDK for JS in the Browser](https://aws.amazon.com/sdk-for-browser/)

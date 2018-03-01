@@ -3,6 +3,10 @@
   "version": "3.0.0",
   "description": "A utility to help represent Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
+  "bin": {
+    "dynamo-dt-attr-unwrap": "./bin/unwrap.js",
+    "dynamo-dt-attr-wrap": "./bin/wrap.js"
+  },
   "devDependencies": {
     "async": "0.2.9",
     "aws-sdk": "^2.1.10",
@@ -26,10 +30,11 @@
     "test_": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
     "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-
     "build": "npm run build-browser && npm run build-browser-with-buffer",
     "build-browser": "browserify --ignore buffer browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js",
-    "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map dist-with-buffer/dynamodb-data-types.min.map -o dist-with-buffer/dynamodb-data-types.min.js"
+    "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map dist-with-buffer/dynamodb-data-types.min.map -o dist-with-buffer/dynamodb-data-types.min.js",
+    "dynamo-dt-attr-unwrap": "./bin/unwrap.js",
+    "dynamo-dt-attr-wrap": "./bin/wrap.js"
   },
   "keywords": [
     "dynamodb data types",
