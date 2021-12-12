@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDb data types. It converts
-JavaScript objects into objects as required by DynamoDb.
+This utility helps represent AWS DynamoDB data types. It converts
+JavaScript objects into objects as required by DynamoDB.
 
 For example, following is some JavaScript data:
 
@@ -44,7 +44,7 @@ var data = {
   day: 'Tuesday'
 };
 
-// wrap: marshall data into the format required by DynamoDb.
+// wrap: marshall data into the format required by DynamoDB.
 var dynamodbData = attr.wrap(data);
 // {
 //   "id": {"N": "10"},
@@ -66,7 +66,7 @@ var unwrapped = attr.unwrap(dynamodbData);
 //   "day": "Tuesday"
 // }
 
-// Helper for working with DynamoDb update ('updateItem'):
+// Helper for working with DynamoDB update ('updateItem'):
 var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 var dataUpdates = attrUpdate
       .put({game: "Football"})
@@ -87,7 +87,7 @@ var dataUpdates = attrUpdate
 // }
 ```
 
-The above example does not commnicate with a DynamoDb instance. It only
+The above example does not commnicate with a DynamoDB instance. It only
 demonstrates how to wrap / unwrap data.  There are more examples below.
 
 Incase you need to wrap/unwrap individual values, use `wrap1` and `unwrap1`:
@@ -405,7 +405,7 @@ Wrap (marshall) JavaScript data into DynamoDB's AttributeValue data type.
 
  * @param {Object} item The object to wrap.
  * @param {Object} options
- * @return {Object} A DynamoDb AttributeValue.
+ * @return {Object} A DynamoDB AttributeValue.
 
 ##### Options
 
@@ -455,7 +455,7 @@ JavaScript types.
 
 #### Arguments
 
- * @param {Object} attributeValue The DynamoDb AttributeValue to unwrap.
+ * @param {Object} attributeValue The DynamoDB AttributeValue to unwrap.
  * @return {Object} Unwrapped object with properties.
 
 __Example__
@@ -554,7 +554,7 @@ This function can be chained with further calls to `add`, `put` or `delete`.
 
  * @param {Object|String|Array} attrs If this argument is an an Object,the
    Object's property values must be an array, containing elements to be removed,
-   as required by DynamoDb SDK.  If this argument is a String, it should contain
+   as required by DynamoDB SDK.  If this argument is a String, it should contain
    comma seperated names of properties to be deleted.  If its an Array, each
    array element should be a property  name to be deleted.
 
@@ -649,6 +649,20 @@ version 2.x. See
 
 
 # Change log
+
+## Version 3.0.2
+
+    Update the `lodash` version (used for tests).
+
+    Functionally, this version is identical to the previous 3.0.1
+
+## Version 3.0.1
+
+    Expose as CLI utility thanks to 'github.com/bneigher'.
+    
+    Functionally, apart from the CLI utility, this version is identical to the
+    previous 3.0.0
+
 
 ## Version 3.0.0
 

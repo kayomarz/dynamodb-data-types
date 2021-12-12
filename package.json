@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A utility to help represent Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
   "bin": {
@@ -9,13 +9,13 @@
   },
   "devDependencies": {
     "async": "0.2.9",
-    "aws-sdk": "^2.1.10",
-    "browserify": "^12.0.2",
-    "coveralls": "^2.11.6",
-    "istanbul": "^0.4.1",
-    "jasmine-node": "^1.14.5",
-    "lodash": "4.0.0",
-    "uglify-js": "^2.6.1"
+    "aws-sdk": "2.1.10",
+    "browserify": "12.0.2",
+    "coveralls": "2.11.6",
+    "istanbul": "0.4.1",
+    "jasmine-node": "1.14.5",
+    "lodash": "4.17.21",
+    "uglify-js": "2.6.1"
   },
   "author": {
     "name": "Kayomarz",
