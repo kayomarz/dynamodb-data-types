@@ -3,12 +3,12 @@
  * $ node 04-explicit-preserve-arrays
  */
 
-var ddt = require('dynamodb-data-types');
+const ddt = require('dynamodb-data-types');
 ddt.preserveArrays();
-var attr = ddt.AttributeValue;
-var attrUpdate = ddt.AttributeValueUpdate;
+const attr = ddt.AttributeValue;
+const attrUpdate = ddt.AttributeValueUpdate;
 
-var data = {
+const data = {
   alphabets: ['c', 'a', 'b']
 };
 
@@ -18,7 +18,7 @@ console.log("Put data without explicit type:\n", JSON.stringify(attr.wrap(data))
 //  {"alphabets":{"L":[{"S":"c"},{"S":"a"},{"S":"b"}]}}
 // Note: Without the use of preservArrays(), it would be:
 
-var opts_SS = { types: { alphabets: 'SS' } };
+const opts_SS = { types: { alphabets: 'SS' } };
 // ie. Override the use of preserveArrays() by passing opts to wrap()
 console.log("Put data with explicity type 'SS':\n", JSON.stringify(attr.wrap(data, opts_SS)));
 // Put data with explicity type 'SS':

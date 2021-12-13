@@ -7,37 +7,38 @@
  * instance, you will to setup a DynamoDb table with name and key mentioned
  * below. */
 
-var ddt = require('dynamodb-data-types');
-var attr = ddt.AttributeValue;
-var attrUpdate = ddt.AttributeValueUpdate;
+const ddt = require('dynamodb-data-types');
+const attr = ddt.AttributeValue;
+const attrUpdate = ddt.AttributeValueUpdate;
 
-var USE_LIVE_DB = false;
-var TABLE_NAME = "TestTableForDynamoDbDataTypes"; // Hash key: `id' (Number).
-var dynamo = dynamoDb(USE_LIVE_DB);
+const USE_LIVE_DB = false;
+const REGION = 'us-east-1';
+const TABLE_NAME = "TestTableForDynamoDbDataTypes"; // Hash key: `id' (Number).
+const dynamo = dynamoDb(USE_LIVE_DB);
 
 function putData(data, id, data_opts, callback) {
   data.id = id;
-  var opts = {
+  const opts = {
     TableName: TABLE_NAME,
     Item: attr.wrap(data, data_opts)
   };
 
-  dynamo.putItem(opts, function(err){ 
+  dynamo.putItem(opts, function(err){
     if (err)
-      console.error("put error:", err); 
+      console.error("put error:", err);
     callback(err);
   });
 }
 
 function getData(id, callback) {
-  var opts = {
+  const opts = {
     TableName: TABLE_NAME,
     Key: attr.wrap({id: id})
   };
 
-  dynamo.getItem(opts, function(err, data){ 
+  dynamo.getItem(opts, function(err, data){
     if (err)
-      console.error("put error:", err); 
+      console.error("put error:", err);
     else
       callback(null, data.Item);
   });
@@ -48,7 +49,7 @@ function dynamoDb(useLiveDb) {
   if (!useLiveDb) {
     return {
       putItem: function dummyPut(){},
-      getItem: function dummyGet(){ 
+      getItem: function dummyGet(){
 	console.log('To read data from DynamoDB, set USE_LIVE_DB=true');
       }
     };
@@ -57,21 +58,21 @@ function dynamoDb(useLiveDb) {
   /* If using a live db, you need to create the necessary table and key.
    * Note: As per Amazon's recommended configuration, `accessKeyId' and
    * `secretAccessKey' are read from environment variables
-   * `AWS_SECRET_ACCESS_KEY' and `AWS_ACCESS_KEY_ID'. 
+   * `AWS_SECRET_ACCESS_KEY' and `AWS_ACCESS_KEY_ID'.
    */
-  
-  var AWS = require('aws-sdk');
-  AWS.config.update({region: 'us-east-1'});
-  var dynamo = new AWS.DynamoDB({apiVersion: '2013-10-16'});
+
+  const AWS = require('aws-sdk');
+  AWS.config.update({region: REGION});
+  const dynamo = new AWS.DynamoDB({apiVersion: '2013-10-16'});
 
   return dynamo;
 }
 
-var data = {
+const data = {
   alphabets: ['c', 'a', 'b']
 };
 
-var opts = { types: { alphabets: 'L' } };
+const opts = { types: { alphabets: 'L' } };
 
 console.log("Put data without explicit type:\n", JSON.stringify(attr.wrap(data)));
 // Put data without explicit type:
@@ -83,7 +84,7 @@ console.log("Put data with explicity type 'L':\n", JSON.stringify(attr.wrap(data
 
 
 
-var dbId = 3;
+const dbId = 3;
 
 putData(data, dbId, opts, function(err) {
   console.log('put alphabets:', data.alphabets);

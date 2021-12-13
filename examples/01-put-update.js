@@ -8,37 +8,38 @@
  * instance, you will to setup a DynamoDb table with name and key mentioned
  * below. */
 
-var attr = require('dynamodb-data-types').AttributeValue;
-var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+const attr = require('dynamodb-data-types').AttributeValue;
+const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 
-var USE_LIVE_DB = false;
-var TABLE_NAME = "TestTableForDynamoDbDataTypes"; // Hash key: `id' (Number).
-var dynamo = dynamoDb(USE_LIVE_DB);
+const USE_LIVE_DB = false;
+const REGION = 'us-east-1';
+const TABLE_NAME = "TestTableForDynamoDbDataTypes"; // Hash key: `id' (Number).
+const dynamo = dynamoDb(USE_LIVE_DB);
 
 function putPerson(person) {
-  var opts = {
+  const opts = {
     TableName: TABLE_NAME,
     Item: attr.wrap(person)
   };
 
   console.log("Put person:\n", JSON.stringify(opts, undefined, 2));
-  dynamo.putItem(opts, function(err){ 
+  dynamo.putItem(opts, function(err){
     if (err)
-      console.error("put error:", err); 
+      console.error("put error:", err);
   });
 }
 
 function updatePerson(id, updates) {
-  var opts = {
+  const opts = {
     TableName: TABLE_NAME,
     Key: attr.wrap({id: id}),
     AttributeUpdates: updates
   };
 
   console.log("Update Person:\n", JSON.stringify(opts, undefined, 2));
-  dynamo.updateItem(opts, function(err){ 
+  dynamo.updateItem(opts, function(err){
     if (err)
-      console.error("update error:", err); 
+      console.error("update error:", err);
   });
 }
 
@@ -54,17 +55,17 @@ function dynamoDb(useLiveDb) {
   /* If using a live db, you need to create the necessary table and key.
    * Note: As per Amazon's recommended configuration, `accessKeyId' and
    * `secretAccessKey' are read from environment variables
-   * `AWS_SECRET_ACCESS_KEY' and `AWS_ACCESS_KEY_ID'. 
+   * `AWS_SECRET_ACCESS_KEY' and `AWS_ACCESS_KEY_ID'.
    */
-  
-  var AWS = require('aws-sdk');
-  AWS.config.update({region: 'us-east-1'});
-  var dynamo = new AWS.DynamoDB({apiVersion: '2013-10-16'});
+
+  const AWS = require('aws-sdk');
+  AWS.config.update({region: REGION});
+  const dynamo = new AWS.DynamoDB({apiVersion: '2013-10-16'});
 
   return dynamo;
 }
 
-var personInfo = {
+const personInfo = {
   id: 1,
   name: "name-1",
   nickname: "nick",
@@ -76,7 +77,7 @@ var personInfo = {
   languages: ["js", "c", "ruby"]
 };
 
-var personUpdates = attrUpdate
+const personUpdates = attrUpdate
       .put({name: "name-2"})
       .add({age: 1})
       .add({weight: -3})
@@ -87,10 +88,9 @@ var personUpdates = attrUpdate
 
 // Note: The action to delete favColor blue does not appear in
 // `AttributeUpdates' structure because it gets overwritten by the next action
-// to add favColor orange. 
+// to add favColor orange.
 
-
-var action = process.argv[2];
+const action = process.argv[2];
 if (!(action === 'update' || action === 'put')) {
   console.log(
     'no action specified\n' +

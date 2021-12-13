@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A utility to help represent Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
   "bin": {

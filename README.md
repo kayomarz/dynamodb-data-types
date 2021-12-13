@@ -9,7 +9,7 @@ JavaScript objects into objects as required by DynamoDB.
 For example, following is some JavaScript data:
 
 ```js
-var data = {
+const data = {
   fruit: 'Apple',
   count: 12
 }
@@ -33,9 +33,9 @@ Use `wrap` and `unwrap` to convert objects form one form into the other.
 ## Quick Example
 
 ```js
-var attr = require('dynamodb-data-types').AttributeValue;
+const attr = require('dynamodb-data-types').AttributeValue;
 
-var data = {
+const data = {
   id: 10,
   food: ['Rice', 'Noodles'],
   age: 1,
@@ -45,7 +45,7 @@ var data = {
 };
 
 // wrap: marshall data into the format required by DynamoDB.
-var dynamodbData = attr.wrap(data);
+const dynamodbData = attr.wrap(data);
 // {
 //   "id": {"N": "10"},
 //   "food": {"SS": ["Rice", "Noodles"] },
@@ -56,7 +56,7 @@ var dynamodbData = attr.wrap(data);
 // }
 
 // unwrap: unmarshall data back to the orignal.
-var unwrapped = attr.unwrap(dynamodbData);
+const unwrapped = attr.unwrap(dynamodbData);
 // {
 //   "id": 10,
 //   "food": ["Rice", "Noodles"],
@@ -67,8 +67,8 @@ var unwrapped = attr.unwrap(dynamodbData);
 // }
 
 // Helper for working with DynamoDB update ('updateItem'):
-var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
-var dataUpdates = attrUpdate
+const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+const dataUpdates = attrUpdate
       .put({game: "Football"})
       .add({age: 1})
       .delete("day");
@@ -202,7 +202,7 @@ Consider the following:
 
 ```javascript
 
-var data = {
+const data = {
   alphabets: ['c', 'a', 'b', 'c']
 };
 
@@ -234,7 +234,7 @@ types `BOOL`, `NULL`, `M`, `L`.
 DynamoDb-Data-Types uses `M` to nest objects. Consider the following data:
 
 ```js
-var data = {
+const data = {
   polygon: {
     quadrilateral: {
         sides: 4
@@ -364,7 +364,7 @@ are given type `L`. In other words, arrays will no longer get detected as `NS`,
 
 This is useful to preserve duplicates and the order of elements in arrays.
 
-    var ddt = require('dynamodb-data-types');
+    const ddt = require('dynamodb-data-types');
     ddt.preserveArrays();
 
 This function is designed to be called once - It has a global effect.
@@ -435,7 +435,7 @@ Example of an options object:
 __Example__
 
 ```javascript
-var attr = require('dynamodb-data-types').AttributeValue;
+const attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap({name: "Foo", age: 50});
 // {"name":{"S":"Foo"},"age":{"N":"50"}}
 
@@ -461,7 +461,7 @@ JavaScript types.
 __Example__
 
 ```javascript
-var attr = require('dynamodb-data-types').AttributeValue;
+const attr = require('dynamodb-data-types').AttributeValue;
 attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
 // {name: "Foo", age: 50}
 ```
@@ -481,7 +481,7 @@ Wrap a single value into DynamoDB's AttributeValue.
 __Example__
 
 ```javascript
-var attr = require('dynamodb-data-types').AttributeValue;
+const attr = require('dynamodb-data-types').AttributeValue;
 attr.wrap1(50);    // {"N":"50"}
 attr.wrap1("50");  // {"S":"50"}
 ```
@@ -501,7 +501,7 @@ JavaScript type.
 __Example__
 
 ```javascript
-var attr = require('dynamodb-data-types').AttributeValue;
+const attr = require('dynamodb-data-types').AttributeValue;
 attr.unwrap1({"N":"50"});  // 50
 attr.unwrap1({"S":"50"});  // "50"
 
@@ -566,9 +566,9 @@ See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 ### Example: `put`, `add`, `delete`
 
 ```js
-var attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
+const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 
-var dataUpdate = attrUpdate
+const dataUpdate = attrUpdate
     .put({name: "foo"})
     .add({age: 1})
     .delete("height, nickname")
@@ -596,7 +596,7 @@ overlook this when chaining `add`, `put` and `delete` updates.
 For example, following is an attribute `colors` of type `SS` (String set)
 
 ```js
-var item = {
+const item = {
     id: ...,
     colors: ["red", "blue"]
 }
@@ -650,18 +650,24 @@ version 2.x. See
 
 # Change log
 
+## Version 3.0.3
+
++ Update code examples and docs
+
+Functionally, this version is identical to the previous 3.0.2
+
 ## Version 3.0.2
 
-    Update the `lodash` version (used for tests).
++ Update the `lodash` version (used for tests).
 
-    Functionally, this version is identical to the previous 3.0.1
+Functionally, this version is identical to the previous 3.0.1
 
 ## Version 3.0.1
 
-    Expose as CLI utility thanks to 'github.com/bneigher'.
++ Expose as a CLI utility thanks to @bneigher (github.com/bneigher).
     
-    Functionally, apart from the CLI utility, this version is identical to the
-    previous 3.0.0
+Functionally, apart from the CLI utility, this version is identical to the
+previous 3.0.0
 
 
 ## Version 3.0.0
