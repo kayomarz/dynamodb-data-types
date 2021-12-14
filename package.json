@@ -8,12 +8,16 @@
     "dynamo-dt-attr-wrap": "./bin/wrap.js"
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.44.0",
     "async": "0.2.9",
     "aws-sdk": "2.1.10",
     "browserify": "12.0.2",
-    "coveralls": "2.11.6",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
     "istanbul": "0.4.1",
     "jasmine-node": "1.14.5",
+    "jest": "^27.2.4",
     "lodash": "4.17.21",
     "uglify-js": "2.6.1"
   },
@@ -29,7 +33,6 @@
     "test": "npm run test_ && npm run test-preserve-arrays",
     "test_": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
-    "coveralls": "istanbul report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "build": "npm run build-browser && npm run build-browser-with-buffer",
     "build-browser": "browserify --ignore buffer browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js",
     "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map dist-with-buffer/dynamodb-data-types.min.map -o dist-with-buffer/dynamodb-data-types.min.js",
@@ -38,6 +41,7 @@
   },
   "keywords": [
     "dynamodb data types",
+    "dynamodb marshall",
     "dynamodb format attributes",
     "dynamodb mapper",
     "amazon",
