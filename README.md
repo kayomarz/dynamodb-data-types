@@ -7,10 +7,10 @@ This is a utility library to help represent AWS DynamoDB data types.
 
 Version 4.0.0 (currently in Beta) of this library helps generate
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
-[updateExpression](#updateExpression) below.
+[updateExpr](#updateExpr) below.
  
 
-For example, given the below JavaScript data:
+Given the below JavaScript data:
 
 ```js
 const data = {
@@ -69,9 +69,9 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
  * } */
 ```
 
-<a name="updateExpression"></a>
+<a name="updateExpr"></a>
 
-### `updateExpr` - for DynamoDB `UpdateExpression`
+### `updateExpr()` - for DynamoDB `UpdateExpression`
 
 
 `dynamodb-data-types attrUpdate` helps generate DynamoDB `UpdateExpression`
@@ -79,7 +79,12 @@ using `ExpressionAttributeValues`. It avoids conflict with [keywords reserved by
 DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html)
 by using DynamoDB `ExpressionAttributeNames`.
 
+To update a record, DynamoDB `UpdateExpression` defines four clauses `SET`,
+`REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`.
 To know more, refer to [AWS docs - Update Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
+
+**Note:** Being a utility, this library only helps build structures required by
+DynamoDB.
 
 ```js
 ```

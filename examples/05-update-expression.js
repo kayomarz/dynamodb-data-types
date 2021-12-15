@@ -1,4 +1,5 @@
-/* This example demonstrates use of AttributeValue and AttributeValueUpdate.
+/* This example demonstrates use of UpdateExpression, ExpressionAttributeValues
+ * and ExpressionAttributeNames.
  * Run this example on the command line as follows:
  * $ node 05-update-expression.js put
  * $ node 05-update-expression.js update
@@ -33,6 +34,7 @@ async function putPerson() {
     height: 5, // Feet
     favColors: ["red", "green", "blue"],
     favNumbers: [1, 3, 8],
+    year: [2000, 2004, 2008],
     languages: ["js", "c", "ruby"]
   };
 
@@ -55,12 +57,13 @@ async function putPerson() {
 
 async function updatePerson() {
   const personUpdates = updateExpr()
-  // .set({ name: "name-2" })
+        .set({ name: "name-2" })
         .add({ age: 1 })
         .add({ weight: -3 })
         .remove("height, nickname, languages")
         .add({ favColors: ["orange"] })
         .delete({ favNumbers: [3] })
+        .delete({ year: [2008] })
         .expr();
 
   const params = {
