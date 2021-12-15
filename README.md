@@ -93,9 +93,8 @@ for more.
 
 `dynamodb-data-types` *updateExpr()* generates DynamoDB `UpdateExpression`. It
 avoids conflict with [keywords reserved by
-DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html).
-
-The below quick example uses the conflicting keyword `year`.
+DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html). To
+demonstrate this, the below example uses the conflicting keyword `year`.
 
 ```js
 const { wrap } = require("dynamodb-data-types").AttributeValue;
@@ -752,7 +751,7 @@ version 2.x. See
 
 ## Version 4.0.0
 
-+ Support DynamoDB `UpdateExpression` which also uses
++ Introduce support for DynamoDB `UpdateExpression` which also uses
   `ExpressionAttributeValues` and `ExpressionAttributeNames`.
 
 ## Version 3.0.3
