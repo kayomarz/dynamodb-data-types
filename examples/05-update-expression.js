@@ -61,7 +61,7 @@ async function updatePerson() {
         .remove("height, nickname, languages")
         .add({ favColors: ["orange"] })
         .delete({ favNumbers: [3] })
-        .done();
+        .expr();
 
   const params = {
     TableName,

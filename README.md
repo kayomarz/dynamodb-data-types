@@ -21,19 +21,15 @@ const data = {
 The DynamoDB SDK requires it to be represented as:
 
 ```json
- {
-    "fruit": {
-      "S": "Apple"
-    },
-    "count": {
-      "N": "12"
-    }
-  }
+{
+  "fruit": { "S": "Apple" },
+  "count": { "N": "12" }
+}
 ```
 
-Use `wrap` and `unwrap` to convert objects form one form into the other.
+## Getting Started (Quick Example)
 
-## Quick Example
+### `wrap` and `unwrap` to convert (marshall) JavaScript objects.
 
 ```js
 const attr = require('dynamodb-data-types').AttributeValue;
@@ -48,7 +44,7 @@ const data = {
 };
 
 // wrap: marshall data into the format required by DynamoDB.
-const dynamodbData = attr.wrap(data);
+attr.wrap(data);
 // {
 //   "id": {"N": "10"},
 //   "food": {"SS": ["Rice", "Noodles"] },
@@ -59,7 +55,7 @@ const dynamodbData = attr.wrap(data);
 // }
 
 // unwrap: unmarshall data back to the orignal.
-const unwrapped = attr.unwrap(dynamodbData);
+attr.unwrap(dynamodbData);
 // {
 //   "id": 10,
 //   "food": ["Rice", "Noodles"],
@@ -68,8 +64,22 @@ const unwrapped = attr.unwrap(dynamodbData);
 //   "stuff": ["Tomato", 33],
 //   "day": "Tuesday"
 // }
+```
 
-// Helper for working with DynamoDB update ('updateItem'):
+### `updateExpr` UpdateItem using UpdateExpression
+
+```js
+```
+
+### UpdateItem with AttributeUpdates (Deprecated)
+
+Note: DynamoDB's AttributeUpdates has been deprecated in favor of
+UpdateExpression.
+
+Example to work with the deprecated DynamoDB AttributeUpdates:
+
+
+```js
 const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
 const dataUpdates = attrUpdate
       .put({game: "Football"})
