@@ -69,12 +69,19 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
 
 ### `updateExpr` helps DynamoDB `UpdateExpression`
 
+`dynamodb-data-types attrUpdate` helps generate DynamoDB `UpdateExpression`
+using `ExpressionAttributeValues`. It avoids conflict with [keywords reserved by
+DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html)
+by using DynamoDB `ExpressionAttributeNames`.
+
+To know more, refer to [AWS docs - Update Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
+
 ```js
 ```
 
 ### `attrUpdate` helps DynamoDB `AttributeUpdates` (Deprecated)
 
-`attrUpdate` helps generate
+`dynamodb-data-types attrUpdate` helps generate
 [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
 which is now a
 [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
