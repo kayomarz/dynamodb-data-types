@@ -262,7 +262,7 @@ browser application does require `Buffer` you might try using
  + [examples/03-explicit-data-type.js](examples/03-explicit-data-type.js)
  + [examples/04-explicit-preserve-arrays.js](examples/04-explicit-preserve-arrays.js)
  + [examples/browser/dynamodb-data-types.html](examples/browser/dynamodb-data-types.html) 
- + [examples/depricated-01-put-update.js](examples/01-put-update.js)
+ + [examples/depricated-01-put-update.js](examples/depricated-01-put-update.js)
 
 ## Features
 
