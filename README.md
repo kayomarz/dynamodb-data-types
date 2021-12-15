@@ -28,9 +28,9 @@ This library converts it to the below structure required by DynamoDB:
 
 ## Getting Started
 
-Below are Quick Examples. Also see [examples/](examples/).
+Below are Quick Examples. Also see [examples](examples/).
 
-### `wrap` and `unwrap` to convert (marshall) JavaScript objects.
+### `wrap`, `unwrap` to convert (marshall) JavaScript objects.
 
 ```js
 const attr = require('dynamodb-data-types').AttributeValue;
@@ -53,10 +53,9 @@ attr.wrap(data); // wrap (marshall) data to use with DynamoDB
  *   "isThatYou": {"BOOL": true},
  *   "stuff": {"L": [{"S": "Tomato"}, {"N": "33"}]},
  *   "day": {"S": "Tuesday"}
- * }
- */
+ * } */
 
-attr.unwrap(dynamodbData); // unwrap: (unmarshall) data.
+attr.unwrap(dynamodbData); // unwrap (unmarshall) data
 /* Returns:
  * {
  *   "id": 10,
@@ -65,8 +64,7 @@ attr.unwrap(dynamodbData); // unwrap: (unmarshall) data.
  *   "isThatYou": true,
  *   "stuff": ["Tomato", 33],
  *   "day": "Tuesday"
- * }
- */
+ * } */
 ```
 
 ### `updateExpr` UpdateItem using UpdateExpression
@@ -76,7 +74,7 @@ attr.unwrap(dynamodbData); // unwrap: (unmarshall) data.
 
 ### UpdateItem with AttributeUpdates (Deprecated)
 
-UpdateItem using [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html](legacy) parameter [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html](AttributeUpdates):
+UpdateItem using [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) parameter [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html):
 
 **Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
