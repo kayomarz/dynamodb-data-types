@@ -15,7 +15,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
-    "istanbul": "0.4.1",
+    "istanbul": "0.4.5",
     "jasmine-node": "1.14.5",
     "jest": "^27.2.4",
     "lodash": "4.17.21",
@@ -30,9 +30,10 @@
     "url": "https://github.com/kayomarz/dynamodb-data-types.git"
   },
   "scripts": {
-    "test": "npm run test_ && npm run test-preserve-arrays",
-    "test_": "istanbul cover --include-all-sources --dir coverage/spec --root lib jasmine-node tests/spec",
-    "test-preserve-arrays": "istanbul cover --include-all-sources --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
+    "test": "npm run test_ && npm run test-preserve-arrays && jest --silent --testPathIgnorePatterns '\\.online\\.test'",
+    "test-include-online": "jest --silent",
+    "test_": "istanbul cover --dir coverage/spec --root lib jasmine-node tests/spec",
+    "test-preserve-arrays": "istanbul cover --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
     "build": "npm run build-browser && npm run build-browser-with-buffer",
     "build-browser": "browserify --ignore buffer browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js",
     "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map dist-with-buffer/dynamodb-data-types.min.map -o dist-with-buffer/dynamodb-data-types.min.js",
