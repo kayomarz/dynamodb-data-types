@@ -68,30 +68,39 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
  * } */
 ```
 
+To wrap/unwrap individual values, use `wrap1` and `unwrap1`:
+
+```js
+console.log(attr.wrap1(50));
+//{ N: '50' }
+
+console.log(attr.unwrap1({"N":"50"}));
+//50
+```
+
 <a name="updateExpr"></a>
 
 ### `updateExpr()` - for DynamoDB `UpdateExpression`
 
-`dynamodb-data-types updateExpr` helps generate DynamoDB `UpdateExpression`
-using `ExpressionAttributeValues`. It avoids conflict with [keywords reserved by
-DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html)
-by using DynamoDB `ExpressionAttributeNames`.
-
-To update a record, DynamoDB `UpdateExpression` defines four clauses `SET`,
+To update a record, DynamoDB `UpdateExpression` supports four clauses `SET`,
 `REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`.
-To know more, refer to [AWS docs - Update Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
 
+Ref: [AWS docs - Update Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
+
+`dynamodb-data-types` **updateExpr()** helps generate DynamoDB `UpdateExpression`. It
+avoids conflict with [keywords reserved by
+DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html).
 
 ```js
 const { wrap } = require("dynamodb-data-types").AttributeValue;
-const { updateExpr } = require("..");
+const { updateExpr } = require("dynamodb-data-types");
 const {
   DynamoDBClient,
   UpdateItemCommand,
   PutItemCommand,
 } = require("@aws-sdk/client-dynamodb");
-const TableName = "TestTableForDynamoDbDataTypes";
-const client = new DynamoDBClient({ region: "us-east-2" });
+const TableName = "FooTable";
+const client = new DynamoDBClient({ region: "us-east-1" });
 
 const updates = updateExpr() // Note: updateExpr() should be called.
       .set({ greet: "Hello" })       // chain as many clauses
@@ -110,7 +119,9 @@ const {
 
 /* Following are some of data structures generated:
  * {
- *   UpdateExpression: 'SET greet = :a, nick = :b REMOVE foo, baz ADD age :c, amt :d DELETE #A :e',
+ *   UpdateExpression:
+ *    'SET greet = :a, nick = :b REMOVE foo, baz ADD age :c, amt :d DELETE #A :e',
+ *
  *   ExpressionAttributeValues: {
  *     ':a': { S: 'Hello' },
  *     ':b': { S: 'bar' },
@@ -118,6 +129,7 @@ const {
  *     ':d': { N: '1.5' },
  *     ':e': { NS: [Array] }
  *   },
+ *
  *   ExpressionAttributeNames: { '#A': 'year' }
  * }
  */
@@ -130,7 +142,7 @@ const params = {
   ExpressionAttributeNames,
 };
 
-/* TIP: For shorter code, use ...updates.expr() within params.
+/* TIP: For shorter code, use ...updates.expr()
  * const params = {
  *   TableName,
  *   Key: wrap({ id: 10 }),
@@ -143,7 +155,7 @@ client.send(new UpdateItemCommand(params));
 
 See
 [examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
-for an example of the data structures required by DynamoDB `UpdateExpression`,
+for full example of generated DynamoDB structures `UpdateExpression`,
 `ExpressionAttributeValues`, `ExpressionAttributeNames`.
 
 
@@ -152,11 +164,11 @@ DynamoDB.
 
 ### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
 
-`dynamodb-data-types attrUpdate` helps generate
+`dynamodb-data-types` **attrUpdate()** helps generate
 [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
-which is now a
+which is a
 [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
-parameter of DynamoDB `UpdateItem`.
+parameter.
 
 **Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
@@ -184,16 +196,6 @@ const dataUpdates = attrUpdate
 
 The above example does not commnicate with a DynamoDB instance. It only
 demonstrates how to wrap / unwrap data.  There are more examples below.
-
-Incase you need to wrap/unwrap individual values, use `wrap1` and `unwrap1`:
-
-```js
-console.log(attr.wrap1(50));
-//{ N: '50' }
-
-console.log(attr.unwrap1({"N":"50"}));
-//50
-```
 
 ### Use with Node.js
 
