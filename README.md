@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-`dynamodb-data-types` is a utility library to help represent DynamoDB records.
+`dynamodb-data-types` is a utility to help represent data types and records
+used by AWS DynamoDB SDK.
 
 As of Version 4.0.0 (currently in Beta), this library helps create
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
