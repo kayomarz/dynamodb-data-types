@@ -30,7 +30,7 @@ This library converts it to the below structure required by DynamoDB:
 
 Below are Quick Examples. Also see [examples](examples/).
 
-### `wrap`, `unwrap` to convert (marshall) JavaScript objects.
+### `wrap`, `unwrap` helps convert (marshall) JavaScript objects.
 
 ```js
 const attr = require('dynamodb-data-types').AttributeValue;
@@ -67,14 +67,18 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
  * } */
 ```
 
-### `updateExpr` helps with DynamoDB `UpdateExpression`
+### `updateExpr` helps DynamoDB `UpdateExpression`
 
 ```js
 ```
 
-### `attrUpdate` helsp with DynamoDB `AttributeUpdates` (Deprecated)
+### `attrUpdate` helps DynamoDB `AttributeUpdates` (Deprecated)
 
-UpdateItem using [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) parameter [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
+`attrUpdate` helps generate
+[AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
+which is now a
+[legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
+parameter of DynamoDB `UpdateItem`.
 
 **Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
