@@ -3,13 +3,12 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDB data types. It converts
-JavaScript objects into objects as required by DynamoDB.
+This utility helps represent AWS DynamoDB data types.
 
-Starting with version 4.0.0 (currently in beta), this library helps generate
-Update Expressions for use with DynamoDB's `UpdateItem` operation.
+Version 4.0.0 onwards (currently in beta) of this library helps generate `Update
+Expressions` for DynamoDB `UpdateItem` operations.
 
-For example, following is some JavaScript data:
+For example, given the below JavaScript data:
 
 ```js
 const data = {
@@ -18,7 +17,7 @@ const data = {
 }
 ```
 
-The DynamoDB SDK requires it to be represented as:
+This library converts it to the below structure required by DynamoDB:
 
 ```json
 {
@@ -27,7 +26,9 @@ The DynamoDB SDK requires it to be represented as:
 }
 ```
 
-## Getting Started (Quick Example)
+## Getting Started
+
+Below are Quick Examples. Also see [examples/](examples/).
 
 ### `wrap` and `unwrap` to convert (marshall) JavaScript objects.
 
@@ -43,27 +44,29 @@ const data = {
   day: 'Tuesday'
 };
 
-// wrap: marshall data into the format required by DynamoDB.
-attr.wrap(data);
-// {
-//   "id": {"N": "10"},
-//   "food": {"SS": ["Rice", "Noodles"] },
-//   "age": {"N": "1"},
-//   "isThatYou": {"BOOL": true},
-//   "stuff": {"L": [{"S": "Tomato"}, {"N": "33"}]},
-//   "day": {"S": "Tuesday"}
-// }
+attr.wrap(data); // wrap (marshall) data to use with DynamoDB
+/* Returns:
+ * {
+ *   "id": {"N": "10"},
+ *   "food": {"SS": ["Rice", "Noodles"] },
+ *   "age": {"N": "1"},
+ *   "isThatYou": {"BOOL": true},
+ *   "stuff": {"L": [{"S": "Tomato"}, {"N": "33"}]},
+ *   "day": {"S": "Tuesday"}
+ * }
+ */
 
-// unwrap: unmarshall data back to the orignal.
-attr.unwrap(dynamodbData);
-// {
-//   "id": 10,
-//   "food": ["Rice", "Noodles"],
-//   "age": 1,
-//   "isThatYou": true,
-//   "stuff": ["Tomato", 33],
-//   "day": "Tuesday"
-// }
+attr.unwrap(dynamodbData); // unwrap: (unmarshall) data.
+/* Returns:
+ * {
+ *   "id": 10,
+ *   "food": ["Rice", "Noodles"],
+ *   "age": 1,
+ *   "isThatYou": true,
+ *   "stuff": ["Tomato", 33],
+ *   "day": "Tuesday"
+ * }
+ */
 ```
 
 ### `updateExpr` UpdateItem using UpdateExpression
@@ -73,11 +76,10 @@ attr.unwrap(dynamodbData);
 
 ### UpdateItem with AttributeUpdates (Deprecated)
 
-Note: DynamoDB's AttributeUpdates has been deprecated in favor of
+An example with `AttributeUpdates`:
+
+**Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
-
-Example to work with the deprecated DynamoDB AttributeUpdates:
-
 
 ```js
 const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
