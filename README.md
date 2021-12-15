@@ -10,6 +10,8 @@ As of Version 4.0.0 (currently in Beta), this library helps create
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
 [updateExpr](#updateExpr) below.
 
+## Introduction
+
 Given the below JavaScript data:
 
 ```js
@@ -30,7 +32,7 @@ This library converts it to a structure required by DynamoDB:
 
 ## Getting Started
 
-Below are Quick Examples. Also see [examples](examples/).
+Below are some quick examples. Also see [examples](examples/).
 
 ### `wrap`, `unwrap` - to convert (marshall) JavaScript objects.
 
@@ -84,9 +86,11 @@ console.log(attr.unwrap1({"N":"50"}));
 ### `updateExpr()` - for DynamoDB `UpdateExpression`
 
 To update a record, DynamoDB `UpdateExpression` supports four clauses `SET`,
-`REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`. ([See AWS Docs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html))
+`REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`. See [AWS
+Docs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
+for more.
 
-`dynamodb-data-types` *updateExpr()* helps generate DynamoDB `UpdateExpression`. It
+`dynamodb-data-types` *updateExpr()* generates DynamoDB `UpdateExpression`. It
 avoids conflict with [keywords reserved by
 DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html).
 
@@ -163,7 +167,7 @@ DynamoDB.
 
 ### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
 
-`dynamodb-data-types` *attrUpdate()* helps generate
+`dynamodb-data-types` *attrUpdate()* generates
 [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
 which is a
 [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
