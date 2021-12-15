@@ -67,14 +67,14 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
  * } */
 ```
 
-### `updateExpr` UpdateItem using UpdateExpression
+### `updateExpr` helps with DynamoDB `UpdateExpression`
 
 ```js
 ```
 
-### UpdateItem with AttributeUpdates (Deprecated)
+### `attrUpdate` helsp with DynamoDB `AttributeUpdates` (Deprecated)
 
-UpdateItem using [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) parameter [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html):
+UpdateItem using [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) parameter [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
 
 **Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
