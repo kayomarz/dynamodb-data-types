@@ -32,7 +32,7 @@ This library converts it to the below structure required by DynamoDB:
 
 Below are Quick Examples. Also see [examples](examples/).
 
-### `wrap`, `unwrap` helps convert (marshall) JavaScript objects.
+### `wrap`, `unwrap` - to convert (marshall) JavaScript objects.
 
 ```js
 const attr = require('dynamodb-data-types').AttributeValue;
@@ -71,7 +71,7 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
 
 <a name="updateExpression"></a>
 
-### `updateExpr` helps DynamoDB `UpdateExpression`
+### `updateExpr` - for DynamoDB `UpdateExpression`
 
 
 `dynamodb-data-types attrUpdate` helps generate DynamoDB `UpdateExpression`
@@ -84,7 +84,7 @@ To know more, refer to [AWS docs - Update Expressions](https://docs.aws.amazon.c
 ```js
 ```
 
-### `attrUpdate` helps DynamoDB `AttributeUpdates` (Deprecated)
+### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
 
 `dynamodb-data-types attrUpdate` helps generate
 [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
