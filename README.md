@@ -76,7 +76,7 @@ attr.unwrap(dynamodbData); // unwrap: (unmarshall) data.
 
 ### UpdateItem with AttributeUpdates (Deprecated)
 
-An example with `AttributeUpdates`:
+UpdateItem using [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html](legacy) parameter [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html](AttributeUpdates):
 
 **Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
 UpdateExpression.
