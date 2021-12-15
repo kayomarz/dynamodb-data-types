@@ -3,10 +3,12 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This utility helps represent AWS DynamoDB data types.
+This is a utility library to help represent AWS DynamoDB data types.
 
-Version 4.0.0 onwards (currently in beta) of this library helps generate `Update
-Expressions` for DynamoDB `UpdateItem` operations.
+Version 4.0.0 (currently in Beta) of this library helps generate
+`UpdateExpression` for DynamoDB `UpdateItem` operations. See
+[updateExpression](#updateExpression) below.
+ 
 
 For example, given the below JavaScript data:
 
@@ -67,7 +69,10 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
  * } */
 ```
 
+<a name="updateExpression"></a>
+
 ### `updateExpr` helps DynamoDB `UpdateExpression`
+
 
 `dynamodb-data-types attrUpdate` helps generate DynamoDB `UpdateExpression`
 using `ExpressionAttributeValues`. It avoids conflict with [keywords reserved by
