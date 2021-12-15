@@ -6,6 +6,9 @@
 This utility helps represent AWS DynamoDB data types. It converts
 JavaScript objects into objects as required by DynamoDB.
 
+Starting with version 4.0.0 (currently in beta), this library helps generate
+Update Expressions for use with DynamoDB's `UpdateItem` operation.
+
 For example, following is some JavaScript data:
 
 ```js
