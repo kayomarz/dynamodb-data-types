@@ -3,12 +3,11 @@
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-This is a utility library to help represent AWS DynamoDB data types.
+`dynamodb-data-types`: A utility library to help represent DynamoDB data types.
 
-Version 4.0.0 (currently in Beta) of this library helps generate
+As of Version 4.0.0 (currently in Beta), this library helps create
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
 [updateExpr](#updateExpr) below.
- 
 
 Given the below JavaScript data:
 
@@ -19,7 +18,7 @@ const data = {
 }
 ```
 
-This library converts it to the below structure required by DynamoDB:
+This library converts it to a structure required by DynamoDB:
 
 ```json
 {
@@ -73,8 +72,7 @@ attr.unwrap(dynamodbData); // unwrap (unmarshall) data
 
 ### `updateExpr()` - for DynamoDB `UpdateExpression`
 
-
-`dynamodb-data-types attrUpdate` helps generate DynamoDB `UpdateExpression`
+`dynamodb-data-types updateExpr` helps generate DynamoDB `UpdateExpression`
 using `ExpressionAttributeValues`. It avoids conflict with [keywords reserved by
 DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html)
 by using DynamoDB `ExpressionAttributeNames`.
@@ -83,11 +81,74 @@ To update a record, DynamoDB `UpdateExpression` defines four clauses `SET`,
 `REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`.
 To know more, refer to [AWS docs - Update Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
 
-**Note:** Being a utility, this library only helps build structures required by
-DynamoDB.
 
 ```js
+const { wrap } = require("dynamodb-data-types").AttributeValue;
+const { updateExpr } = require("..");
+const {
+  DynamoDBClient,
+  UpdateItemCommand,
+  PutItemCommand,
+} = require("@aws-sdk/client-dynamodb");
+const TableName = "TestTableForDynamoDbDataTypes";
+const client = new DynamoDBClient({ region: "us-east-2" });
+
+const updates = updateExpr() // Note: updateExpr() should be called.
+      .set({ greet: "Hello" })       // chain as many clauses
+      .remove("foo", "city")
+      .add({ age: 1 })
+      .set({ nick: "bar" })
+      .remove("baz")
+      .delete({ year: [2008] })
+      .add({ amt: 1.5 });
+
+const {
+  UpdateExpression,
+  ExpressionAttributeValues,
+  ExpressionAttributeNames,
+} = updates.expr(); // updates.expr() gets the data structures.
+
+/* Following are some of data structures generated:
+ * {
+ *   UpdateExpression: 'SET greet = :a, nick = :b REMOVE foo, baz ADD age :c, amt :d DELETE #A :e',
+ *   ExpressionAttributeValues: {
+ *     ':a': { S: 'Hello' },
+ *     ':b': { S: 'bar' },
+ *     ':c': { N: '1' },
+ *     ':d': { N: '1.5' },
+ *     ':e': { NS: [Array] }
+ *   },
+ *   ExpressionAttributeNames: { '#A': 'year' }
+ * }
+ */
+
+const params = {
+  TableName,
+  Key: wrap({ id: 10 }),
+  UpdateExpression,
+  ExpressionAttributeValues,
+  ExpressionAttributeNames,
+};
+
+/* TIP: For shorter code, use ...updates.expr() within params.
+ * const params = {
+ *   TableName,
+ *   Key: wrap({ id: 10 }),
+ *   ...updates.expr()
+ * };
+ */
+
+client.send(new UpdateItemCommand(params));
 ```
+
+See
+[examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
+for an example of the data structures required by DynamoDB `UpdateExpression`,
+`ExpressionAttributeValues`, `ExpressionAttributeNames`.
+
+
+**Note:** Being a utility, this library only helps build structures required by
+DynamoDB.
 
 ### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
 
@@ -193,11 +254,12 @@ browser application does require `Buffer` you might try using
 
 ## Examples
 
- + [examples/01-put-update.js](examples/01-put-update.js)
+ + [examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
  + [examples/02-binary-image.js](examples/02-binary-image.js)
  + [examples/03-explicit-data-type.js](examples/03-explicit-data-type.js)
  + [examples/04-explicit-preserve-arrays.js](examples/04-explicit-preserve-arrays.js)
  + [examples/browser/dynamodb-data-types.html](examples/browser/dynamodb-data-types.html) 
+ + [examples/depricated-01-put-update.js](examples/01-put-update.js)
 
 ## Features
 
