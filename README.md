@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
 `dynamodb-data-types` is a utility to help represent data types and records
-used by the **AWS DynamoDB SDK**.
+used by the **AWS SDK**.
 
 As of Version 4.0.0 (currently in Beta), this library helps create
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
@@ -108,8 +108,8 @@ const {
 const TableName = "FooTable";
 const client = new DynamoDBClient({ region: "us-east-1" });
 
-const updates = updateExpr() // Note: updateExpr() should be called.
-      .set({ greet: "Hello" })       // chain as many clauses
+const updates = updateExpr()    // Note: updateExpr() should be called
+      .set({ greet: "Hello" })  // Chain clauses multiple times
       .remove("foo", "city")
       .add({ age: 1 })
       .set({ nick: "bar" })
@@ -117,11 +117,12 @@ const updates = updateExpr() // Note: updateExpr() should be called.
       .delete({ year: [2008] })
       .add({ amt: 1.5 });
 
+// updates.expr() gets the data structures.
 const {
   UpdateExpression,
   ExpressionAttributeValues,
   ExpressionAttributeNames,
-} = updates.expr(); // updates.expr() gets the data structures.
+} = updates.expr();
 
 /* Following are some of data structures generated:
  * {
@@ -175,7 +176,7 @@ DynamoDB.
 which is a
 [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
 parameter. DynamoDB `AttributeUpdates` is deprecated in favor of
-`UpdateExpression`.
+`UpdateExpression` described above.
 
 ```js
 const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
