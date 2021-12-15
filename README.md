@@ -4,11 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
 `dynamodb-data-types` is a utility to help represent data types and records
-used by AWS DynamoDB SDK.
+used by the **AWS DynamoDB SDK**.
 
 As of Version 4.0.0 (currently in Beta), this library helps create
 `UpdateExpression` for DynamoDB `UpdateItem` operations. See
-[updateExpr](#updateExpr) below.
+[updateExpr()](#updateExpr) below.
 
 ## Introduction
 
@@ -32,7 +32,8 @@ This library converts it to a structure required by DynamoDB:
 
 ## Getting Started
 
-Below are some quick examples. Also see [examples](examples/).
+Below are some quick examples which do not commnicate with a DynamoDB
+instance. For full examples, see [examples](examples/).
 
 ### `wrap`, `unwrap` - to convert (marshall) JavaScript objects.
 
@@ -87,12 +88,14 @@ console.log(attr.unwrap1({"N":"50"}));
 
 To update a record, DynamoDB `UpdateExpression` supports four clauses `SET`,
 `REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`. See [AWS
-Docs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
+documentation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
 for more.
 
 `dynamodb-data-types` *updateExpr()* generates DynamoDB `UpdateExpression`. It
 avoids conflict with [keywords reserved by
 DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html).
+
+The below quick example uses the conflicting keyword `year`.
 
 ```js
 const { wrap } = require("dynamodb-data-types").AttributeValue;
@@ -171,10 +174,8 @@ DynamoDB.
 [AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
 which is a
 [legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
-parameter.
-
-**Note:** DynamoDB `AttributeUpdates` is deprecated in favor of
-UpdateExpression.
+parameter. DynamoDB `AttributeUpdates` is deprecated in favor of
+`UpdateExpression`.
 
 ```js
 const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
@@ -196,9 +197,6 @@ const dataUpdates = attrUpdate
 //   }
 // }
 ```
-
-The above example does not commnicate with a DynamoDB instance. It only
-demonstrates how to wrap / unwrap data.  There are more examples below.
 
 ### Use with Node.js
 
@@ -750,6 +748,11 @@ version 2.x. See
 
 
 # Change log
+
+## Version 4.0.0
+
++ Support DynamoDB `UpdateExpression` which also uses
+  `ExpressionAttributeValues` and `ExpressionAttributeNames`.
 
 ## Version 3.0.3
 
