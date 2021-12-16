@@ -49,5 +49,8 @@
     "aws"
   ],
   "license": "MIT",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "unique-sequences": "1.0.0"
+  }
 }
