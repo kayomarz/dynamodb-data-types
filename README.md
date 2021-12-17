@@ -207,7 +207,8 @@ It does this by doing a strict equality `===` check on the value.
 
 #### Roadmap TODO
 
-Apart from a strict equality check, allow a deep equality to avoid duplicates.
+To avoid duplicate values in ExpressionAttributeValues, apart from doing a
+strict equality check using '===', allow a deep equality to avoid duplicates.
 
 Below, value is the same array for all actions/clauses.
 Hence there should be 1 entry in ExpressionAttributeValues.
