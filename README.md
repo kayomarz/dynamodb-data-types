@@ -159,6 +159,54 @@ const params = {
 client.send(new UpdateItemCommand(params));
 ```
 
+#### `updateExpr()` avoids creating duplicate values
+
+As demonstrated below, `updateExpr()` avoids creating duplicate
+ExpressionAttributeValues if the value is the same.
+
+It does this by doing a strict equality `===` check on the value.
+
+```js
+
+  /* In the below, values are different for all actions/clauses.
+   * Hence there are four entries in ExpressionAttributeValues.
+   */
+  const expr0 = updateExpr()
+        .set({ w: 1 })
+        .set({ x: 2 })
+        .add({ y: 3 })
+        .add({ z: 4 })
+        .expr();
+  // {
+  //   UpdateExpression: 'SET w = :a, x = :b ADD y :c, z :d',
+  //   ExpressionAttributeValues: {
+  //     ':a': { N: '1' },
+  //     ':b': { N: '2' },
+  //     ':c': { N: '3' },
+  //     ':d': { N: '4' }
+  //   }
+  // }
+
+  /* In the below, values is the same for all actions/clauses
+   * Hence there is on entry in ExpressionAttributeValues.
+   */
+  const expr1 = updateExpr()
+        .set({ w: 1 })
+        .set({ x: 1 })
+        .add({ y: 1 })
+        .add({ z: 1 })
+        .expr();
+  // {
+  //   UpdateExpression: 'SET w = :a, x = :a ADD y :a, z :a',
+  //   ExpressionAttributeValues: {
+  //     ':a': { N: '1' }
+  //   }
+  // }
+
+```
+
+#### ROADMAP TODO
+
 See
 [examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
 for full example of generated DynamoDB structures `UpdateExpression`,
