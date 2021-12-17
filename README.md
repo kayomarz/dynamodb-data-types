@@ -820,6 +820,8 @@ version 2.x. See
 
 # Change log
 
+Note: Change log dates are yyyy-mm-dd.
+
 ## Version 4.0.0
 
 + Introduce support for DynamoDB `UpdateExpression` which also uses
@@ -918,9 +920,6 @@ It only includes a JS build for the browser plus a few more tests.
 ## version 0.2.5
 
 2013-11-11
-
-
-Note: Change log dates are yyyy-mm-dd.
 
 ## License
 
