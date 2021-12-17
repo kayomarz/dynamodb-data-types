@@ -232,8 +232,6 @@ It might be a good feature to do a deep equality and ensure 1 entry in Expressio
   // }
 ```
 
-
-
 See
 [examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
 for full example of generated DynamoDB structures `UpdateExpression`,
