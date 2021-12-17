@@ -82,6 +82,9 @@ console.log(attr.unwrap1({"N":"50"}));
 //50
 ```
 
+**Note:** Being a utility, this library only helps build structures required by
+DynamoDB.
+
 <a name="updateExpr"></a>
 
 ### `updateExpr()` - for DynamoDB `UpdateExpression`
@@ -168,53 +171,52 @@ It does this by doing a strict equality `===` check on the value.
 
 ```js
 
-  /* In the below, values are different for all actions/clauses.
-   * Hence there are four entries in ExpressionAttributeValues.
+  /* Below, values are different for all actions/clauses.
+   * Hence there are 3 entries in ExpressionAttributeValues.
    */
   const expr0 = updateExpr()
         .set({ w: 1 })
         .set({ x: 2 })
         .add({ y: 3 })
-        .add({ z: 4 })
         .expr();
   // {
-  //   UpdateExpression: 'SET w = :a, x = :b ADD y :c, z :d',
+  //   UpdateExpression: 'SET w = :a, x = :b ADD y :c',
   //   ExpressionAttributeValues: {
   //     ':a': { N: '1' },
   //     ':b': { N: '2' },
   //     ':c': { N: '3' },
-  //     ':d': { N: '4' }
   //   }
   // }
 
-  /* In the below, values is the same for all actions/clauses
-   * Hence there is on entry in ExpressionAttributeValues.
+
+  /* Below, value is the same for all actions/clauses.
+   * Hence there is 1 entry in ExpressionAttributeValues.
    */
   const expr1 = updateExpr()
         .set({ w: 1 })
         .set({ x: 1 })
         .add({ y: 1 })
-        .add({ z: 1 })
         .expr();
   // {
-  //   UpdateExpression: 'SET w = :a, x = :a ADD y :a, z :a',
+  //   UpdateExpression: 'SET w = :a, x = :a ADD y :a',
   //   ExpressionAttributeValues: {
   //     ':a': { N: '1' }
   //   }
   // }
-
 ```
 
-#### ROADMAP TODO
+#### Roadmap TODO
+
+Apart from a strict equality check, allow a deep equality to avoid duplicates.
+
+
+
 
 See
 [examples/01-put-and-update-expression.js](examples/01-put-and-update-expression.js)
 for full example of generated DynamoDB structures `UpdateExpression`,
 `ExpressionAttributeValues`, `ExpressionAttributeNames`.
 
-
-**Note:** Being a utility, this library only helps build structures required by
-DynamoDB.
 
 ### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
 
