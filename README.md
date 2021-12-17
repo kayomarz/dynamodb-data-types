@@ -172,7 +172,7 @@ It does this by doing a strict equality `===` check on the value.
 ```js
 
   /* Below, values are different for all actions/clauses.
-   * Hence there are 3 entries in ExpressionAttributeValues.
+   * Hence there are three entries in ExpressionAttributeValues.
    */
   const expr0 = updateExpr()
         .set({ w: 1 })
@@ -190,7 +190,7 @@ It does this by doing a strict equality `===` check on the value.
 
 
   /* Below, value is the same for all actions/clauses.
-   * Hence there is 1 entry in ExpressionAttributeValues.
+   * Hence there is one entry in ExpressionAttributeValues.
    */
   const expr1 = updateExpr()
         .set({ w: 1 })
