@@ -209,6 +209,28 @@ It does this by doing a strict equality `===` check on the value.
 
 Apart from a strict equality check, allow a deep equality to avoid duplicates.
 
+Below, value is the same array for all actions/clauses.
+Hence there should be 1 entry in ExpressionAttributeValues.
+
+However there are 3 entries.
+
+It might be a good feature to do a deep equality and ensure 1 entry in ExpressionAttributeValues.
+
+```js
+  const expr0 = updateExpr()
+        .set({ w: [1, 2, 3] })
+        .set({ x: [1, 2, 3] })
+        .set({ y: [1, 2, 3] })
+        .expr();
+  // {
+  //   UpdateExpression: 'SET w = :a, x = :b, y = :c',
+  //   ExpressionAttributeValues: {
+  //     ':a': { NS: ['1', '2', '3'] },
+  //     ':b': { NS: ['1', '2', '3'] },
+  //     ':c': { NS: ['1', '2', '3'] },
+  //   }
+  // }
+```
 
 
 
