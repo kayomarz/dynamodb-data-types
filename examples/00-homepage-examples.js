@@ -1,5 +1,5 @@
 var attr = require('dynamodb-data-types').AttributeValue;
-const { updateExpr } = require('..');
+const { updateExpr } = require('dynamodb-data-types');
 
 var data = {
   id: 10,

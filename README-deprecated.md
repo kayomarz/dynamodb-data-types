@@ -146,7 +146,7 @@ Each attribute name can appear only once in the `AttributeUpdates` object of the
 `itemUpdate` call. This is a feature of the AWS API.  However its easy to
 overlook this when chaining `add`, `put` and `delete` updates.
 
-For example, following is an attribute `colors` of type `SS` (String set)
+For example, following is an attribute `colors` of type `SS` (String set):
 
 ```js
 const item = {
