@@ -1,6 +1,6 @@
 {
   "name": "dynamodb-data-types",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "description": "A utility to help represent Amazon DynamoDB Data Types.",
   "main": "./lib/dynamodb-data-types.js",
   "bin": {
