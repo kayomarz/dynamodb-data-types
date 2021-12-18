@@ -50,13 +50,13 @@ AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIRefere
 
 ## AttributeValueUpdate
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 <a name="add"></a>
 
 ### add(attrs [, options])
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 Append attributes to be updated with action 'ADD'.
 This function can be chained with further calls to `add`, `put` or `delete`.
@@ -75,7 +75,7 @@ See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 ### put(attrs [, options])
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 Append attributes to be updated with action 'PUT'.
 This function can be chained with further calls to `add`, `put` or `delete`.
@@ -94,7 +94,7 @@ See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 
 ### delete(attrs)
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 Append attributes to be updated with action 'DELETE'.
 This function can be chained with further calls to `add`, `put` or `delete`.
@@ -114,7 +114,7 @@ See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
 <a name="example_put_add_delete"></a>
 ### Example: `put`, `add`, `delete`
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 ```js
 const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
@@ -140,7 +140,7 @@ console.log(JSON.stringify(dataUpdate));
 <a name="duplicate_attr_name"></a>
 ### Note: Duplicate attribute names in `AttributeValueUpdate`
 
-**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+**Deprecated!** Use [updateExpr()](Readme.md#updateExpr) instead.
 
 Each attribute name can appear only once in the `AttributeUpdates` object of the
 `itemUpdate` call. This is a feature of the AWS API.  However its easy to
