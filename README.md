@@ -1,132 +1,130 @@
-# DynamoDb-Data-Types
+# dynamodb-data-types
 
 [![Build Status](https://travis-ci.org/kayomarz/dynamodb-data-types.svg)](https://travis-ci.org/kayomarz/dynamodb-data-types)
 [![Coverage Status](https://coveralls.io/repos/kayomarz/dynamodb-data-types/badge.svg?branch=master&service=github)](https://coveralls.io/github/kayomarz/dynamodb-data-types?branch=master)
 
-`dynamodb-data-types` is a utility to help represent data types and records
-used by the **AWS SDK**.
+A JavaScript utility to help represent DynamoDB data types and records.
 
-As of Version 4.0.0 (currently in Beta), this library helps create
-`UpdateExpression` for DynamoDB `UpdateItem` operations. See
-[updateExpr()](#updateExpr) below.
+**New** This library helps generate DynamoDB `UpdateExpression`. See [updateExpr()](#updateExpr).
 
 ## Introduction
 
-Given the below JavaScript data:
+DynamoDB represents the JavaScript number `1` as `{N:'1'}`.
 
-```js
-const data = {
-  fruit: 'Apple',
-  count: 12
-}
+This utility helps convert between such representations.
+
 ```
-
-This library converts it to a structure required by DynamoDB:
-
-```json
-{
-  "fruit": { "S": "Apple" },
-  "count": { "N": "12" }
-}
+ JavaScript             DynamoDB
+------------------------------------------------
+-1                {N: '-1'}
+'Hello'           {S: 'Hello'}
+true              {BOOL: true}
+NULL              {NULL: true}
+{a:1, b:''}       {M: {a: {N: '1'}, b: {S: ''}}}
 ```
 
 ## Getting Started
 
-Below are some quick examples which do not commnicate with a DynamoDB
-instance. For full examples, see [examples](examples/).
-
-### `wrap`, `unwrap` - to convert (marshall) JavaScript objects.
+### `wrap`, `unwrap` to convert (marshall) JavaScript data.
 
 ```js
 const attr = require('dynamodb-data-types').AttributeValue;
 
 const data = {
   id: 10,
-  food: ['Rice', 'Noodles'],
-  age: 1,
-  isThatYou: true,
-  stuff: ['Tomato', 33],
-  day: 'Tuesday'
+  food: ['Rice', 33, null],
+  obj: {a:1, b:true},
 };
 
-attr.wrap(data); // wrap (marshall) data to use with DynamoDB
+const wrapped = attr.wrap(data); // wrap (marshall) data to use with DynamoDB
 /* Returns:
  * {
- *   "id": {"N": "10"},
- *   "food": {"SS": ["Rice", "Noodles"] },
- *   "age": {"N": "1"},
- *   "isThatYou": {"BOOL": true},
- *   "stuff": {"L": [{"S": "Tomato"}, {"N": "33"}]},
- *   "day": {"S": "Tuesday"}
+ *   id:{N:"10"},
+ *   food:{L:[{S:"Rice"},{N:"33"},{NULL:true}]},
+ *   obj:{M:{a:{N:"1"},b:{BOOL:true}}}
  * } */
 
-attr.unwrap(dynamodbData); // unwrap (unmarshall) data
+attr.unwrap(wrapped); // unwrap (unmarshall) data
 /* Returns:
  * {
- *   "id": 10,
- *   "food": ["Rice", "Noodles"],
- *   "age": 1,
- *   "isThatYou": true,
- *   "stuff": ["Tomato", 33],
- *   "day": "Tuesday"
+ *   id: 10,
+ *   food: ['Rice', 33, null],
+ *   obj: {a:1, b:true},
  * } */
 ```
 
-To wrap/unwrap individual values, use `wrap1` and `unwrap1`:
+Use `wrap1` and `unwrap1` for single primitive values, 
 
 ```js
-console.log(attr.wrap1(50));
-//{ N: '50' }
-
-console.log(attr.unwrap1({"N":"50"}));
-//50
+attr.wrap1(50);         // { N: '50' }
+attr.unwrap1({N:'50'}); // 50
 ```
-
-**Note:** Being a utility, this library only helps build structures required by
-DynamoDB.
 
 <a name="updateExpr"></a>
 
-### `updateExpr()` - for DynamoDB `UpdateExpression`
+### `updateExpr()` for DynamoDB `UpdateExpression`
 
-To update a record, DynamoDB `UpdateExpression` supports four clauses `SET`,
-`REMOVE`, `ADD`, `DELETE`, each of which accepts one ore more `action`. See [AWS
+Use `updateExpr()` to  generate DynamoDB `UpdateExpression`.
+
+```js
+const { updateExpr } = require('dynamodb-data-types');
+
+updateExpr()             // Call updateExpr()
+  .set({ a: 'foo' })     // chain multiple clauses
+  .add({ n: 1 })
+  .remove('rat', 'bat')
+  .set({ sky: 'blue'})
+  .delete({ day: ['Mon'] }) // 'day' is a reserved keyword
+  .remove('hi')
+  .expr(); // In the end expr() returns the UpdateExpression
+// After .expr(), we cannot chain any more clauses (set,remove,add,delete)
+
+/* Returns:
+{
+ * UpdateExpression: "SET a = :a, sky = :b REMOVE rat, bat, hi ADD n :c DELETE #A :d",
+ * ExpressionAttributeValues: {":a":{S:"foo"},":b":{S:"blue"},":c":{N:"1"},":d":{SS:["Mon"]}},
+ * ExpressionAttributeNames:{"#A":"day"}} // Because 'day' is a reserved keyword
+ * } */
+```
+
+### `UpdateExpression` clauses `SET`, `REMOVE`, `ADD`, `DELETE`
+
+`updateExpr().set()`, `remove()`, `add()`, `delete()`, are the same clauses
+defined by DynamoDB `UpdateExpression`. Each clause is said to contain one or
+more `action`. See [AWS
 documentation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html)
 for more.
 
-`dynamodb-data-types` *updateExpr()* generates DynamoDB `UpdateExpression`. It
-avoids conflict with [keywords reserved by
+### `updateExpr()` handles DynamoDB reserved keywords.
+
+*updateExpr()* avoids conflict with [keywords reserved by
 DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html). To
 demonstrate this, the below example uses the conflicting keyword `year`.
 
-```js
-const { wrap } = require("dynamodb-data-types").AttributeValue;
-const { updateExpr } = require("dynamodb-data-types");
-const {
-  DynamoDBClient,
-  UpdateItemCommand,
-  PutItemCommand,
-} = require("@aws-sdk/client-dynamodb");
-const TableName = "FooTable";
-const client = new DynamoDBClient({ region: "us-east-1" });
+A more complete example:
 
-const updates = updateExpr()    // Note: updateExpr() should be called
-      .set({ greet: "Hello" })  // Chain clauses multiple times
-      .remove("foo", "city")
+```js
+const { wrap } = require('dynamodb-data-types').AttributeValue;
+const { updateExpr } = require('dynamodb-data-types');
+const { DynamoDBClient, UpdateItemCommand, PutItemCommand } = require('@aws-sdk/client-dynamodb');
+const TableName = 'FooTable';
+const client = new DynamoDBClient({ region: 'us-east-1' });
+
+const updates = updateExpr()    // Call updateExpr()
+      .set({ greet: 'Hello' })  // chain multiple clauses
+      .remove('foo', 'city')
       .add({ age: 1 })
-      .set({ nick: "bar" })
-      .remove("baz")
-      .delete({ year: [2008] })
+      .set({ nick: 'bar' })
+      .remove('baz')
+      .delete({ year: [2008] }) // 'year' is a reserved keyword
       .add({ amt: 1.5 });
 
-// updates.expr() gets the data structures.
-const {
-  UpdateExpression,
-  ExpressionAttributeValues,
-  ExpressionAttributeNames,
-} = updates.expr();
+// Use expr() to get the UpdateExpression data structures
+const { UpdateExpression,  ExpressionAttributeValues, ExpressionAttributeNames } = updates.expr();
 
-/* Following are some of data structures generated:
+// After .expr(), we cannot chain any more clauses (set,remove,add,delete)
+
+/* Generated data structures:
  * {
  *   UpdateExpression:
  *    'SET greet = :a, nick = :b REMOVE foo, baz ADD age :c, amt :d DELETE #A :e',
@@ -139,7 +137,7 @@ const {
  *     ':e': { NS: [Array] }
  *   },
  *
- *   ExpressionAttributeNames: { '#A': 'year' }
+ *   ExpressionAttributeNames: { '#A': 'year' } // Because year is a reserved keyword
  * }
  */
 
@@ -164,15 +162,13 @@ client.send(new UpdateItemCommand(params));
 
 #### `updateExpr()` avoids creating duplicate values
 
-As demonstrated below, `updateExpr()` avoids creating duplicate
-ExpressionAttributeValues if the value is the same.
-
-It does this by doing a strict equality `===` check on the value.
+As demonstrated below, `updateExpr()` avoids creating duplicates in
+`ExpressionAttributeValue` by using `===` internally.
 
 ```js
 
-  /* Below, values are different for all actions/clauses.
-   * Hence there are three entries in ExpressionAttributeValues.
+  /* Different action values across clauses.
+   * Hence ExpressionAttributeValues has three items.
    */
   const expr0 = updateExpr()
         .set({ w: 1 })
@@ -189,8 +185,8 @@ It does this by doing a strict equality `===` check on the value.
   // }
 
 
-  /* Below, value is the same for all actions/clauses.
-   * Hence there is one entry in ExpressionAttributeValues.
+  /* Identical action values across clauses.
+   * Hence ExpressionAttributeValues has only one item.
    */
   const expr1 = updateExpr()
         .set({ w: 1 })
@@ -239,35 +235,6 @@ for full example of generated DynamoDB structures `UpdateExpression`,
 `ExpressionAttributeValues`, `ExpressionAttributeNames`.
 
 
-### `attrUpdate` - for DynamoDB `AttributeUpdates` (Deprecated)
-
-`dynamodb-data-types` *attrUpdate()* generates
-[AttributeUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html)
-which is a
-[legacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html)
-parameter. DynamoDB `AttributeUpdates` is deprecated in favor of
-`UpdateExpression` described above.
-
-```js
-const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
-const dataUpdates = attrUpdate
-      .put({game: "Football"})
-      .add({age: 1})
-      .delete("day");
-// {
-//   "game": {
-//     "Action": "PUT",
-//     "Value": {"S": "Football"}
-//   },
-//   "age": {
-//     "Action": "ADD",
-//     "Value": {"N": "1"}
-//   },
-//   "day": {
-//     "Action": "DELETE"
-//   }
-// }
-```
 
 ### Use with Node.js
 
@@ -281,8 +248,8 @@ Use with [AWS SDK for Node.js](https://aws.amazon.com/sdk-for-node-js/)
 Use with the cli for quick utility
 
     npm install -g dynamodb-data-types
-    dynamo-dt-attr-wrap '{"hello":"world"}'
-    dynamo-dt-attr-unwrap '{"hello": {"S": "world"}}'
+    dynamo-dt-attr-wrap '{'hello':'world'}'
+    dynamo-dt-attr-unwrap '{'hello': {'S': 'world'}}'
 
 
 ### Use in the browser
@@ -343,8 +310,10 @@ Refer to
 DynamoDb-Data-Types supports:
 
  * AttributeValue
- * AttributeValueUpdate
-
+ * UpdateExpression
+ * ExpressionAttributeValues
+ * ExpressionAttributeNames
+ * AttributeValueUpdate  ([Deprecated](README-deprecated.html) in favour of UpdateExpression)
 
 ## Supported AttributeValue types
 
@@ -417,12 +386,12 @@ const data = {
 
 ```js
 {
-  "polygon": {
-    "M": {
-      "quadrilateral": {
-        "M": {
-          "sides": {
-            "N": "4"
+  'polygon': {
+    'M': {
+      'quadrilateral': {
+        'M': {
+          'sides': {
+            'N': '4'
           }
         }
       }
@@ -448,19 +417,19 @@ DynamoDb-Data-Types uses `L` to represent mixed arrays. Consider the following d
 ```js
 {
   strs: { 
-    SS: ["abc","def"] 
+    SS: ['abc','def'] 
   },
   nums: { 
-    NS: ["123","456"] 
+    NS: ['123','456'] 
   },
   mix: {
-    "L": [
-      { N: "1" },
-      { S: "abc" },
+    'L': [
+      { N: '1' },
+      { S: 'abc' },
       { BOOL: true },
       { BOOL: false },
       { NULL: true },
-      { NS: ["1","2","3"] }
+      { NS: ['1','2','3'] }
     ]
   }
 }
@@ -555,14 +524,22 @@ AttributeValue](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/AP
 * [wrap1](#wrap1)
 * [unwrap1](#unwrap1)
 
-### AttributeValueUpdate
+### updateExpr() for DynamoDB `Update`
+
 [AWS API Reference -
-AttributeValueUpdate](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValueUpdate.html) 
+Update](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Update.html)
+* UpdateExpression
+* ExpressionAttributeValues
+* ExpressionAttributeNames
 
-* [put](#put)
-* [add](#add)
-* [delete](#delete)
+See [updateExpr()](#updateExpr) above for detailed usage examples.
 
+### AttributeValueUpdate (Depricated)
+
+**Deprecated!** Use [updateExpr()](#updateExpr) instead.
+
+  To use AttributeValueUpdate (Depricated) see [README-deprecated](README-deprecated.html)
+  
 ## AttributeValue
 
 <a name="wrap"></a>
@@ -606,14 +583,14 @@ __Example__
 
 ```javascript
 const attr = require('dynamodb-data-types').AttributeValue;
-attr.wrap({name: "Foo", age: 50});
-// {"name":{"S":"Foo"},"age":{"N":"50"}}
+attr.wrap({name: 'Foo', age: 50});
+// {'name':{'S':'Foo'},'age':{'N':'50'}}
 
-attr.wrap({alphabets: ["a", "b", "c"]});
-// {"alphabets":{"SS": ["a","b","c"]}}
+attr.wrap({alphabets: ['a', 'b', 'c']});
+// {'alphabets':{'SS': ['a','b','c']}}
 
-attr.wrap({alphabets: ["a", "b", "c"]}, {types: {alphabets:"L"}});
-// {"alphabets":{"L": [{"S":"a"},{"S":"b"},{"S": "c"}]}}
+attr.wrap({alphabets: ['a', 'b', 'c']}, {types: {alphabets:'L'}});
+// {'alphabets':{'L': [{'S':'a'},{'S':'b'},{'S': 'c'}]}}
 ```
 
 <a name="unwrap"></a>
@@ -632,8 +609,8 @@ __Example__
 
 ```javascript
 const attr = require('dynamodb-data-types').AttributeValue;
-attr.unwrap({"name":{"S":"Foo"},"age":{"N":"50"}});
-// {name: "Foo", age: 50}
+attr.unwrap({'name':{'S':'Foo'},'age':{'N':'50'}});
+// {name: 'Foo', age: 50}
 ```
 
 <a name="wrap1"></a>
@@ -652,8 +629,8 @@ __Example__
 
 ```javascript
 const attr = require('dynamodb-data-types').AttributeValue;
-attr.wrap1(50);    // {"N":"50"}
-attr.wrap1("50");  // {"S":"50"}
+attr.wrap1(50);    // {'N':'50'}
+attr.wrap1('50');  // {'S':'50'}
 ```
 
 <a name="unwrap1"/></a>
@@ -672,138 +649,10 @@ __Example__
 
 ```javascript
 const attr = require('dynamodb-data-types').AttributeValue;
-attr.unwrap1({"N":"50"});  // 50
-attr.unwrap1({"S":"50"});  // "50"
+attr.unwrap1({'N':'50'});  // 50
+attr.unwrap1({'S':'50'});  // '50'
 
 ```
-
-## AttributeValueUpdate
-
-<a name="add"></a>
-
-### add(attrs [, options])
-
-Append attributes to be updated with action "ADD".
-This function can be chained with further calls to `add`, `put` or `delete`.
-
-#### Arguments
-
- * @param {Object} attrs Object with attributes to be updated.
- * @param {Object} options Same as options for wrap().
- * @return {Updates} Object with all update attributes in the chain.
-
-<a href="#example_put_add_delete">Example - put, add, delete.</a>
-
-See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
-
-<a name="put"></a>
-
-### put(attrs [, options])
-
-Append attributes to be updated with action "PUT".
-This function can be chained with further calls to `add`, `put` or `delete`.
-
-#### Arguments
-
- * @param {Object} attrs Object with attributes to be updated.
- * @param {Object} options Same as options for wrap().
- * @return {Updates} Object with all update attributes in the chain.
-
-<a href="#example_put_add_delete">Example - put, add, delete.</a>
-
-See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
-
-<a name="delete"></a>
-
-### delete(attrs)
-
-Append attributes to be updated with action "DELETE".
-This function can be chained with further calls to `add`, `put` or `delete`.
-
-#### Arguments
-
- * @param {Object|String|Array} attrs If this argument is an an Object,the
-   Object's property values must be an array, containing elements to be removed,
-   as required by DynamoDB SDK.  If this argument is a String, it should contain
-   comma seperated names of properties to be deleted.  If its an Array, each
-   array element should be a property  name to be deleted.
-
- * @return {Updates} Object with all update attributes in the chain.
-
-See note: <a href="#duplicate_attr_name">duplicate attribute names</a>
-
-<a name="example_put_add_delete"></a>
-### Example: `put`, `add`, `delete`
-
-```js
-const attrUpdate = require('dynamodb-data-types').AttributeValueUpdate;
-
-const dataUpdate = attrUpdate
-    .put({name: "foo"})
-    .add({age: 1})
-    .delete("height, nickname")
-    .add({favColors: ["red"]})
-    .delete({favNumbers: [3]});
-
-console.log(JSON.stringify(dataUpdate));
-// {
-//   "name": { "Action": "PUT", "Value": { "S": "foo" } },
-//   "age": { "Action": "ADD", "Value": { "N": "1" } },
-//   "height": { "Action": "DELETE" },
-//   "nickname": { "Action": "DELETE" },
-//   "favColors": { "Action": "ADD", "Value": { "SS": ["red" ] } },
-//   "favNumbers": { "Action": "DELETE", "Value": { "NS": ["3"] } }
-// }
-```
-
-<a name="duplicate_attr_name"></a>
-### Note: Duplicate attribute names in `AttributeValueUpdate`
-
-Each attribute name can appear only once in the `AttributeUpdates` object of the
-`itemUpdate` call. This is a feature of the AWS API.  However its easy to
-overlook this when chaining `add`, `put` and `delete` updates.
-
-For example, following is an attribute `colors` of type `SS` (String set)
-
-```js
-const item = {
-    id: ...,
-    colors: ["red", "blue"]
-}
-```
-
-Suppose, we want to `delete` "red" and `add` "orange".
-
-To add "orange", the `AttributeUpdates` object is created as:
-`attrUpdate.add({colors: ["orange"]})`. Similarly, to delete "red" the
-`AttributeUpdates` object is created as `attrUpdate.delete({colors: ["red"]})`
-
-However, both actions cannot be represented in the same `AttributeUpdates`
-object.
-
-```js
-// Will not work as expected
-attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]});
-```
-
-The action to `delete` "red" overwrites the action to `add` "orange". This is
-simply because `colors` is a property of the `AttrubuteUpdates` object.
-
-The following code demonstrates the above note:
-
-```js
-JSON.stringify(attrUpdate.add({colors: ["orange"]}));
-//{"colors":{"Action":"ADD","Value":{"SS":["orange"]}}}
-
-JSON.stringify(attrUpdate.delete({colors: ["red"]}));
-//{"colors":{"Action":"DELETE","Value":{"SS":["red"]}}}
-
-// The below does not work as expected
-JSON.stringify(attrUpdate.add({colors: ["orange"]}).delete({colors: ["red"]}));
-//{"colors":{"Action":"DELETE","Value":{"SS":["red"]}}}
-
-```
-
 ## Older versions of DynamoDb-Data-Types
 
 Read this only if you need DynamoDb-Data-Types version **1.0.0** or below.
@@ -824,7 +673,7 @@ Note: Change log dates are yyyy-mm-dd.
 
 ## Version 4.0.0
 
-+ Introduce support for DynamoDB `UpdateExpression` which also uses
++ Introduce support for DynamoDB `UpdateExpression` which uses
   `ExpressionAttributeValues` and `ExpressionAttributeNames`.
 
 ## Version 3.0.3
