@@ -313,7 +313,7 @@ DynamoDb-Data-Types supports:
  * UpdateExpression
  * ExpressionAttributeValues
  * ExpressionAttributeNames
- * AttributeValueUpdate  ([Deprecated](README-deprecated.html) in favour of UpdateExpression)
+ * AttributeValueUpdate  ([Deprecated](README-deprecated.md) in favour of UpdateExpression)
 
 ## Supported AttributeValue types
 
@@ -538,7 +538,7 @@ See [updateExpr()](#updateExpr) above for detailed usage examples.
 
 **Deprecated!** Use [updateExpr()](#updateExpr) instead.
 
-  To use AttributeValueUpdate (Depricated) see [README-deprecated](README-deprecated.html)
+  To use AttributeValueUpdate (Depricated) see [README-deprecated](README-deprecated.md)
   
 ## AttributeValue
 
