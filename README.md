@@ -5,7 +5,7 @@
 
 A JavaScript utility to help represent DynamoDB data types and records.
 
-**New** ver 4.0.0 of this library helps generate DynamoDB `UpdateExpression`. [updateExpr()](#updateExpr).
+**New** ver 4.0.0 of this library generates DynamoDB `UpdateExpression`. [updateExpr()](#updateExpr).
 
 ## Introduction
 
@@ -60,7 +60,7 @@ attr.wrap1(50);         // { N: '50' }
 attr.unwrap1({N:'50'}); // 50
 ```
 
-<a name="updateExpr"></a>
+<a name="updateExpr" id="updateExpr"></a>
 
 ### `updateExpr()` for DynamoDB `UpdateExpression`
 
@@ -261,7 +261,7 @@ Download the browser version from [dist](dist).
 See [examples/browser](examples/browser) and [this note](#browserNotes)
 
 
-<a name="browserNotes"></a>
+<a name="browserNotes" id="browserNotes"></a>
 
 ## Notes for use in the browser
 
@@ -542,7 +542,7 @@ See [updateExpr()](#updateExpr) above for detailed usage examples.
   
 ## AttributeValue
 
-<a name="wrap"></a>
+<a name="wrap" id="wrap"></a>
 
 ### wrap(item[, options])
 
@@ -593,7 +593,7 @@ attr.wrap({alphabets: ['a', 'b', 'c']}, {types: {alphabets:'L'}});
 // {'alphabets':{'L': [{'S':'a'},{'S':'b'},{'S': 'c'}]}}
 ```
 
-<a name="unwrap"></a>
+<a name="unwrap" id="unwrap"></a>
 
 ### unwrap(attributeValue)
 
@@ -613,7 +613,7 @@ attr.unwrap({'name':{'S':'Foo'},'age':{'N':'50'}});
 // {name: 'Foo', age: 50}
 ```
 
-<a name="wrap1"></a>
+<a name="wrap1" id="wrap1"></a>
 
 ### wrap1(value [, options])
 
@@ -633,7 +633,7 @@ attr.wrap1(50);    // {'N':'50'}
 attr.wrap1('50');  // {'S':'50'}
 ```
 
-<a name="unwrap1"/></a>
+<a name="unwrap1" id="unwrap1"/></a>
 
 ### unwrap1(attributeValue)
 
