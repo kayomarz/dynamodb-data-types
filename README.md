@@ -676,6 +676,8 @@ Note: Change log dates are yyyy-mm-dd.
 + Introduce `updateExpr()` to generate DynamoDB `UpdateExpression` used to
   update an item.
 
+2021-12-19
+
 ## Version 3.0.3
 
 + Update code examples and docs
