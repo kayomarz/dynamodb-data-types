@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "aws-sdk": "^2.1.45",
+    "@aws-sdk/client-dynamodb": "^3.44.0",
     "dynamodb-data-types": "latest"
   }
 }
