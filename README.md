@@ -5,7 +5,7 @@
 
 A JavaScript utility to help represent DynamoDB data types and records.
 
-**New** This library helps generate DynamoDB `UpdateExpression`. See [updateExpr()](#updateExpr).
+**New** This library helps generate DynamoDB `UpdateExpression` (version 4.0.0 onwards). See [updateExpr()](#updateExpr).
 
 ## Introduction
 
@@ -673,8 +673,8 @@ Note: Change log dates are yyyy-mm-dd.
 
 ## Version 4.0.0
 
-+ Introduce support for DynamoDB `UpdateExpression` which uses
-  `ExpressionAttributeValues` and `ExpressionAttributeNames`.
++ Introduce `updateExpr()` to generate DynamoDB `UpdateExpression` used to
+  update an item.
 
 ## Version 3.0.3
 
