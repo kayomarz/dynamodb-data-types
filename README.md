@@ -64,20 +64,18 @@ attr.unwrap1({N:'50'}); // 50
 
 ### `updateExpr()` for DynamoDB `UpdateExpression`
 
-Use `updateExpr()` to  generate DynamoDB `UpdateExpression`.
-
-
 Let's say you want to update `color` in a item or record. DynamoDB `UpdateItem`
 API requires you to provide a `UpdateExpression` as follows:
 
 ```js
-UpdateExpression: "SET color = :a",
-ExpressionAttributeValues: {":a":{"S":"red"}}}
+{
+  UpdateExpression: "SET color = :a",
+  ExpressionAttributeValues: {":a":{"S":"red"}}}
+}
 ```
 
 Instead of attribute `color`, if you want to update `year` to `2013` then you
-have to do one more step because `year` is a reserved keyword for which
-`UpdateExpression` will need to use DynamoDB `ExpressionAttributeNames`
+have to do one more step because `year` is a reserved keyword:
 
 ```js
 {
@@ -87,7 +85,7 @@ have to do one more step because `year` is a reserved keyword for which
 }
 ```
 
-This library can generate the above for you:
+Use this library to generate the above for you as follows:
 
 ```js
 const { updateExpr } = require('dynamodb-data-types');
