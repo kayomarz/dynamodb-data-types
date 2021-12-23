@@ -57,7 +57,20 @@ console.log(attr.wrap1(-1));
 console.log(attr.wrap1("Hello"));
 console.log(attr.wrap1(true));
 console.log(attr.wrap1(null));
-console.log(attr.wrap1({a: 1, b: ''}))
+console.log(attr.wrap1({a: 1, b: ''}));
+
+console.log(updateExpr().set({ color: 'red' }).expr());
+// {
+//   UpdateExpression: 'SET color = :a',
+//   ExpressionAttributeValues: { ':a': { S: 'red' } }
+// }
+
+console.log(updateExpr().set({ name: 'foo' }).expr());
+// {
+//   UpdateExpression: 'SET #A = :a',
+//   ExpressionAttributeValues: { ':a': { S: 'foo' } },
+//   ExpressionAttributeNames: { '#A': 'name' }
+// }
 
 console.log(JSON.stringify(
   updateExpr()             // updateExpr() creates a chainable object
