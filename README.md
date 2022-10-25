@@ -701,6 +701,8 @@ Note: Change log dates are yyyy-mm-dd.
 
 ## Version 4.0.1
 
+2022-10-25
+
 + fix `updateExpr().remove()` so that it handles [reserved
   keywords](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html). This
   fixes [issue #18
