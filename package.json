@@ -19,7 +19,7 @@
     "jasmine-node": "1.14.5",
     "jest": "^27.2.4",
     "lodash": "4.17.21",
-    "uglify-js": "2.6.1"
+    "uglify-js": "^3.17.4"
   },
   "author": {
     "name": "Kayomarz",
@@ -36,8 +36,8 @@
     "test_": "istanbul cover --dir coverage/spec --root lib jasmine-node tests/spec",
     "test-preserve-arrays": "istanbul cover --dir coverage/spec-preserve-arrays --root lib jasmine-node tests/spec-preserve-arrays",
     "build": "npm run build-browser && npm run build-browser-with-buffer",
-    "build-browser": "browserify --ignore buffer browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map dist/dynamodb-data-types.min.map -o dist/dynamodb-data-types.min.js",
-    "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map dist-with-buffer/dynamodb-data-types.min.map -o dist-with-buffer/dynamodb-data-types.min.js",
+    "build-browser": "browserify --ignore buffer browser.js > dist/dynamodb-data-types.js && uglifyjs dist/dynamodb-data-types.js --source-map -o dist/dynamodb-data-types.min.js",
+    "build-browser-with-buffer": "browserify browser.js > dist-with-buffer/dynamodb-data-types.js && uglifyjs dist-with-buffer/dynamodb-data-types.js --source-map -o dist-with-buffer/dynamodb-data-types.min.js",
     "dynamo-dt-attr-unwrap": "./bin/unwrap.js",
     "dynamo-dt-attr-wrap": "./bin/wrap.js"
   },
