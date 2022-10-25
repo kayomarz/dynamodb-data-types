@@ -699,6 +699,13 @@ version 2.x. See
 
 Note: Change log dates are yyyy-mm-dd.
 
+## Version 4.0.1
+
++ fix `updateExpr().remove()` so that it handles [reserved
+  keywords](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html). This
+  fixes [issue #18
+  (github)](https://github.com/kayomarz/dynamodb-data-types/issues/18)
+
 ## Version 4.0.0
 
 + Introduce `updateExpr()` to generate DynamoDB `UpdateExpression` used to
