@@ -279,6 +279,10 @@ Use with the cli for quick utility
     dynamo-dt-attr-wrap '{'hello':'world'}'
     dynamo-dt-attr-unwrap '{'hello': {'S': 'world'}}'
 
+Pipe is also supported
+
+    echo '{"hello":"world"}' | dynamo-dt-attr-wrap
+    echo '{"hello": {"S": "world"}}' | dynamo-dt-attr-unwrap
 
 ### Use in the browser
 
